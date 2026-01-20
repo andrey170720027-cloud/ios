@@ -11,12 +11,14 @@ struct WelcomeView: View {
     var body: some View {
         ZStack {
             // Фоновое изображение (женщина в спортивной одежде)
-            Image("image3")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .ignoresSafeArea()
-                .clipped()
+            GeometryReader { geometry in
+                Image("image3")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: geometry.size.width, height: geometry.size.height)
+                    .clipped()
+            }
+            .ignoresSafeArea()
             
             // Затемнение для лучшей читаемости текста
             Color.black.opacity(0.3)
