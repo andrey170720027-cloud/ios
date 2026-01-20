@@ -25,15 +25,20 @@ struct WelcomeView: View {
             VStack {
                 Spacer()
                 
-                // Логотип Nike и текст
-                VStack(alignment: .leading, spacing: 16) {
-                    // Логотип Nike (swoosh)
+                // Логотип Nike (на месте где была надпись Nike App)
+                VStack(alignment: .leading, spacing: 0) {
                     Image("nike-logo")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .foregroundColor(.white)
                         .frame(width: 300, height: 150)
-                    
+                }
+                .padding(.horizontal, 24)
+                .padding(.bottom, 40)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                
+                // Заголовок и описание (опущены ниже)
+                VStack(alignment: .leading, spacing: 16) {
                     // Заголовок
                     Text("Nike App")
                         .font(.system(size: 42, weight: .bold))
