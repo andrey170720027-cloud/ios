@@ -25,18 +25,6 @@ struct WelcomeView: View {
             VStack {
                 Spacer()
                 
-                // Логотип Nike (на месте где была надпись Nike App)
-                VStack(alignment: .leading, spacing: 0) {
-                    Image("nike-logo")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .foregroundColor(.white)
-                        .frame(width: 300, height: 150)
-                }
-                .padding(.horizontal, 24)
-                .padding(.bottom, 40)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                
                 // Заголовок и описание (опущены ниже)
                 VStack(alignment: .leading, spacing: 16) {
                     // Заголовок
@@ -92,6 +80,23 @@ struct WelcomeView: View {
                 .padding(.horizontal, 24)
                 .padding(.bottom, 50)
             }
+            .overlay(
+                // Логотип Nike (позиционирован к левой границе, чуть ниже середины)
+                GeometryReader { geometry in
+                    VStack {
+                        Spacer()
+                            .frame(height: geometry.size.height * 0.55)
+                        Image("nike-logo")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .foregroundColor(.white)
+                            .frame(width: 300, height: 150)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.leading, 0)
+                        Spacer()
+                    }
+                }
+            )
         }
     }
 }
