@@ -11,7 +11,8 @@ struct JordanFlightEssentialsView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var categories = Category.jordanCategories
     @State private var selectedTab: TabItem = .shop
-    @State private var products = Product.sampleProducts.filter { $0.name.contains("Jordan") }
+    @State private var products: [Product] = []
+    @State private var isLoading = true
     
     var body: some View {
         ZStack {
@@ -91,18 +92,24 @@ struct JordanFlightEssentialsView: View {
                 
                 // Сетка товаров
                 ScrollView {
-                    LazyVGrid(columns: [
-                        GridItem(.flexible(), spacing: 12),
-                        GridItem(.flexible(), spacing: 12)
-                    ], spacing: 16) {
-                        ForEach(products) { product in
-                            NavigationLink(destination: ProductDetailView(product: product)) {
-                                ProductCardView(product: product)
+                    if isLoading {
+                        ProgressView()
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .padding(.top, 100)
+                    } else {
+                        LazyVGrid(columns: [
+                            GridItem(.flexible(), spacing: 12),
+                            GridItem(.flexible(), spacing: 12)
+                        ], spacing: 16) {
+                            ForEach(products) { product in
+                                NavigationLink(destination: ProductDetailView(product: product)) {
+                                    ProductCardView(product: product)
+                                }
                             }
                         }
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, 80) // Отступ для TabBar
                     }
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 80) // Отступ для TabBar
                 }
                 
                 Spacer()
@@ -115,6 +122,30 @@ struct JordanFlightEssentialsView: View {
             }
         }
         .navigationBarHidden(true)
+        .task {
+            await loadProducts()
+        }
+    }
+    
+    private func loadProducts() async {
+        isLoading = true
+        do {
+            let loadedProducts = try await ProductService.shared.fetchProducts()
+            // Фильтруем товары по бренду Jordan
+            let jordanProducts = loadedProducts.filter { product in
+                product.brand.lowercased().contains("jordan") || 
+                product.name.lowercased().contains("jordan")
+            }
+            await MainActor.run {
+                self.products = jordanProducts
+                self.isLoading = false
+            }
+        } catch {
+            print("Ошибка загрузки товаров: \(error.localizedDescription)")
+            await MainActor.run {
+                self.isLoading = false
+            }
+        }
     }
 }
 

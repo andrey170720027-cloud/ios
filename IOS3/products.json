@@ -1,0 +1,101 @@
+[
+  {
+    "brand": "Jordan Essentials",
+    "product_name": "Men Fleece Pullover Hoodie 5 Colours",
+    "price": 60,
+    "items_left": 5,
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/36960_210553_53776-removebg-preview%201.png?raw=true",
+    "is_liked": false,
+    "is_bestseller": false
+  },
+  {
+    "brand": "Nike Sportswear Club",
+    "product_name": "Basketball Backpack (32L) 3 Colours",
+    "price": 85,
+    "items_left": 5,
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/Screen%20Shot%202022-06-30%20at%205.54%201.png?raw=true",
+    "is_liked": false,
+    "is_bestseller": true
+  },
+  {
+    "brand": "Nike",
+    "product_name": "Dri-FIT Miler 3 Colours",
+    "price": 85,
+    "items_left": 5,
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/Screen%20Shot%202022-06-30%20at%205.55%201.png?raw=true",
+    "is_liked": false,
+    "is_bestseller": true
+  },
+  {
+    "brand": "Nike Elite Pro",
+    "product_name": "Basketball Backpack (32L) 3 Colours",
+    "price": 85,
+    "items_left": 5,
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/image%2022.png?raw=true",
+    "is_liked": false,
+    "is_bestseller": false
+  },
+  {
+    "brand": "Jordan Essentials Statement",
+    "product_name": "Basketball Backpack (32L) 3 Colours",
+    "price": 85,
+    "items_left": 5,
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/jordan-essentials-mens-fleece-pullover-hoodie-jG54lf-removebg-preview%201.png?raw=true",
+    "is_liked": false,
+    "is_bestseller": false
+  },
+  {
+    "brand": "Jordan Essentials",
+    "product_name": "Men's Woven Jacket (32L) 3 Colours",
+    "price": 85,
+    "items_left": 5,
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/sportswear-club-fleece-joggers-KflRdQ-removebg-preview%201.png?raw=true",
+    "is_liked": false,
+    "is_bestseller": false
+  },
+  {
+    "brand": "Jordan Essentials",
+    "product_name": "Men Fleece Pullover 6 Colours",
+    "price": 60,
+    "items_left": 5,
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/sportswear-tech-fleece-mens-crew-sweatshirt-pfjm2W-removebg-preview%201.png?raw=true",
+    "is_liked": false,
+    "is_bestseller": false
+  },
+  {
+    "brand": "Nike Therma",
+    "product_name": "Men's Pullover Training Hoodie",
+    "price": 33.97,
+    "items_left": 5,
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/therma-mens-pullover-training-hoodie-zTst4l_prev_ui%201.png?raw=true",
+    "is_liked": false,
+    "is_bestseller": true
+  },
+  {
+    "brand": "Nike Heritage",
+    "product_name": "Basketball Backpack (32L) 4 Colours",
+    "price": 40.97,
+    "items_left": 0,
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/Screen%20Shot%202022-06-30%20at%203.05%201.png?raw=true",
+    "is_liked": false,
+    "is_bestseller": false
+  },
+  {
+    "brand": "",
+    "product_name": "",
+    "price": 60,
+    "items_left": 5,
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2026.png?raw=true",
+    "is_liked": false,
+    "is_bestseller": false
+  },
+  {
+    "brand": "",
+    "product_name": "",
+    "price": 60,
+    "items_left": 5,
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2027.png?raw=true",
+    "is_liked": false,
+    "is_bestseller": false
+  }
+]

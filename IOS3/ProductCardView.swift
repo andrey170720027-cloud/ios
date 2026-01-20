@@ -20,12 +20,43 @@ struct ProductCardView: View {
         VStack(alignment: .leading, spacing: 8) {
             // Изображение товара
             ZStack(alignment: .topTrailing) {
-                Image(product.imageName)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(height: 200)
-                    .clipped()
-                    .cornerRadius(8)
+                // Используем AsyncImage для URL или обычный Image для локальных изображений
+                Group {
+                    if let imageURL = product.imageURL, let url = URL(string: imageURL) {
+                        AsyncImage(url: url) { phase in
+                            switch phase {
+                            case .empty:
+                                ProgressView()
+                                    .frame(height: 200)
+                            case .success(let image):
+                                image
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                            case .failure:
+                                Image(systemName: "photo")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .foregroundColor(.gray)
+                                    .frame(height: 200)
+                            @unknown default:
+                                EmptyView()
+                            }
+                        }
+                    } else if let imageName = product.imageName {
+                        Image(imageName)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                    } else {
+                        Image(systemName: "photo")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .foregroundColor(.gray)
+                            .frame(height: 200)
+                    }
+                }
+                .frame(height: 200)
+                .clipped()
+                .cornerRadius(8)
                 
                 // Иконка избранного
                 Button(action: {
@@ -59,10 +90,12 @@ struct ProductCardView: View {
                 .font(.system(size: 12))
                 .foregroundColor(.gray)
             
-            // Количество цветов
-            Text("\(product.colors) Colours")
-                .font(.system(size: 11))
-                .foregroundColor(.gray)
+            // Количество цветов (показываем только если есть)
+            if product.colors > 0 {
+                Text("\(product.colors) Colours")
+                    .font(.system(size: 11))
+                    .foregroundColor(.gray)
+            }
             
             // Цена
             Text(product.price)

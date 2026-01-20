@@ -13,7 +13,9 @@ struct Product: Identifiable {
     let name: String
     let description: String
     let price: String
-    let imageName: String
+    let imageName: String? // Для обратной совместимости
+    let imageURL: String? // URL изображения из API
+    let brand: String
     let colors: Int
     let status: ProductStatus?
     let isFavorite: Bool
@@ -21,6 +23,115 @@ struct Product: Identifiable {
     enum ProductStatus {
         case soldOut
         case bestseller
+    }
+    
+    // Инициализатор из ProductResponse
+    init(from response: ProductResponse) {
+        self.brand = response.brand.isEmpty ? "Nike" : response.brand
+        
+        // Парсим product_name для извлечения названия и описания
+        let productNameParts = response.product_name.components(separatedBy: " ")
+        var nameParts: [String] = []
+        var descriptionParts: [String] = []
+        var foundColors = false
+        
+        // Ищем количество цветов в названии
+        var colorsCount = 0
+        for (index, part) in productNameParts.enumerated() {
+            if part.lowercased() == "colours" || part.lowercased() == "colors" {
+                if index > 0, let count = Int(productNameParts[index - 1]) {
+                    colorsCount = count
+                    foundColors = true
+                    // Все до этого - название и описание
+                    let beforeColors = productNameParts[0..<index-1]
+                    // Разделяем на название (первое слово - бренд или первая часть) и описание
+                    if beforeColors.count > 0 {
+                        nameParts = [String(beforeColors[0])]
+                        if beforeColors.count > 1 {
+                            descriptionParts = Array(beforeColors[1...])
+                        }
+                    }
+                }
+                break
+            }
+        }
+        
+        // Если не нашли цвета в формате "X Colours", пытаемся извлечь из названия
+        if !foundColors {
+            // Пытаемся найти паттерн числа перед "Colours"
+            let pattern = #"(\d+)\s+[Cc]olou?rs?"#
+            if let regex = try? NSRegularExpression(pattern: pattern),
+               let match = regex.firstMatch(in: response.product_name, range: NSRange(response.product_name.startIndex..., in: response.product_name)),
+               let range = Range(match.range(at: 1), in: response.product_name),
+               let count = Int(String(response.product_name[range])) {
+                colorsCount = count
+                // Удаляем "X Colours" из названия
+                let cleanedName = regex.stringByReplacingMatches(in: response.product_name, range: NSRange(response.product_name.startIndex..., in: response.product_name), withTemplate: "").trimmingCharacters(in: .whitespaces)
+                let parts = cleanedName.components(separatedBy: " ")
+                if parts.count > 0 {
+                    nameParts = [parts[0]]
+                    if parts.count > 1 {
+                        descriptionParts = Array(parts[1...])
+                    }
+                }
+            } else {
+                // Если не нашли, берем все как описание
+                let parts = response.product_name.components(separatedBy: " ")
+                if parts.count > 0 {
+                    nameParts = [parts[0]]
+                    if parts.count > 1 {
+                        descriptionParts = Array(parts[1...])
+                    }
+                }
+            }
+        }
+        
+        // Формируем название и описание
+        if response.product_name.isEmpty {
+            self.name = self.brand
+            self.description = ""
+        } else if nameParts.isEmpty {
+            // Если не удалось распарсить, используем бренд как название
+            self.name = self.brand
+            self.description = response.product_name
+        } else {
+            self.name = nameParts.joined(separator: " ")
+            self.description = descriptionParts.joined(separator: " ")
+        }
+        
+        // Форматируем цену
+        if response.price.truncatingRemainder(dividingBy: 1) == 0 {
+            self.price = String(format: "US$%.0f", response.price)
+        } else {
+            self.price = String(format: "US$%.2f", response.price)
+        }
+        
+        self.imageName = nil
+        self.imageURL = response.image_url
+        self.colors = colorsCount
+        self.isFavorite = response.is_liked
+        
+        // Определяем статус
+        if response.items_left == 0 {
+            self.status = .soldOut
+        } else if response.is_bestseller {
+            self.status = .bestseller
+        } else {
+            self.status = nil
+        }
+    }
+    
+    // Старый инициализатор для обратной совместимости
+    init(name: String, description: String, price: String, imageName: String, colors: Int, status: ProductStatus?, isFavorite: Bool) {
+        self.name = name
+        self.description = description
+        self.price = price
+        self.imageName = imageName
+        self.imageURL = nil
+        self.brand = ""
+        self.colors = colors
+        self.status = status
+        self.isFavorite = isFavorite
     }
 }
 
