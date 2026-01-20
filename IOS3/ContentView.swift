@@ -9,13 +9,23 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        ZStack {
+            // Черный фон
+            Color.black
+                .ignoresSafeArea()
+            
+            VStack {
+                Spacer()
+                
+                // Логотип Nike по центру
+                Image("1")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxWidth: 300, maxHeight: 300)
+                
+                Spacer()
+            }
         }
-        .padding()
     }
 }
 
