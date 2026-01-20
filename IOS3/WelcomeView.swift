@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct WelcomeView: View {
+    @Binding var showShopView: Bool
+    
     var body: some View {
         ZStack {
             // Фоновое изображение (женщина в спортивной одежде)
@@ -74,7 +76,7 @@ struct WelcomeView: View {
                 HStack(spacing: 12) {
                     // Кнопка "Join Us" (левая, белая)
                     Button(action: {
-                        // Действие для Join Us
+                        showShopView = true
                     }) {
                         Text("Join Us")
                             .font(.system(size: 17, weight: .semibold))
@@ -87,7 +89,7 @@ struct WelcomeView: View {
                     
                     // Кнопка "Sign In" (правая, с обводкой и прозрачным черным фоном)
                     Button(action: {
-                        // Действие для Sign In
+                        showShopView = true
                     }) {
                         Text("Sign In")
                             .font(.system(size: 17, weight: .semibold))
@@ -110,5 +112,5 @@ struct WelcomeView: View {
 }
 
 #Preview {
-    WelcomeView()
+    WelcomeView(showShopView: .constant(false))
 }
