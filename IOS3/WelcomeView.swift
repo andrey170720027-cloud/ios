@@ -7,32 +7,6 @@
 
 import SwiftUI
 
-// Простой swoosh логотип Nike
-struct NikeSwoosh: Shape {
-    func path(in rect: CGRect) -> Path {
-        var path = Path()
-        path.move(to: CGPoint(x: rect.minX, y: rect.midY))
-        path.addCurve(
-            to: CGPoint(x: rect.maxX, y: rect.minY),
-            control1: CGPoint(x: rect.width * 0.3, y: rect.midY),
-            control2: CGPoint(x: rect.width * 0.7, y: rect.minY)
-        )
-        path.addCurve(
-            to: CGPoint(x: rect.maxX, y: rect.maxY),
-            control1: CGPoint(x: rect.maxX, y: rect.midY),
-            control2: CGPoint(x: rect.maxX, y: rect.maxY)
-        )
-        path.addLine(to: CGPoint(x: rect.width * 0.4, y: rect.maxY))
-        path.addCurve(
-            to: CGPoint(x: rect.minX, y: rect.midY),
-            control1: CGPoint(x: rect.width * 0.2, y: rect.maxY),
-            control2: CGPoint(x: rect.minX, y: rect.midY)
-        )
-        path.closeSubpath()
-        return path
-    }
-}
-
 struct WelcomeView: View {
     var body: some View {
         ZStack {
@@ -54,8 +28,10 @@ struct WelcomeView: View {
                 // Логотип Nike и текст
                 VStack(alignment: .leading, spacing: 20) {
                     // Логотип Nike (swoosh)
-                    NikeSwoosh()
-                        .fill(Color.white)
+                    Image("nike-logo")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .foregroundColor(.white)
                         .frame(width: 50, height: 20)
                     
                     // Заголовок
