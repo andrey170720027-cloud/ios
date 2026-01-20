@@ -26,13 +26,13 @@ struct WelcomeView: View {
                 Spacer()
                 
                 // Логотип Nike и текст
-                VStack(alignment: .leading, spacing: 20) {
-                    // Логотип Nike (swoosh)
+                VStack(alignment: .leading, spacing: 16) {
+                    // Логотип Nike (swoosh) - увеличенный размер как на шаблоне
                     Image("nike-logo")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .foregroundColor(.white)
-                        .frame(width: 50, height: 20)
+                        .frame(width: 100, height: 40)
                     
                     // Заголовок
                     Text("Nike App")
@@ -41,10 +41,10 @@ struct WelcomeView: View {
                     
                     // Описание
                     Text("Bringing Nike Members the best products, inspiration and stories in sport.")
-                        .font(.system(size: 16))
-                        .foregroundColor(.white.opacity(0.9))
+                        .font(.system(size: 16, weight: .regular))
+                        .foregroundColor(.white)
                         .fixedSize(horizontal: false, vertical: true)
-                        .lineSpacing(4)
+                        .lineSpacing(2)
                 }
                 .padding(.horizontal, 24)
                 .padding(.bottom, 40)
