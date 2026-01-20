@@ -24,27 +24,28 @@ struct WelcomeView: View {
             
             VStack {
                 Spacer()
-                    .frame(height: 200)
-                
-                // Логотип Nike (у левого края)
-                Image("nike-logo")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .foregroundColor(.white)
-                    .frame(width: 300, height: 150)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.leading, 0)
+                    .frame(height: 250)
+            
+                // Логотип Nike (у самого левого края)
+                HStack(spacing: 0) {
+                    Image("nike-logo")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .foregroundColor(.white)
+                        .frame(width: 200, height: 150)
+                    Spacer()
+                }
                 
                 // Надпись Nike App и описание
-                VStack(alignment: .leading, spacing: 16) {
+                VStack(alignment: .leading, spacing: 100) {
                     // Заголовок Nike App
                     Text("Nike App")
-                        .font(.system(size: 42, weight: .bold))
+                        .font(.system(size: 36, weight: .bold))
                         .foregroundColor(.white)
                     
                     // Описание (размером как Nike App)
                     Text("Bringing Nike Members the best products, inspiration and stories in sport.")
-                        .font(.system(size: 42, weight: .bold))
+                        .font(.system(size: 36, weight: .bold))
                         .foregroundColor(.white)
                         .fixedSize(horizontal: false, vertical: true)
                         .lineSpacing(2)
