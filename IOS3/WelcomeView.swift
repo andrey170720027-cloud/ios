@@ -20,15 +20,26 @@ struct WelcomeView: View {
             }
             .ignoresSafeArea()
             
-            // Затемнение для лучшей читаемости текста
-            Color.black.opacity(0.3)
-                .ignoresSafeArea()
+            // Черный градиент сверху и снизу до середины экрана
+            VStack(spacing: 0) {
+                LinearGradient(
+                    colors: [Color.black.opacity(0.8), Color.clear],
+                    startPoint: .top,
+                    endPoint: .center
+                )
+                LinearGradient(
+                    colors: [Color.clear, Color.black.opacity(0.8)],
+                    startPoint: .center,
+                    endPoint: .bottom
+                )
+            }
+            .ignoresSafeArea()
             
             VStack {
                 Spacer()
-                    .frame(height: 250)
+                    .frame(height: 300)
             
-                // Логотип Nike (у самого левого края)
+                // Логотип Nike (прижат к левой границе экрана)
                 HStack(spacing: 0) {
                     Image("nike-logo")
                         .resizable()
@@ -37,6 +48,8 @@ struct WelcomeView: View {
                         .frame(width: 200, height: 150)
                     Spacer()
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, 0)
                 
                 // Надпись Nike App и описание
                 VStack(alignment: .leading, spacing: 100) {
