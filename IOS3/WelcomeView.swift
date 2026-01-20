@@ -52,7 +52,7 @@ struct WelcomeView: View {
                 .padding(.horizontal, 0)
                 
                 // Надпись Nike App и описание
-                VStack(alignment: .leading, spacing: 100) {
+                VStack(alignment: .leading, spacing: 70) {
                     // Заголовок Nike App
                     Text("Nike App")
                         .font(.system(size: 36, weight: .bold))
@@ -103,7 +103,7 @@ struct WelcomeView: View {
                     }
                 }
                 .padding(.horizontal, 24)
-                .padding(.bottom, 50)
+                .padding(.bottom, 100)
             }
         }
     }
