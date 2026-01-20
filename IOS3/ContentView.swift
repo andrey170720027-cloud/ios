@@ -8,22 +8,24 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var showWelcome = false
+    
     var body: some View {
         ZStack {
-            // Черный фон
-            Color.black
-                .ignoresSafeArea()
-            
-            VStack {
-                Spacer()
-                
-                // Логотип Nike по центру
-                Image("1")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(maxWidth: 300, maxHeight: 300)
-                
-                Spacer()
+            if showWelcome {
+                WelcomeView()
+                    .transition(.opacity)
+            } else {
+                SplashScreenView()
+                    .transition(.opacity)
+            }
+        }
+        .onAppear {
+            // Показываем экран приветствия через 2 секунды
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                withAnimation(.easeInOut(duration: 0.5)) {
+                    showWelcome = true
+                }
             }
         }
     }
