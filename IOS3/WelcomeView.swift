@@ -25,22 +25,28 @@ struct WelcomeView: View {
             VStack {
                 Spacer()
                 
-                // Заголовок и описание (опущены ниже)
+                // Логотип Nike, надпись Nike App и описание (по центру, сдвинуто влево)
                 VStack(alignment: .leading, spacing: 16) {
-                    // Заголовок
+                    // Логотип Nike
+                    Image("nike-logo")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .foregroundColor(.white)
+                        .frame(width: 300, height: 150)
+                    
+                    // Заголовок Nike App
                     Text("Nike App")
                         .font(.system(size: 42, weight: .bold))
                         .foregroundColor(.white)
                     
-                    // Описание
+                    // Описание (размером как Nike App)
                     Text("Bringing Nike Members the best products, inspiration and stories in sport.")
-                        .font(.system(size: 16, weight: .regular))
+                        .font(.system(size: 42, weight: .bold))
                         .foregroundColor(.white)
                         .fixedSize(horizontal: false, vertical: true)
                         .lineSpacing(2)
                 }
                 .padding(.horizontal, 24)
-                .padding(.bottom, 40)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 
                 Spacer()
@@ -80,23 +86,6 @@ struct WelcomeView: View {
                 .padding(.horizontal, 24)
                 .padding(.bottom, 50)
             }
-            .overlay(
-                // Логотип Nike (позиционирован к левой границе, чуть ниже середины)
-                GeometryReader { geometry in
-                    VStack {
-                        Spacer()
-                            .frame(height: geometry.size.height * 0.55)
-                        Image("nike-logo")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .foregroundColor(.white)
-                            .frame(width: 300, height: 150)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.leading, 0)
-                        Spacer()
-                    }
-                }
-            )
         }
     }
 }
