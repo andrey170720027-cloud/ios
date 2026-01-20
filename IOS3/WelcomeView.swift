@@ -75,9 +75,9 @@ struct WelcomeView: View {
                 
                 Spacer()
                 
-                // Кнопки
-                VStack(spacing: 16) {
-                    // Кнопка "Join Us"
+                // Кнопки (горизонтально)
+                HStack(spacing: 12) {
+                    // Кнопка "Join Us" (левая, белая)
                     Button(action: {
                         // Действие для Join Us
                     }) {
@@ -90,7 +90,7 @@ struct WelcomeView: View {
                             .cornerRadius(28)
                     }
                     
-                    // Кнопка "Sign In"
+                    // Кнопка "Sign In" (правая, с обводкой и прозрачным черным фоном)
                     Button(action: {
                         // Действие для Sign In
                     }) {
@@ -99,11 +99,12 @@ struct WelcomeView: View {
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .frame(height: 56)
-                            .background(Color.clear)
+                            .background(Color.black.opacity(0.3))
                             .overlay(
                                 RoundedRectangle(cornerRadius: 28)
                                     .stroke(Color.white, lineWidth: 2)
                             )
+                            .cornerRadius(28)
                     }
                 }
                 .padding(.horizontal, 24)
