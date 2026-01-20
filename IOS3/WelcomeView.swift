@@ -13,7 +13,7 @@ struct WelcomeView: View {
             // Фоновое изображение (женщина в спортивной одежде)
             Image("image3")
                 .resizable()
-                .aspectRatio(contentMode: .fill)
+                .aspectRatio(contentMode: .fit)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .ignoresSafeArea()
                 .clipped()
