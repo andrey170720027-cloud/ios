@@ -36,12 +36,13 @@ struct NikeSwoosh: Shape {
 struct WelcomeView: View {
     var body: some View {
         ZStack {
-            // Фоновое изображение
-            Image("2")
+            // Фоновое изображение (женщина в спортивной одежде)
+            Image("image3")
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .ignoresSafeArea()
+                .clipped()
             
             // Затемнение для лучшей читаемости текста
             Color.black.opacity(0.3)
