@@ -25,7 +25,8 @@ struct ProfileView: View {
                     .clipped()
                 
                 // Навигационная панель с кнопкой назад
-                VStack {
+                VStack(spacing: 0) {
+                    // Навигационная панель
                     HStack {
                         Button(action: {
                             // Переключаем на Home при нажатии назад
@@ -36,15 +37,14 @@ struct ProfileView: View {
                             Image(systemName: "chevron.left")
                                 .font(.system(size: 18, weight: .semibold))
                                 .foregroundColor(.black)
-                                .padding(8)
-                                .background(Color.white.opacity(0.8))
-                                .clipShape(Circle())
                         }
-                        .padding(.leading, 20)
-                        .padding(.top, 16)
                         
                         Spacer()
                     }
+                    .padding(.horizontal, 20)
+                    .padding(.top, 16)
+                    .padding(.bottom, 16)
+                    .background(Color.white)
                     
                     Spacer()
                 }
