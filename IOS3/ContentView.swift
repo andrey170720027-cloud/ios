@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var showWelcome = false
+    @State private var showPersonalization = false
     @State private var showShopView = false
     
     var body: some View {
@@ -17,8 +18,11 @@ struct ContentView: View {
                 if showShopView {
                     ShopView()
                         .transition(.opacity)
+                } else if showPersonalization {
+                    GetStartedView(showShopView: $showShopView)
+                        .transition(.opacity)
                 } else if showWelcome {
-                    WelcomeView(showShopView: $showShopView)
+                    WelcomeView(showPersonalization: $showPersonalization)
                         .transition(.opacity)
                 } else {
                     SplashScreenView()

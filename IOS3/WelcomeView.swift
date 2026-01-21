@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct WelcomeView: View {
-    @Binding var showShopView: Bool
+    @Binding var showPersonalization: Bool
     
     var body: some View {
         ZStack {
@@ -77,7 +77,7 @@ struct WelcomeView: View {
                 HStack(spacing: 12) {
                     // Кнопка "Join Us" (левая, белая)
                     Button(action: {
-                        showShopView = true
+                        showPersonalization = true
                     }) {
                         Text("Join Us")
                             .font(.system(size: 17, weight: .semibold))
@@ -90,7 +90,7 @@ struct WelcomeView: View {
                     
                     // Кнопка "Sign In" (правая, с обводкой и прозрачным черным фоном)
                     Button(action: {
-                        showShopView = true
+                        showPersonalization = true
                     }) {
                         Text("Sign In")
                             .font(.system(size: 17, weight: .semibold))
@@ -113,5 +113,5 @@ struct WelcomeView: View {
 }
 
 #Preview {
-    WelcomeView(showShopView: .constant(false))
+    WelcomeView(showPersonalization: .constant(false))
 }
