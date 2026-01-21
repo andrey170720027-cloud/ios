@@ -12,7 +12,7 @@
   },
   {
     "brand": "Nike Sportswear Club",
-    "product_name": "Basketball Backpack (32L) 3 Colours",
+    "product_name": "Men Basketball Backpack 3 Colours",
     "price": 85,
     "items_left": 5,
     "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/Screen%20Shot%202022-06-30%20at%205.54%201.png?raw=true",
@@ -23,7 +23,7 @@
   },
   {
     "brand": "Nike",
-    "product_name": "Dri-FIT Miler 3 Colours",
+    "product_name": "Men Dri-FIT Miler Running Top 3 Colours",
     "price": 85,
     "items_left": 5,
     "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/Screen%20Shot%202022-06-30%20at%205.55%201.png?raw=true",
@@ -34,7 +34,7 @@
   },
   {
     "brand": "Nike Elite Pro",
-    "product_name": "Basketball Backpack (32L) 3 Colours",
+    "product_name": "Men Elite Basketball Backpack 3 Colours",
     "price": 85,
     "items_left": 5,
     "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/image%2022.png?raw=true",
@@ -44,9 +44,9 @@
     "product_type": "Bags"
   },
   {
-    "brand": "Jordan Essentials Statement",
-    "product_name": "Basketball Backpack (32L) 3 Colours",
-    "price": 85,
+    "brand": "Jordan Essentials",
+    "product_name": "Men Fleece Pullover Hoodie 4 Colours",
+    "price": 75,
     "items_left": 5,
     "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/jordan-essentials-mens-fleece-pullover-hoodie-jG54lf-removebg-preview%201.png?raw=true",
     "is_liked": false,
@@ -55,19 +55,19 @@
     "product_type": "Hoodies & Pullovers"
   },
   {
-    "brand": "Jordan Essentials",
-    "product_name": "Men's Woven Jacket (32L) 3 Colours",
-    "price": 85,
+    "brand": "Nike Sportswear Club",
+    "product_name": "Men Fleece Joggers Pants 3 Colours",
+    "price": 65,
     "items_left": 5,
     "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/sportswear-club-fleece-joggers-KflRdQ-removebg-preview%201.png?raw=true",
     "is_liked": false,
     "is_bestseller": false,
     "category": "Men",
-    "product_type": "Tops & T-Shirts"
+    "product_type": "Accessories & Equipment"
   },
   {
-    "brand": "Jordan Essentials",
-    "product_name": "Men Fleece Pullover 6 Colours",
+    "brand": "Nike Sportswear Tech",
+    "product_name": "Men Tech Fleece Crew Sweatshirt 6 Colours",
     "price": 60,
     "items_left": 5,
     "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/sportswear-tech-fleece-mens-crew-sweatshirt-pfjm2W-removebg-preview%201.png?raw=true",
@@ -78,7 +78,7 @@
   },
   {
     "brand": "Nike Therma",
-    "product_name": "Men's Pullover Training Hoodie",
+    "product_name": "Men Pullover Training Hoodie 4 Colours",
     "price": 33.97,
     "items_left": 5,
     "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/therma-mens-pullover-training-hoodie-zTst4l_prev_ui%201.png?raw=true",
@@ -88,20 +88,20 @@
     "product_type": "Hoodies & Pullovers"
   },
   {
-    "brand": "Nike Heritage",
-    "product_name": "Basketball Backpack (32L) 4 Colours",
-    "price": 40.97,
-    "items_left": 0,
-    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/Screen%20Shot%202022-06-30%20at%203.05%201.png?raw=true",
+    "brand": "Nike",
+    "product_name": "Men Athletic Socks 3 Colours",
+    "price": 18,
+    "items_left": 5,
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/Screen%20Shot%202022-06-30%20at%205.54%201.png?raw=true",
     "is_liked": false,
     "is_bestseller": false,
-    "category": "Kids",
-    "product_type": "Bags"
+    "category": "Men",
+    "product_type": "Socks"
   },
   {
     "brand": "Nike",
-    "product_name": "Women's Running Socks 3 Colours",
-    "price": 60,
+    "product_name": "Women Running Socks 3 Colours",
+    "price": 20,
     "items_left": 5,
     "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2026.png?raw=true",
     "is_liked": false,
@@ -111,8 +111,8 @@
   },
   {
     "brand": "Jordan",
-    "product_name": "Women's Training T-Shirt 4 Colours",
-    "price": 60,
+    "product_name": "Women Training T-Shirt 4 Colours",
+    "price": 55,
     "items_left": 5,
     "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2027.png?raw=true",
     "is_liked": false,
@@ -122,7 +122,7 @@
   },
   {
     "brand": "Nike",
-    "product_name": "Women's Sport Bra 5 Colours",
+    "product_name": "Women Sport Bra 5 Colours",
     "price": 45,
     "items_left": 5,
     "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/36960_210553_53776-removebg-preview%201.png?raw=true",
@@ -133,7 +133,7 @@
   },
   {
     "brand": "Jordan Essentials",
-    "product_name": "Women's Fleece Hoodie 3 Colours",
+    "product_name": "Women Fleece Hoodie 3 Colours",
     "price": 70,
     "items_left": 5,
     "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/sportswear-tech-fleece-mens-crew-sweatshirt-pfjm2W-removebg-preview%201.png?raw=true",
@@ -141,6 +141,39 @@
     "is_bestseller": false,
     "category": "Women",
     "product_type": "Hoodies & Pullovers"
+  },
+  {
+    "brand": "Nike",
+    "product_name": "Women Training Backpack 4 Colours",
+    "price": 75,
+    "items_left": 5,
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/Screen%20Shot%202022-06-30%20at%205.54%201.png?raw=true",
+    "is_liked": false,
+    "is_bestseller": false,
+    "category": "Women",
+    "product_type": "Bags"
+  },
+  {
+    "brand": "Nike Heritage",
+    "product_name": "Kids Basketball Backpack 4 Colours",
+    "price": 40.97,
+    "items_left": 0,
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/Screen%20Shot%202022-06-30%20at%203.05%201.png?raw=true",
+    "is_liked": false,
+    "is_bestseller": false,
+    "category": "Kids",
+    "product_type": "Bags"
+  },
+  {
+    "brand": "Jordan",
+    "product_name": "Kids Training Socks 4 Colours",
+    "price": 25,
+    "items_left": 5,
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/Screen%20Shot%202022-06-30%20at%203.05%201.png?raw=true",
+    "is_liked": false,
+    "is_bestseller": false,
+    "category": "Kids",
+    "product_type": "Socks"
   },
   {
     "brand": "Nike",
@@ -155,13 +188,13 @@
   },
   {
     "brand": "Jordan",
-    "product_name": "Kids Training Socks 4 Colours",
-    "price": 25,
+    "product_name": "Kids Fleece Hoodie 3 Colours",
+    "price": 50,
     "items_left": 5,
-    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/Screen%20Shot%202022-06-30%20at%203.05%201.png?raw=true",
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/jordan-essentials-mens-fleece-pullover-hoodie-jG54lf-removebg-preview%201.png?raw=true",
     "is_liked": false,
-    "is_bestseller": false,
+    "is_bestseller": true,
     "category": "Kids",
-    "product_type": "Socks"
+    "product_type": "Hoodies & Pullovers"
   }
 ]
