@@ -23,6 +23,31 @@ struct ProfileView: View {
                     .aspectRatio(contentMode: .fill)
                     .frame(width: screenWidth, height: screenHeight)
                     .clipped()
+                
+                // Навигационная панель с кнопкой назад
+                VStack {
+                    HStack {
+                        Button(action: {
+                            // Переключаем на Home при нажатии назад
+                            withAnimation {
+                                selectedTab = .home
+                            }
+                        }) {
+                            Image(systemName: "chevron.left")
+                                .font(.system(size: 18, weight: .semibold))
+                                .foregroundColor(.black)
+                                .padding(8)
+                                .background(Color.white.opacity(0.8))
+                                .clipShape(Circle())
+                        }
+                        .padding(.leading, 20)
+                        .padding(.top, 16)
+                        
+                        Spacer()
+                    }
+                    
+                    Spacer()
+                }
             }
         }
         .navigationBarHidden(true)
