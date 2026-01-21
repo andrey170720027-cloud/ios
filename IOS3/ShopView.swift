@@ -195,7 +195,10 @@ struct ShopView: View {
                                     
                                     Text("All products")
                                         .font(.system(size: bannerTitleFontSize, weight: .bold))
-                                        .foregroundColor(.white)
+                                        .foregroundColor(.black)
+                                        .shadow(color: .white, radius: 4, x: 0, y: 0)
+                                        .shadow(color: .white, radius: 4, x: 1, y: 1)
+                                        .shadow(color: .white, radius: 4, x: -1, y: -1)
                                         .padding(.leading, 20)
                                         .padding(.top, 20)
                                 }
