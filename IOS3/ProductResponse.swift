@@ -16,4 +16,6 @@ struct ProductResponse: Codable {
     let image_url: String
     let is_liked: Bool
     let is_bestseller: Bool
+    let category: String?
+    let product_type: String?
 }

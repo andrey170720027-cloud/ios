@@ -6,7 +6,9 @@
     "items_left": 5,
     "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/36960_210553_53776-removebg-preview%201.png?raw=true",
     "is_liked": false,
-    "is_bestseller": false
+    "is_bestseller": false,
+    "category": "Men",
+    "product_type": "Hoodies & Pullovers"
   },
   {
     "brand": "Nike Sportswear Club",
@@ -15,7 +17,9 @@
     "items_left": 5,
     "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/Screen%20Shot%202022-06-30%20at%205.54%201.png?raw=true",
     "is_liked": false,
-    "is_bestseller": true
+    "is_bestseller": true,
+    "category": "Men",
+    "product_type": "Bags"
   },
   {
     "brand": "Nike",
@@ -24,7 +28,9 @@
     "items_left": 5,
     "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/Screen%20Shot%202022-06-30%20at%205.55%201.png?raw=true",
     "is_liked": false,
-    "is_bestseller": true
+    "is_bestseller": true,
+    "category": "Men",
+    "product_type": "Tops & T-Shirts"
   },
   {
     "brand": "Nike Elite Pro",
@@ -33,7 +39,9 @@
     "items_left": 5,
     "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/image%2022.png?raw=true",
     "is_liked": false,
-    "is_bestseller": false
+    "is_bestseller": false,
+    "category": "Men",
+    "product_type": "Bags"
   },
   {
     "brand": "Jordan Essentials Statement",
@@ -42,7 +50,9 @@
     "items_left": 5,
     "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/jordan-essentials-mens-fleece-pullover-hoodie-jG54lf-removebg-preview%201.png?raw=true",
     "is_liked": false,
-    "is_bestseller": false
+    "is_bestseller": false,
+    "category": "Men",
+    "product_type": "Hoodies & Pullovers"
   },
   {
     "brand": "Jordan Essentials",
@@ -51,7 +61,9 @@
     "items_left": 5,
     "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/sportswear-club-fleece-joggers-KflRdQ-removebg-preview%201.png?raw=true",
     "is_liked": false,
-    "is_bestseller": false
+    "is_bestseller": false,
+    "category": "Men",
+    "product_type": "Tops & T-Shirts"
   },
   {
     "brand": "Jordan Essentials",
@@ -60,7 +72,9 @@
     "items_left": 5,
     "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/sportswear-tech-fleece-mens-crew-sweatshirt-pfjm2W-removebg-preview%201.png?raw=true",
     "is_liked": false,
-    "is_bestseller": false
+    "is_bestseller": false,
+    "category": "Men",
+    "product_type": "Hoodies & Pullovers"
   },
   {
     "brand": "Nike Therma",
@@ -69,7 +83,9 @@
     "items_left": 5,
     "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/therma-mens-pullover-training-hoodie-zTst4l_prev_ui%201.png?raw=true",
     "is_liked": false,
-    "is_bestseller": true
+    "is_bestseller": true,
+    "category": "Men",
+    "product_type": "Hoodies & Pullovers"
   },
   {
     "brand": "Nike Heritage",
@@ -78,24 +94,74 @@
     "items_left": 0,
     "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/Screen%20Shot%202022-06-30%20at%203.05%201.png?raw=true",
     "is_liked": false,
-    "is_bestseller": false
+    "is_bestseller": false,
+    "category": "Kids",
+    "product_type": "Bags"
   },
   {
-    "brand": "",
-    "product_name": "",
+    "brand": "Nike",
+    "product_name": "Women's Running Socks 3 Colours",
     "price": 60,
     "items_left": 5,
     "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2026.png?raw=true",
     "is_liked": false,
-    "is_bestseller": false
+    "is_bestseller": false,
+    "category": "Women",
+    "product_type": "Socks"
   },
   {
-    "brand": "",
-    "product_name": "",
+    "brand": "Jordan",
+    "product_name": "Women's Training T-Shirt 4 Colours",
     "price": 60,
     "items_left": 5,
     "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2027.png?raw=true",
     "is_liked": false,
-    "is_bestseller": false
+    "is_bestseller": false,
+    "category": "Women",
+    "product_type": "Tops & T-Shirts"
+  },
+  {
+    "brand": "Nike",
+    "product_name": "Women's Sport Bra 5 Colours",
+    "price": 45,
+    "items_left": 5,
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/36960_210553_53776-removebg-preview%201.png?raw=true",
+    "is_liked": false,
+    "is_bestseller": true,
+    "category": "Women",
+    "product_type": "Tops & T-Shirts"
+  },
+  {
+    "brand": "Jordan Essentials",
+    "product_name": "Women's Fleece Hoodie 3 Colours",
+    "price": 70,
+    "items_left": 5,
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/sportswear-tech-fleece-mens-crew-sweatshirt-pfjm2W-removebg-preview%201.png?raw=true",
+    "is_liked": false,
+    "is_bestseller": false,
+    "category": "Women",
+    "product_type": "Hoodies & Pullovers"
+  },
+  {
+    "brand": "Nike",
+    "product_name": "Kids Basketball Shoes 2 Colours",
+    "price": 55,
+    "items_left": 5,
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/image%2022.png?raw=true",
+    "is_liked": false,
+    "is_bestseller": false,
+    "category": "Kids",
+    "product_type": "Accessories & Equipment"
+  },
+  {
+    "brand": "Jordan",
+    "product_name": "Kids Training Socks 4 Colours",
+    "price": 25,
+    "items_left": 5,
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/Screen%20Shot%202022-06-30%20at%203.05%201.png?raw=true",
+    "is_liked": false,
+    "is_bestseller": false,
+    "category": "Kids",
+    "product_type": "Socks"
   }
 ]

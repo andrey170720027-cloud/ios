@@ -19,6 +19,8 @@ struct Product: Identifiable {
     let colors: Int
     let status: ProductStatus?
     let isFavorite: Bool
+    let category: String?
+    let productType: String?
     
     enum ProductStatus {
         case soldOut
@@ -119,6 +121,10 @@ struct Product: Identifiable {
         } else {
             self.status = nil
         }
+        
+        // Сохраняем категорию и тип товара
+        self.category = response.category
+        self.productType = response.product_type
     }
     
     // Старый инициализатор для обратной совместимости
@@ -132,6 +138,8 @@ struct Product: Identifiable {
         self.colors = colors
         self.status = status
         self.isFavorite = isFavorite
+        self.category = nil
+        self.productType = nil
     }
 }
 

@@ -12,6 +12,7 @@ struct JordanFlightEssentialsView: View {
     @State private var categories = Category.jordanCategories
     @State private var selectedTab: TabItem = .shop
     @State private var products: [Product] = []
+    @State private var filteredProducts: [Product] = []
     @State private var isLoading = true
     
     var body: some View {
@@ -71,6 +72,8 @@ struct JordanFlightEssentialsView: View {
                                 categories = categories.map { cat in
                                     Category(name: cat.name, isActive: cat.name == category.name)
                                 }
+                                // Фильтруем товары по выбранной категории
+                                filterProductsByCategory(category.name)
                             }) {
                                 VStack(spacing: 4) {
                                     Text(category.name)
@@ -101,7 +104,7 @@ struct JordanFlightEssentialsView: View {
                             GridItem(.flexible(), spacing: 12),
                             GridItem(.flexible(), spacing: 12)
                         ], spacing: 16) {
-                            ForEach(products) { product in
+                            ForEach(filteredProducts) { product in
                                 NavigationLink(destination: ProductDetailView(product: product)) {
                                     ProductCardView(product: product)
                                 }
@@ -138,12 +141,34 @@ struct JordanFlightEssentialsView: View {
             }
             await MainActor.run {
                 self.products = jordanProducts
+                // Применяем фильтр для активной категории при первой загрузке
+                if let activeCategory = categories.first(where: { $0.isActive }) {
+                    if activeCategory.name == "All" {
+                        self.filteredProducts = jordanProducts
+                    } else {
+                        self.filteredProducts = jordanProducts.filter { product in
+                            product.productType?.lowercased() == activeCategory.name.lowercased()
+                        }
+                    }
+                } else {
+                    self.filteredProducts = jordanProducts
+                }
                 self.isLoading = false
             }
         } catch {
             print("Ошибка загрузки товаров: \(error.localizedDescription)")
             await MainActor.run {
                 self.isLoading = false
+            }
+        }
+    }
+    
+    private func filterProductsByCategory(_ categoryName: String) {
+        if categoryName == "All" {
+            filteredProducts = products
+        } else {
+            filteredProducts = products.filter { product in
+                product.productType?.lowercased() == categoryName.lowercased()
             }
         }
     }

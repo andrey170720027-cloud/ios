@@ -12,6 +12,7 @@ struct BestSellersView: View {
     @State private var categories = Category.bestSellersCategories
     @State private var selectedTab: TabItem = .shop
     @State private var products: [Product] = []
+    @State private var filteredProducts: [Product] = []
     @State private var isLoading = true
     
     var body: some View {
@@ -69,6 +70,8 @@ struct BestSellersView: View {
                                 categories = categories.map { cat in
                                     Category(name: cat.name, isActive: cat.name == category.name)
                                 }
+                                // Фильтруем товары по выбранной категории
+                                filterProductsByCategory(category.name)
                             }) {
                                 VStack(spacing: 4) {
                                     Text(category.name)
@@ -99,7 +102,7 @@ struct BestSellersView: View {
                             GridItem(.flexible(), spacing: 12),
                             GridItem(.flexible(), spacing: 12)
                         ], spacing: 16) {
-                            ForEach(products) { product in
+                            ForEach(filteredProducts) { product in
                                 NavigationLink(destination: ProductDetailView(product: product)) {
                                     ProductCardView(product: product)
                                 }
@@ -129,8 +132,18 @@ struct BestSellersView: View {
         isLoading = true
         do {
             let loadedProducts = try await ProductService.shared.fetchProducts()
+            // Фильтруем только bestseller товары
+            let bestsellerProducts = loadedProducts.filter { $0.status == .bestseller }
             await MainActor.run {
-                self.products = loadedProducts
+                self.products = bestsellerProducts
+                // Применяем фильтр для активной категории при первой загрузке
+                if let activeCategory = categories.first(where: { $0.isActive }) {
+                    self.filteredProducts = bestsellerProducts.filter { product in
+                        product.productType?.lowercased() == activeCategory.name.lowercased()
+                    }
+                } else {
+                    self.filteredProducts = bestsellerProducts
+                }
                 self.isLoading = false
             }
         } catch {
@@ -138,6 +151,12 @@ struct BestSellersView: View {
             await MainActor.run {
                 self.isLoading = false
             }
+        }
+    }
+    
+    private func filterProductsByCategory(_ categoryName: String) {
+        filteredProducts = products.filter { product in
+            product.productType?.lowercased() == categoryName.lowercased()
         }
     }
 }

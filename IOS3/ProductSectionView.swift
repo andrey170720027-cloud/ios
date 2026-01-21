@@ -10,16 +10,19 @@ import SwiftUI
 struct ProductSectionView: View {
     let sectionTitle: String
     let productFilter: ((Product) -> Bool)?
+    let categoryFilter: String?
     
     @Environment(\.dismiss) private var dismiss
     @State private var categories = Category.bestSellersCategories
     @State private var selectedTab: TabItem = .shop
     @State private var products: [Product] = []
+    @State private var filteredProducts: [Product] = []
     @State private var isLoading = true
     
-    init(sectionTitle: String, productFilter: ((Product) -> Bool)? = nil) {
+    init(sectionTitle: String, productFilter: ((Product) -> Bool)? = nil, categoryFilter: String? = nil) {
         self.sectionTitle = sectionTitle
         self.productFilter = productFilter
+        self.categoryFilter = categoryFilter
     }
     
     var body: some View {
@@ -79,6 +82,8 @@ struct ProductSectionView: View {
                                 categories = categories.map { cat in
                                     Category(name: cat.name, isActive: cat.name == category.name)
                                 }
+                                // Фильтруем товары по выбранной категории
+                                filterProductsByCategory(category.name)
                             }) {
                                 VStack(spacing: 4) {
                                     Text(category.name)
@@ -109,7 +114,7 @@ struct ProductSectionView: View {
                             GridItem(.flexible(), spacing: 12),
                             GridItem(.flexible(), spacing: 12)
                         ], spacing: 16) {
-                            ForEach(products) { product in
+                            ForEach(filteredProducts) { product in
                                 NavigationLink(destination: ProductDetailView(product: product)) {
                                     ProductCardView(product: product)
                                 }
@@ -140,21 +145,48 @@ struct ProductSectionView: View {
         do {
             let loadedProducts = try await ProductService.shared.fetchProducts()
             // Применяем фильтр, если он указан
-            let filteredProducts: [Product]
+            var filtered: [Product] = loadedProducts
             if let filter = productFilter {
-                filteredProducts = loadedProducts.filter(filter)
-            } else {
-                filteredProducts = loadedProducts
+                filtered = filtered.filter(filter)
+            }
+            
+            // Применяем фильтр по категории, если указан
+            if let category = categoryFilter {
+                filtered = filtered.filter { product in
+                    product.category?.lowercased() == category.lowercased()
+                }
             }
             
             await MainActor.run {
-                self.products = filteredProducts
+                self.products = filtered
+                // Применяем фильтр для активной категории при первой загрузке
+                if let activeCategory = categories.first(where: { $0.isActive }) {
+                    if activeCategory.name == "All" {
+                        self.filteredProducts = filtered
+                    } else {
+                        self.filteredProducts = filtered.filter { product in
+                            product.productType?.lowercased() == activeCategory.name.lowercased()
+                        }
+                    }
+                } else {
+                    self.filteredProducts = filtered
+                }
                 self.isLoading = false
             }
         } catch {
             print("Ошибка загрузки товаров: \(error.localizedDescription)")
             await MainActor.run {
                 self.isLoading = false
+            }
+        }
+    }
+    
+    private func filterProductsByCategory(_ categoryName: String) {
+        if categoryName == "All" {
+            filteredProducts = products
+        } else {
+            filteredProducts = products.filter { product in
+                product.productType?.lowercased() == categoryName.lowercased()
             }
         }
     }

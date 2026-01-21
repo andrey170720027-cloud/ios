@@ -109,7 +109,8 @@ struct ShopView: View {
                                 // Левая карточка - Best Sellers
                                 NavigationLink(destination: ProductSectionView(
                                     sectionTitle: "Best Sellers",
-                                    productFilter: { $0.status == .bestseller }
+                                    productFilter: { $0.status == .bestseller },
+                                    categoryFilter: selectedCategory
                                 )) {
                                     VStack(alignment: .leading, spacing: 12) {
                                         shopImage(name: "Shop1", ext: "png")
@@ -134,7 +135,8 @@ struct ShopView: View {
                                     productFilter: { product in
                                         product.brand.lowercased().contains("nike") && 
                                         (product.name.lowercased().contains("air") || product.description.lowercased().contains("air"))
-                                    }
+                                    },
+                                    categoryFilter: selectedCategory
                                 )) {
                                     VStack(alignment: .leading, spacing: 12) {
                                         shopImage(name: "Shop2", ext: "png")
@@ -159,7 +161,8 @@ struct ShopView: View {
                             // Широкий баннер - New & Featured (альбомная ориентация)
                             NavigationLink(destination: ProductSectionView(
                                 sectionTitle: "New & Featured",
-                                productFilter: nil
+                                productFilter: nil,
+                                categoryFilter: selectedCategory
                             )) {
                                 ZStack(alignment: .bottomLeading) {
                                     shopImage(name: "Shop3", ext: "png")
@@ -183,7 +186,8 @@ struct ShopView: View {
                             // Дополнительный баннер (частично видимый) - альбомная ориентация
                             NavigationLink(destination: ProductSectionView(
                                 sectionTitle: "All Products",
-                                productFilter: nil
+                                productFilter: nil,
+                                categoryFilter: selectedCategory
                             )) {
                                 ZStack(alignment: .topLeading) {
                                     shopImage(name: "e88b428413ae0b9db685ec0152d088f2c5df61e1", ext: "png")
