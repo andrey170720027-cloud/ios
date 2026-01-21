@@ -713,5 +713,137 @@
     "is_bestseller": true,
     "category": "Kids",
     "product_type": "Bags"
+  },
+  {
+    "brand": "Nike",
+    "product_name": "Men Air Max Running Shoes 4 Colours",
+    "price": 120,
+    "items_left": 5,
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/image%2022.png?raw=true",
+    "is_liked": false,
+    "is_bestseller": false,
+    "category": "Men",
+    "product_type": "Accessories & Equipment"
+  },
+  {
+    "brand": "Nike",
+    "product_name": "Men Air Force 1 Sneakers 3 Colours",
+    "price": 90,
+    "items_left": 5,
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/image%2022.png?raw=true",
+    "is_liked": false,
+    "is_bestseller": true,
+    "category": "Men",
+    "product_type": "Accessories & Equipment"
+  },
+  {
+    "brand": "Nike",
+    "product_name": "Men Air Zoom Elite Socks 5 Colours",
+    "price": 28,
+    "items_left": 5,
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2026.png?raw=true",
+    "is_liked": false,
+    "is_bestseller": false,
+    "category": "Men",
+    "product_type": "Socks"
+  },
+  {
+    "brand": "Nike",
+    "product_name": "Men Air Max Training Backpack 4 Colours",
+    "price": 95,
+    "items_left": 5,
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/Screen%20Shot%202022-06-30%20at%205.54%201.png?raw=true",
+    "is_liked": false,
+    "is_bestseller": false,
+    "category": "Men",
+    "product_type": "Bags"
+  },
+  {
+    "brand": "Nike",
+    "product_name": "Women Air Max Running Shoes 4 Colours",
+    "price": 115,
+    "items_left": 5,
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/image%2022.png?raw=true",
+    "is_liked": false,
+    "is_bestseller": false,
+    "category": "Women",
+    "product_type": "Accessories & Equipment"
+  },
+  {
+    "brand": "Nike",
+    "product_name": "Women Air Force 1 Sneakers 3 Colours",
+    "price": 88,
+    "items_left": 5,
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/image%2022.png?raw=true",
+    "is_liked": false,
+    "is_bestseller": true,
+    "category": "Women",
+    "product_type": "Accessories & Equipment"
+  },
+  {
+    "brand": "Nike",
+    "product_name": "Women Air Zoom Elite Socks 4 Colours",
+    "price": 26,
+    "items_left": 5,
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2026.png?raw=true",
+    "is_liked": false,
+    "is_bestseller": false,
+    "category": "Women",
+    "product_type": "Socks"
+  },
+  {
+    "brand": "Nike",
+    "product_name": "Women Air Max Training Backpack 3 Colours",
+    "price": 92,
+    "items_left": 5,
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/Screen%20Shot%202022-06-30%20at%205.54%201.png?raw=true",
+    "is_liked": false,
+    "is_bestseller": false,
+    "category": "Women",
+    "product_type": "Bags"
+  },
+  {
+    "brand": "Nike",
+    "product_name": "Kids Air Max Running Shoes 3 Colours",
+    "price": 75,
+    "items_left": 5,
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/image%2022.png?raw=true",
+    "is_liked": false,
+    "is_bestseller": false,
+    "category": "Kids",
+    "product_type": "Accessories & Equipment"
+  },
+  {
+    "brand": "Nike",
+    "product_name": "Kids Air Force 1 Sneakers 2 Colours",
+    "price": 70,
+    "items_left": 5,
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/image%2022.png?raw=true",
+    "is_liked": false,
+    "is_bestseller": true,
+    "category": "Kids",
+    "product_type": "Accessories & Equipment"
+  },
+  {
+    "brand": "Nike",
+    "product_name": "Kids Air Zoom Elite Socks 4 Colours",
+    "price": 24,
+    "items_left": 5,
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2026.png?raw=true",
+    "is_liked": false,
+    "is_bestseller": false,
+    "category": "Kids",
+    "product_type": "Socks"
+  },
+  {
+    "brand": "Nike",
+    "product_name": "Kids Air Max Training Backpack 3 Colours",
+    "price": 48,
+    "items_left": 5,
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/Screen%20Shot%202022-06-30%20at%203.05%201.png?raw=true",
+    "is_liked": false,
+    "is_bestseller": false,
+    "category": "Kids",
+    "product_type": "Bags"
   }
 ]
