@@ -333,7 +333,6 @@ struct HomeView: View {
                                 }
                             }
                             .padding(.bottom, 80) // Отступ для TabBar
-                            }
                         }
                         .padding(.top, 8)
                     }

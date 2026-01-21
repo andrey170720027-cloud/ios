@@ -370,6 +370,7 @@ struct ShopView: View {
                     }
                     .background(Color.white)
                     .zIndex(0)
+                }
                 
                 // TabBar внизу (отображается для всех вкладок)
                 VStack {
