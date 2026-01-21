@@ -14,7 +14,7 @@ struct GetStartedView: View {
         ZStack {
             // Фоновое изображение
             GeometryReader { geometry in
-                Image("5")
+                backgroundImage
                     .resizable()
                     .scaledToFill()
                     .frame(width: geometry.size.width, height: geometry.size.height)
@@ -40,6 +40,17 @@ struct GetStartedView: View {
                 .accessibilityLabel("Get Started")
             }
         }
+    }
+
+    private var backgroundImage: Image {
+        if let uiImage = UIImage(named: "5") {
+            return Image(uiImage: uiImage)
+        }
+        if let path = Bundle.main.path(forResource: "5", ofType: "png", inDirectory: "images"),
+           let uiImage = UIImage(contentsOfFile: path) {
+            return Image(uiImage: uiImage)
+        }
+        return Image(systemName: "photo")
     }
 }
 
