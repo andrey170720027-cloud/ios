@@ -126,7 +126,7 @@ struct ShopView: View {
                             productFilter: nil
                         )) {
                             ZStack(alignment: .bottomLeading) {
-                                shopImage(name: "7", ext: "jpg")
+                                shopImage(name: "Shop3", ext: "png")
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)
                                     .frame(height: 190)
