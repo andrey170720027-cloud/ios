@@ -123,33 +123,34 @@ struct BestSellersView: View {
                 // Навигация по категориям (скрываем при поиске)
                 if !isSearchActive {
                     ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 24) {
-                        ForEach(categories) { category in
-                            Button(action: {
-                                // Обновляем активную категорию
-                                categories = categories.map { cat in
-                                    Category(name: cat.name, isActive: cat.name == category.name)
-                                }
-                                // Фильтруем товары по выбранной категории
-                                filterProductsByCategory(category.name)
-                            }) {
-                                VStack(spacing: 4) {
-                                    Text(category.name)
-                                        .font(.system(size: 14, weight: category.isActive ? .bold : .regular))
-                                        .foregroundColor(category.isActive ? .black : .gray)
-                                    
-                                    if category.isActive {
-                                        Rectangle()
-                                            .fill(Color.black)
-                                            .frame(width: 20, height: 2)
+                        HStack(spacing: 24) {
+                            ForEach(categories) { category in
+                                Button(action: {
+                                    // Обновляем активную категорию
+                                    categories = categories.map { cat in
+                                        Category(name: cat.name, isActive: cat.name == category.name)
+                                    }
+                                    // Фильтруем товары по выбранной категории
+                                    filterProductsByCategory(category.name)
+                                }) {
+                                    VStack(spacing: 4) {
+                                        Text(category.name)
+                                            .font(.system(size: 14, weight: category.isActive ? .bold : .regular))
+                                            .foregroundColor(category.isActive ? .black : .gray)
+                                        
+                                        if category.isActive {
+                                            Rectangle()
+                                                .fill(Color.black)
+                                                .frame(width: 20, height: 2)
+                                        }
                                     }
                                 }
                             }
                         }
+                        .padding(.horizontal, 20)
                     }
-                    .padding(.horizontal, 20)
+                    .padding(.bottom, 16)
                 }
-                .padding(.bottom, 16)
                 
                 // Сетка товаров или результаты поиска
                 ScrollView {
