@@ -46,28 +46,32 @@ struct ShopView: View {
             let bottomBannerHeight: CGFloat = bannerWidth / 2.0
             
             ZStack {
-                VStack(spacing: 0) {
-                    // Заголовок с поиском
-                    HStack {
-                        Text("Shop")
-                            .font(.system(size: titleFontSize, weight: .bold))
-                            .foregroundColor(.black)
-
-                        Spacer()
-
-                        Button(action: {
-                            // Действие поиска
-                        }) {
-                            Image(systemName: "magnifyingglass")
-                                .font(.system(size: searchIconSize, weight: .regular))
+                // Условное отображение между Shop и Favorites
+                if selectedTab == .favorites {
+                    FavoritesView(selectedTab: $selectedTab)
+                } else {
+                    VStack(spacing: 0) {
+                        // Заголовок с поиском
+                        HStack {
+                            Text("Shop")
+                                .font(.system(size: titleFontSize, weight: .bold))
                                 .foregroundColor(.black)
+
+                            Spacer()
+
+                            Button(action: {
+                                // Действие поиска
+                            }) {
+                                Image(systemName: "magnifyingglass")
+                                    .font(.system(size: searchIconSize, weight: .regular))
+                                    .foregroundColor(.black)
+                            }
                         }
-                    }
-                    .padding(.horizontal, horizontalPadding)
-                    .padding(.top, topPadding)
-                    .padding(.bottom, 16)
-                    
-                    ScrollView(.vertical, showsIndicators: false) {
+                        .padding(.horizontal, horizontalPadding)
+                        .padding(.top, topPadding)
+                        .padding(.bottom, 16)
+                        
+                        ScrollView(.vertical, showsIndicators: false) {
                         VStack(alignment: .leading, spacing: 20) {
                             // Навигация по категориям
                             ScrollView(.horizontal, showsIndicators: false) {
@@ -221,6 +225,7 @@ struct ShopView: View {
                     }
                 }
                 .background(Color.white)
+                }
                 
                 // TabBar внизу
                 VStack {

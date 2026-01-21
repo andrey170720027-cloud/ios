@@ -22,6 +22,17 @@ struct Product: Identifiable {
     let category: String?
     let productType: String?
     
+    // Стабильный идентификатор товара для избранного
+    var stableId: String {
+        let components = [
+            brand,
+            name,
+            description,
+            imageURL ?? imageName ?? ""
+        ]
+        return components.joined(separator: "|")
+    }
+    
     enum ProductStatus {
         case soldOut
         case bestseller

@@ -9,11 +9,10 @@ import SwiftUI
 
 struct ProductCardView: View {
     let product: Product
-    @State private var isFavorite: Bool
+    @ObservedObject private var favoritesService = FavoritesService.shared
     
-    init(product: Product) {
-        self.product = product
-        self._isFavorite = State(initialValue: product.isFavorite)
+    private var isFavorite: Bool {
+        favoritesService.isFavorite(productId: product.stableId)
     }
     
     var body: some View {
@@ -60,7 +59,7 @@ struct ProductCardView: View {
                 
                 // Иконка избранного
                 Button(action: {
-                    isFavorite.toggle()
+                    favoritesService.toggleFavorite(productId: product.stableId)
                 }) {
                     Image(systemName: isFavorite ? "heart.fill" : "heart")
                         .font(.system(size: 18))

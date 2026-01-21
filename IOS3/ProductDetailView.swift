@@ -12,6 +12,11 @@ struct ProductDetailView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var selectedImageIndex = 0
     @State private var selectedTab: TabItem = .shop
+    @ObservedObject private var favoritesService = FavoritesService.shared
+    
+    private var isFavorite: Bool {
+        favoritesService.isFavorite(productId: product.stableId)
+    }
     
     // Массив URL изображений (используем тот же URL несколько раз для разных вариантов)
     private var productImageURLs: [String?] {
@@ -49,13 +54,24 @@ struct ProductDetailView: View {
                     
                     Spacer()
                     
-                    // Кнопка поиска
-                    Button(action: {
-                        // Действие поиска
-                    }) {
-                        Image(systemName: "magnifyingglass")
-                            .font(.system(size: 18))
-                            .foregroundColor(.black)
+                    HStack(spacing: 16) {
+                        // Кнопка избранного
+                        Button(action: {
+                            favoritesService.toggleFavorite(productId: product.stableId)
+                        }) {
+                            Image(systemName: isFavorite ? "heart.fill" : "heart")
+                                .font(.system(size: 18))
+                                .foregroundColor(isFavorite ? .red : .black)
+                        }
+                        
+                        // Кнопка поиска
+                        Button(action: {
+                            // Действие поиска
+                        }) {
+                            Image(systemName: "magnifyingglass")
+                                .font(.system(size: 18))
+                                .foregroundColor(.black)
+                        }
                     }
                 }
                 .padding(.horizontal, 20)
