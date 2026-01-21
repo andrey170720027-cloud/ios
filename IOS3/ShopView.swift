@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct ShopView: View {
     @State private var selectedCategory: String = "Men"
@@ -80,7 +81,7 @@ struct ShopView: View {
                                 productFilter: { $0.status == .bestseller }
                             )) {
                                 VStack(alignment: .leading, spacing: 10) {
-                                    Image("3")
+                                    shopImage(name: "3", ext: "png")
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)
                                         .frame(height: 170)
@@ -103,7 +104,7 @@ struct ShopView: View {
                                 }
                             )) {
                                 VStack(alignment: .leading, spacing: 10) {
-                                    Image("4")
+                                    shopImage(name: "4", ext: "jpg")
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)
                                         .frame(height: 170)
@@ -125,7 +126,7 @@ struct ShopView: View {
                             productFilter: nil
                         )) {
                             ZStack(alignment: .bottomLeading) {
-                                Image("7")
+                                shopImage(name: "7", ext: "jpg")
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)
                                     .frame(height: 190)
@@ -146,7 +147,7 @@ struct ShopView: View {
                             sectionTitle: "All Products",
                             productFilter: nil
                         )) {
-                            Image("8")
+                            shopImage(name: "8", ext: "jpg")
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
                                 .frame(height: 160)
@@ -170,6 +171,17 @@ struct ShopView: View {
         }
         .navigationBarHidden(true)
     }
+}
+
+private func shopImage(name: String, ext: String) -> Image {
+    if let url = Bundle.main.url(forResource: name, withExtension: ext, subdirectory: "images"),
+       let uiImage = UIImage(contentsOfFile: url.path) {
+        return Image(uiImage: uiImage)
+    }
+    if let uiImage = UIImage(named: name) {
+        return Image(uiImage: uiImage)
+    }
+    return Image(systemName: "photo")
 }
 
 #Preview {
