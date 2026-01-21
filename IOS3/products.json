@@ -8,7 +8,7 @@
     "is_liked": false,
     "is_bestseller": false,
     "category": "Men",
-    "product_type": "Hoodies & Pullovers"
+    "product_type": "Accessories & Equipment"
   },
   {
     "brand": "Nike Sportswear Club",
@@ -26,18 +26,18 @@
     "product_name": "Men Dri-FIT Miler Running Top 3 Colours",
     "price": 85,
     "items_left": 5,
-    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/Screen%20Shot%202022-06-30%20at%205.55%201.png?raw=true",
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2027.png?raw=true",
     "is_liked": false,
     "is_bestseller": true,
     "category": "Men",
-    "product_type": "Tops & T-Shirts"
+    "product_type": "Accessories & Equipment"
   },
   {
     "brand": "Nike Elite Pro",
     "product_name": "Men Elite Basketball Backpack 3 Colours",
     "price": 85,
     "items_left": 5,
-    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/image%2022.png?raw=true",
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/Screen%20Shot%202022-06-30%20at%205.54%201.png?raw=true",
     "is_liked": false,
     "is_bestseller": false,
     "category": "Men",
@@ -52,7 +52,7 @@
     "is_liked": false,
     "is_bestseller": false,
     "category": "Men",
-    "product_type": "Hoodies & Pullovers"
+    "product_type": "Accessories & Equipment"
   },
   {
     "brand": "Nike Sportswear Club",
@@ -74,7 +74,7 @@
     "is_liked": false,
     "is_bestseller": false,
     "category": "Men",
-    "product_type": "Hoodies & Pullovers"
+    "product_type": "Accessories & Equipment"
   },
   {
     "brand": "Nike Therma",
@@ -85,14 +85,14 @@
     "is_liked": false,
     "is_bestseller": true,
     "category": "Men",
-    "product_type": "Hoodies & Pullovers"
+    "product_type": "Accessories & Equipment"
   },
   {
     "brand": "Nike",
     "product_name": "Men Athletic Socks 3 Colours",
     "price": 18,
     "items_left": 5,
-    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/Screen%20Shot%202022-06-30%20at%205.54%201.png?raw=true",
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2026.png?raw=true",
     "is_liked": false,
     "is_bestseller": false,
     "category": "Men",
@@ -107,7 +107,7 @@
     "is_liked": false,
     "is_bestseller": false,
     "category": "Men",
-    "product_type": "Tops & T-Shirts"
+    "product_type": "Accessories & Equipment"
   },
   {
     "brand": "Nike",
@@ -136,7 +136,7 @@
     "product_name": "Men Training Gloves 2 Colours",
     "price": 25,
     "items_left": 5,
-    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/Screen%20Shot%202022-06-30%20at%205.54%201.png?raw=true",
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2027.png?raw=true",
     "is_liked": false,
     "is_bestseller": false,
     "category": "Men",
@@ -147,7 +147,7 @@
     "product_name": "Men Sport Cap 4 Colours",
     "price": 30,
     "items_left": 5,
-    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2026.png?raw=true",
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2027.png?raw=true",
     "is_liked": false,
     "is_bestseller": false,
     "category": "Men",
@@ -184,18 +184,18 @@
     "is_liked": false,
     "is_bestseller": false,
     "category": "Women",
-    "product_type": "Tops & T-Shirts"
+    "product_type": "Accessories & Equipment"
   },
   {
     "brand": "Nike",
     "product_name": "Women Sport Bra 5 Colours",
     "price": 45,
     "items_left": 5,
-    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/36960_210553_53776-removebg-preview%201.png?raw=true",
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2027.png?raw=true",
     "is_liked": false,
     "is_bestseller": true,
     "category": "Women",
-    "product_type": "Tops & T-Shirts"
+    "product_type": "Accessories & Equipment"
   },
   {
     "brand": "Jordan Essentials",
@@ -206,7 +206,7 @@
     "is_liked": false,
     "is_bestseller": false,
     "category": "Women",
-    "product_type": "Hoodies & Pullovers"
+    "product_type": "Accessories & Equipment"
   },
   {
     "brand": "Nike",
@@ -228,7 +228,7 @@
     "is_liked": false,
     "is_bestseller": false,
     "category": "Women",
-    "product_type": "Hoodies & Pullovers"
+    "product_type": "Accessories & Equipment"
   },
   {
     "brand": "Jordan",
@@ -257,7 +257,7 @@
     "product_name": "Women Yoga Mat 3 Colours",
     "price": 40,
     "items_left": 5,
-    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/sportswear-club-fleece-joggers-KflRdQ-removebg-preview%201.png?raw=true",
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2027.png?raw=true",
     "is_liked": false,
     "is_bestseller": false,
     "category": "Women",
@@ -268,7 +268,7 @@
     "product_name": "Women Fitness Band 2 Colours",
     "price": 35,
     "items_left": 5,
-    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2027.png?raw=true",
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2026.png?raw=true",
     "is_liked": false,
     "is_bestseller": false,
     "category": "Women",
@@ -279,7 +279,7 @@
     "product_name": "Women Training Headband 4 Colours",
     "price": 18,
     "items_left": 5,
-    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2026.png?raw=true",
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2027.png?raw=true",
     "is_liked": false,
     "is_bestseller": false,
     "category": "Women",
@@ -323,7 +323,7 @@
     "product_name": "Kids Training Socks 4 Colours",
     "price": 25,
     "items_left": 5,
-    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/Screen%20Shot%202022-06-30%20at%203.05%201.png?raw=true",
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2026.png?raw=true",
     "is_liked": false,
     "is_bestseller": false,
     "category": "Kids",
@@ -349,7 +349,7 @@
     "is_liked": false,
     "is_bestseller": true,
     "category": "Kids",
-    "product_type": "Hoodies & Pullovers"
+    "product_type": "Accessories & Equipment"
   },
   {
     "brand": "Nike",
@@ -360,14 +360,14 @@
     "is_liked": false,
     "is_bestseller": false,
     "category": "Kids",
-    "product_type": "Tops & T-Shirts"
+    "product_type": "Accessories & Equipment"
   },
   {
     "brand": "Nike",
     "product_name": "Kids Sport Socks 3 Colours",
     "price": 18,
     "items_left": 5,
-    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/Screen%20Shot%202022-06-30%20at%203.05%201.png?raw=true",
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2026.png?raw=true",
     "is_liked": false,
     "is_bestseller": false,
     "category": "Kids",
@@ -389,7 +389,7 @@
     "product_name": "Kids Water Bottle 4 Colours",
     "price": 20,
     "items_left": 5,
-    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/Screen%20Shot%202022-06-30%20at%205.54%201.png?raw=true",
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2027.png?raw=true",
     "is_liked": false,
     "is_bestseller": false,
     "category": "Kids",
@@ -400,7 +400,7 @@
     "product_name": "Kids Sport Cap 3 Colours",
     "price": 25,
     "items_left": 5,
-    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2026.png?raw=true",
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2027.png?raw=true",
     "is_liked": false,
     "is_bestseller": false,
     "category": "Kids",
@@ -433,7 +433,7 @@
     "product_name": "Men Elite Training Gloves 3 Colours",
     "price": 28,
     "items_left": 5,
-    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/Screen%20Shot%202022-06-30%20at%205.54%201.png?raw=true",
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2027.png?raw=true",
     "is_liked": false,
     "is_bestseller": true,
     "category": "Men",
@@ -455,7 +455,7 @@
     "product_name": "Women Pro Training Headband 3 Colours",
     "price": 20,
     "items_left": 5,
-    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2026.png?raw=true",
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2027.png?raw=true",
     "is_liked": false,
     "is_bestseller": true,
     "category": "Women",
@@ -488,7 +488,7 @@
     "product_name": "Kids Elite Water Bottle 3 Colours",
     "price": 22,
     "items_left": 5,
-    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/Screen%20Shot%202022-06-30%20at%205.54%201.png?raw=true",
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2027.png?raw=true",
     "is_liked": false,
     "is_bestseller": true,
     "category": "Kids",
@@ -521,7 +521,7 @@
     "product_name": "Men Pro Training Wristband 4 Colours",
     "price": 16,
     "items_left": 5,
-    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2026.png?raw=true",
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2027.png?raw=true",
     "is_liked": false,
     "is_bestseller": true,
     "category": "Men",
@@ -532,7 +532,7 @@
     "product_name": "Men Elite Sport Cap 3 Colours",
     "price": 32,
     "items_left": 5,
-    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2026.png?raw=true",
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2027.png?raw=true",
     "is_liked": false,
     "is_bestseller": true,
     "category": "Men",
@@ -587,7 +587,7 @@
     "product_name": "Women Pro Yoga Mat 4 Colours",
     "price": 45,
     "items_left": 5,
-    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/sportswear-club-fleece-joggers-KflRdQ-removebg-preview%201.png?raw=true",
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2027.png?raw=true",
     "is_liked": false,
     "is_bestseller": true,
     "category": "Women",
@@ -598,7 +598,7 @@
     "product_name": "Women Elite Fitness Band 3 Colours",
     "price": 38,
     "items_left": 5,
-    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2027.png?raw=true",
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2026.png?raw=true",
     "is_liked": false,
     "is_bestseller": true,
     "category": "Women",
@@ -653,7 +653,7 @@
     "product_name": "Kids Pro Sport Cap 4 Colours",
     "price": 26,
     "items_left": 5,
-    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2026.png?raw=true",
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2027.png?raw=true",
     "is_liked": false,
     "is_bestseller": true,
     "category": "Kids",
@@ -664,7 +664,7 @@
     "product_name": "Kids Training Wristband 3 Colours",
     "price": 14,
     "items_left": 5,
-    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2026.png?raw=true",
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2027.png?raw=true",
     "is_liked": false,
     "is_bestseller": true,
     "category": "Kids",
