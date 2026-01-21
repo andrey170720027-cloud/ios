@@ -168,6 +168,15 @@ struct Interest: Identifiable {
     let imageName: String
 }
 
+// Модель элемента корзины
+struct CartItem: Identifiable, Codable {
+    let id: String // stableId товара
+    let name: String
+    let price: String
+    let image: String? // imageURL или imageName
+    var quantity: Int
+}
+
 // Мок-данные для тестирования
 extension Product {
     static let sampleProducts: [Product] = [

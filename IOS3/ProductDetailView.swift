@@ -11,11 +11,17 @@ struct ProductDetailView: View {
     let product: Product
     @Environment(\.dismiss) private var dismiss
     @State private var selectedImageIndex = 0
+    @State private var isAddedToCart = false
     @ObservedObject private var tabManager = TabManager.shared
     @ObservedObject private var favoritesService = FavoritesService.shared
+    @ObservedObject private var cartService = CartService.shared
     
     private var isFavorite: Bool {
         favoritesService.isFavorite(productId: product.stableId)
+    }
+    
+    private var isInCart: Bool {
+        cartService.isInCart(productId: product.stableId)
     }
     
     // Массив URL изображений (используем тот же URL несколько раз для разных вариантов)
@@ -193,8 +199,56 @@ struct ProductDetailView: View {
                                     .frame(height: 400)
                             }
                         }
+                        
+                        // Информация о товаре
+                        VStack(alignment: .leading, spacing: 16) {
+                            // Название товара
+                            Text(product.name)
+                                .font(.system(size: 24, weight: .bold))
+                                .foregroundColor(.black)
+                            
+                            // Описание товара
+                            if !product.description.isEmpty {
+                                Text(product.description)
+                                    .font(.system(size: 16))
+                                    .foregroundColor(.gray)
+                                    .lineSpacing(4)
+                            }
+                            
+                            // Цена товара
+                            Text(product.price)
+                                .font(.system(size: 20, weight: .semibold))
+                                .foregroundColor(.black)
+                                .padding(.top, 4)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal, 20)
+                        
+                        // Кнопка "Добавить в корзину"
+                        Button(action: {
+                            cartService.addToCart(product: product)
+                            isAddedToCart = true
+                            
+                            // Сбрасываем флаг через 2 секунды
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                isAddedToCart = false
+                            }
+                        }) {
+                            HStack {
+                                Spacer()
+                                Text(isInCart || isAddedToCart ? "Добавлено в корзину" : "Добавить в корзину")
+                                    .font(.system(size: 16, weight: .semibold))
+                                    .foregroundColor(.white)
+                                Spacer()
+                            }
+                            .padding(.vertical, 16)
+                            .background(isInCart || isAddedToCart ? Color.green : Color.black)
+                            .cornerRadius(8)
+                        }
+                        .padding(.horizontal, 20)
+                        .padding(.top, 8)
                     }
-                    .padding(.bottom, 80) // Отступ для TabBar
+                    .padding(.bottom, 100) // Отступ для TabBar и кнопки
                 }
                 
                 Spacer()
