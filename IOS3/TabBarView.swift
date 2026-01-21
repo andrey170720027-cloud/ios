@@ -39,22 +39,34 @@ struct TabBarView: View {
                 Button(action: {
                     selectedTab = tab
                 }) {
-                    VStack(spacing: 4) {
-                        Image(systemName: tab.icon)
-                            .font(.system(size: 20))
-                            .foregroundColor(selectedTab == tab ? .black : .gray)
-                        
-                        Text(tab.rawValue)
-                            .font(.system(size: 12))
-                            .foregroundColor(selectedTab == tab ? .black : .gray)
-                        
-                        if selectedTab == tab {
-                            Rectangle()
-                                .fill(Color.black)
-                                .frame(width: 20, height: 2)
+                    ZStack {
+                        VStack(spacing: 4) {
+                            ZStack {
+                                Image(systemName: tab.icon)
+                                    .font(.system(size: 20))
+                                    .foregroundColor(selectedTab == tab ? .black : .gray)
+                                
+                                // Красная точка на иконке Profile
+                                if tab == .profile {
+                                    Circle()
+                                        .fill(Color.red)
+                                        .frame(width: 6, height: 6)
+                                        .offset(x: 8, y: -8)
+                                }
+                            }
+                            
+                            Text(tab.rawValue)
+                                .font(.system(size: 12))
+                                .foregroundColor(selectedTab == tab ? .black : .gray)
+                            
+                            if selectedTab == tab {
+                                Rectangle()
+                                    .fill(Color.black)
+                                    .frame(width: 20, height: 2)
+                            }
                         }
+                        .frame(maxWidth: .infinity)
                     }
-                    .frame(maxWidth: .infinity)
                 }
             }
         }
