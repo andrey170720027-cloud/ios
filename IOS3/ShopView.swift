@@ -74,10 +74,12 @@ struct ShopView: View {
                                 HStack(spacing: 30) {
                                     ForEach(categories) { category in
                                         Button(action: {
-                                            selectedCategory = category.name
-                                            // Обновляем активную категорию
-                                            categories = categories.map { cat in
-                                                Category(name: cat.name, isActive: cat.name == category.name)
+                                            withAnimation(.easeInOut(duration: 0.2)) {
+                                                selectedCategory = category.name
+                                                // Обновляем активную категорию
+                                                categories = categories.map { cat in
+                                                    Category(name: cat.name, isActive: cat.name == category.name)
+                                                }
                                             }
                                         }) {
                                             VStack(spacing: 6) {
@@ -157,6 +159,7 @@ struct ShopView: View {
                             }
                             .padding(.horizontal, horizontalPadding)
                             .padding(.top, 6)
+                            .id("cards-\(selectedCategory)")
                             
                             // Широкий баннер - New & Featured (альбомная ориентация)
                             NavigationLink(destination: ProductSectionView(
@@ -182,6 +185,7 @@ struct ShopView: View {
                             .padding(.horizontal, horizontalPadding)
                             .padding(.top, 8)
                             .buttonStyle(PlainButtonStyle())
+                            .id("banner-new-\(selectedCategory)")
                             
                             // Дополнительный баннер (частично видимый) - альбомная ориентация
                             NavigationLink(destination: ProductSectionView(
@@ -211,6 +215,7 @@ struct ShopView: View {
                             .padding(.top, 8)
                             .padding(.bottom, 80) // Отступ для TabBar
                             .buttonStyle(PlainButtonStyle())
+                            .id("banner-all-\(selectedCategory)")
                         }
                         .padding(.top, 10)
                     }
