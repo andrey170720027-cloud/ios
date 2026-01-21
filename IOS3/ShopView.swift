@@ -50,12 +50,15 @@ struct ShopView: View {
             let bottomBannerHeight: CGFloat = bannerWidth / 2.0
             
             ZStack {
-                // Условное отображение между Home, Shop и Favorites
+                // Условное отображение между Home, Shop, Favorites и Profile
                 if selectedTab == .home {
                     HomeView(selectedTab: $selectedTab)
                         .zIndex(0)
                 } else if selectedTab == .favorites {
                     FavoritesView(selectedTab: $selectedTab)
+                        .zIndex(0)
+                } else if selectedTab == .profile {
+                    ProfileView(selectedTab: $selectedTab)
                         .zIndex(0)
                 } else {
                     VStack(spacing: 0) {
