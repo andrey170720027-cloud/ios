@@ -25,20 +25,19 @@ struct GetStartedView: View {
             VStack {
                 Spacer()
                 
-                // Кнопка "Get Started"
+                // Невидимая кнопка поверх изображения
                 Button(action: {
                     showShopView = true
                 }) {
-                    Text("Get Started")
-                        .font(.system(size: 17, weight: .semibold))
-                        .foregroundColor(.black)
+                    Color.clear
                         .frame(maxWidth: .infinity)
                         .frame(height: 56)
-                        .background(Color.white)
-                        .cornerRadius(28)
+                        .contentShape(RoundedRectangle(cornerRadius: 28))
                 }
+                .buttonStyle(.plain)
                 .padding(.horizontal, 24)
                 .padding(.bottom, 50)
+                .accessibilityLabel("Get Started")
             }
         }
     }
