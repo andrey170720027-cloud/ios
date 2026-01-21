@@ -14,55 +14,115 @@ struct BestSellersView: View {
     @State private var products: [Product] = []
     @State private var filteredProducts: [Product] = []
     @State private var isLoading = true
+    @State private var isSearchActive = false
+    @State private var searchText = ""
+    @State private var searchResults: [Product] = []
     
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
-                // Заголовок с кнопками
-                HStack {
-                    // Кнопка назад
-                    Button(action: {
-                        dismiss()
-                    }) {
-                        Image(systemName: "chevron.left")
-                            .font(.system(size: 18, weight: .semibold))
-                            .foregroundColor(.black)
-                    }
-                    
-                    Spacer()
-                    
-                    Text("Best Sellers")
-                        .font(.system(size: 18, weight: .semibold))
-                        .foregroundColor(.black)
-                    
-                    Spacer()
-                    
-                    HStack(spacing: 16) {
-                        // Кнопка фильтра
+                // Заголовок с кнопками или поиск
+                if isSearchActive {
+                    // Строка поиска
+                    HStack(spacing: 12) {
                         Button(action: {
-                            // Действие фильтра
+                            dismiss()
                         }) {
-                            Image(systemName: "line.3.horizontal.decrease")
-                                .font(.system(size: 18))
+                            Image(systemName: "chevron.left")
+                                .font(.system(size: 18, weight: .semibold))
                                 .foregroundColor(.black)
                         }
                         
-                        // Кнопка поиска
-                        Button(action: {
-                            // Действие поиска
-                        }) {
+                        HStack {
                             Image(systemName: "magnifyingglass")
-                                .font(.system(size: 18))
+                                .foregroundColor(.gray)
+                            
+                            TextField("Поиск товаров", text: $searchText)
+                                .font(.system(size: 16))
+                                .onChange(of: searchText) { _, newValue in
+                                    performSearch(query: newValue)
+                                }
+                            
+                            if !searchText.isEmpty {
+                                Button(action: {
+                                    searchText = ""
+                                    searchResults = []
+                                }) {
+                                    Image(systemName: "xmark.circle.fill")
+                                        .foregroundColor(.gray)
+                                }
+                            }
+                        }
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 8)
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(10)
+                        
+                        Button(action: {
+                            withAnimation {
+                                isSearchActive = false
+                                searchText = ""
+                                searchResults = []
+                            }
+                        }) {
+                            Text("Отмена")
+                                .font(.system(size: 16))
                                 .foregroundColor(.black)
                         }
                     }
+                    .padding(.horizontal, 20)
+                    .padding(.top, 10)
+                    .padding(.bottom, 16)
+                } else {
+                    // Обычный заголовок
+                    HStack {
+                        // Кнопка назад
+                        Button(action: {
+                            dismiss()
+                        }) {
+                            Image(systemName: "chevron.left")
+                                .font(.system(size: 18, weight: .semibold))
+                                .foregroundColor(.black)
+                        }
+                        
+                        Spacer()
+                        
+                        Text("Best Sellers")
+                            .font(.system(size: 18, weight: .semibold))
+                            .foregroundColor(.black)
+                        
+                        Spacer()
+                        
+                        HStack(spacing: 16) {
+                            // Кнопка фильтра
+                            Button(action: {
+                                // Действие фильтра
+                            }) {
+                                Image(systemName: "line.3.horizontal.decrease")
+                                    .font(.system(size: 18))
+                                    .foregroundColor(.black)
+                            }
+                            
+                            // Кнопка поиска
+                            Button(action: {
+                                withAnimation {
+                                    isSearchActive = true
+                                }
+                            }) {
+                                Image(systemName: "magnifyingglass")
+                                    .font(.system(size: 18))
+                                    .foregroundColor(.black)
+                            }
+                        }
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.top, 10)
+                    .padding(.bottom, 16)
                 }
-                .padding(.horizontal, 20)
-                .padding(.top, 10)
-                .padding(.bottom, 16)
                 
-                // Навигация по категориям
-                ScrollView(.horizontal, showsIndicators: false) {
+                // Навигация по категориям (скрываем при поиске)
+                if !isSearchActive {
+                    ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 24) {
                         ForEach(categories) { category in
                             Button(action: {
@@ -91,25 +151,40 @@ struct BestSellersView: View {
                 }
                 .padding(.bottom, 16)
                 
-                // Сетка товаров
+                // Сетка товаров или результаты поиска
                 ScrollView {
                     if isLoading {
                         ProgressView()
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .padding(.top, 100)
                     } else {
-                        LazyVGrid(columns: [
-                            GridItem(.flexible(), spacing: 12),
-                            GridItem(.flexible(), spacing: 12)
-                        ], spacing: 16) {
-                            ForEach(filteredProducts) { product in
-                                NavigationLink(destination: ProductDetailView(product: product)) {
-                                    ProductCardView(product: product)
+                        let productsToShow = isSearchActive && !searchText.isEmpty ? searchResults : filteredProducts
+                        
+                        if isSearchActive && !searchText.isEmpty && searchResults.isEmpty {
+                            VStack(spacing: 8) {
+                                Image(systemName: "magnifyingglass")
+                                    .font(.system(size: 48))
+                                    .foregroundColor(.gray)
+                                Text("Ничего не найдено")
+                                    .font(.system(size: 16))
+                                    .foregroundColor(.gray)
+                            }
+                            .frame(maxWidth: .infinity)
+                            .padding(.top, 100)
+                        } else {
+                            LazyVGrid(columns: [
+                                GridItem(.flexible(), spacing: 12),
+                                GridItem(.flexible(), spacing: 12)
+                            ], spacing: 16) {
+                                ForEach(productsToShow) { product in
+                                    NavigationLink(destination: ProductDetailView(product: product)) {
+                                        ProductCardView(product: product)
+                                    }
                                 }
                             }
+                            .padding(.horizontal, 20)
+                            .padding(.bottom, 80) // Отступ для TabBar
                         }
-                        .padding(.horizontal, 20)
-                        .padding(.bottom, 80) // Отступ для TabBar
                     }
                 }
                 
@@ -166,6 +241,15 @@ struct BestSellersView: View {
             let normalizedCategoryName = categoryName.lowercased().trimmingCharacters(in: .whitespaces)
             return normalizedProductType == normalizedCategoryName
         }
+    }
+    
+    private func performSearch(query: String) {
+        guard query.count >= 2 else {
+            searchResults = []
+            return
+        }
+        
+        searchResults = SearchService.shared.searchProducts(query, in: filteredProducts)
     }
 }
 

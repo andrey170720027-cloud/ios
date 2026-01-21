@@ -13,6 +13,10 @@ struct HomeView: View {
     @State private var interests = Interest.sampleInterests
     @State private var recommendedProducts: [Product] = []
     @State private var isLoading = true
+    @State private var isSearchActive = false
+    @State private var searchText = ""
+    @State private var searchResults: [SearchResult] = []
+    @State private var allProducts: [Product] = []
     
     var body: some View {
         GeometryReader { geometry in
@@ -32,29 +36,164 @@ struct HomeView: View {
             
             ZStack {
                 VStack(spacing: 0) {
-                    // Верхняя панель навигации
-                    HStack {
-                        Spacer()
-                        
-                        Text("Home")
-                            .font(.system(size: titleFontSize, weight: .bold))
-                            .foregroundColor(.black)
-                        
-                        Spacer()
-                        
-                        Button(action: {
-                            // Действие поиска
-                        }) {
-                            Image(systemName: "magnifyingglass")
-                                .font(.system(size: searchIconSize, weight: .regular))
-                                .foregroundColor(.black)
+                    // Верхняя панель навигации или поиск
+                    if isSearchActive {
+                        // Строка поиска
+                        HStack(spacing: 12) {
+                            HStack {
+                                Image(systemName: "magnifyingglass")
+                                    .foregroundColor(.gray)
+                                
+                                TextField("Поиск товаров и разделов", text: $searchText)
+                                    .font(.system(size: 16))
+                                    .onChange(of: searchText) { _, newValue in
+                                        performSearch(query: newValue)
+                                    }
+                                
+                                if !searchText.isEmpty {
+                                    Button(action: {
+                                        searchText = ""
+                                        searchResults = []
+                                    }) {
+                                        Image(systemName: "xmark.circle.fill")
+                                            .foregroundColor(.gray)
+                                    }
+                                }
+                            }
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 8)
+                            .background(Color.gray.opacity(0.1))
+                            .cornerRadius(10)
+                            
+                            Button(action: {
+                                withAnimation {
+                                    isSearchActive = false
+                                    searchText = ""
+                                    searchResults = []
+                                }
+                            }) {
+                                Text("Отмена")
+                                    .font(.system(size: 16))
+                                    .foregroundColor(.black)
+                            }
                         }
+                        .padding(.horizontal, horizontalPadding)
+                        .padding(.top, topPadding)
+                        .padding(.bottom, 16)
+                    } else {
+                        // Обычная панель навигации
+                        HStack {
+                            Spacer()
+                            
+                            Text("Home")
+                                .font(.system(size: titleFontSize, weight: .bold))
+                                .foregroundColor(.black)
+                            
+                            Spacer()
+                            
+                            Button(action: {
+                                withAnimation {
+                                    isSearchActive = true
+                                }
+                            }) {
+                                Image(systemName: "magnifyingglass")
+                                    .font(.system(size: searchIconSize, weight: .regular))
+                                    .foregroundColor(.black)
+                            }
+                        }
+                        .padding(.horizontal, horizontalPadding)
+                        .padding(.top, topPadding)
+                        .padding(.bottom, 16)
                     }
-                    .padding(.horizontal, horizontalPadding)
-                    .padding(.top, topPadding)
-                    .padding(.bottom, 16)
                     
-                    ScrollView(.vertical, showsIndicators: false) {
+                    // Контент: результаты поиска или обычный контент
+                    if isSearchActive && !searchText.isEmpty {
+                        // Результаты поиска
+                        ScrollView(.vertical, showsIndicators: false) {
+                            VStack(alignment: .leading, spacing: 16) {
+                                if searchResults.isEmpty {
+                                    VStack(spacing: 8) {
+                                        Image(systemName: "magnifyingglass")
+                                            .font(.system(size: 48))
+                                            .foregroundColor(.gray)
+                                        Text("Ничего не найдено")
+                                            .font(.system(size: 16))
+                                            .foregroundColor(.gray)
+                                    }
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.top, 100)
+                                } else {
+                                    // Разделы
+                                    let sections = searchResults.filter {
+                                        if case .section = $0.type { return true }
+                                        return false
+                                    }
+                                    
+                                    if !sections.isEmpty {
+                                        Text("Разделы")
+                                            .font(.system(size: sectionTitleFontSize, weight: .bold))
+                                            .foregroundColor(.black)
+                                            .padding(.horizontal, horizontalPadding)
+                                            .padding(.top, 8)
+                                        
+                                        ForEach(sections) { result in
+                                            if case .section(let sectionName) = result.type {
+                                                NavigationLink(destination: destinationForSection(sectionName)) {
+                                                    HStack {
+                                                        Image(systemName: "folder.fill")
+                                                            .foregroundColor(.blue)
+                                                            .frame(width: 24)
+                                                        Text(sectionName)
+                                                            .font(.system(size: 16))
+                                                            .foregroundColor(.black)
+                                                        Spacer()
+                                                        Image(systemName: "chevron.right")
+                                                            .font(.system(size: 12))
+                                                            .foregroundColor(.gray)
+                                                    }
+                                                    .padding(.horizontal, horizontalPadding)
+                                                    .padding(.vertical, 12)
+                                                    .background(Color.white)
+                                                }
+                                                .buttonStyle(PlainButtonStyle())
+                                            }
+                                        }
+                                    }
+                                    
+                                    // Товары
+                                    let products = searchResults.filter {
+                                        if case .product = $0.type { return true }
+                                        return false
+                                    }
+                                    
+                                    if !products.isEmpty {
+                                        Text("Товары")
+                                            .font(.system(size: sectionTitleFontSize, weight: .bold))
+                                            .foregroundColor(.black)
+                                            .padding(.horizontal, horizontalPadding)
+                                            .padding(.top, sections.isEmpty ? 8 : 16)
+                                        
+                                        LazyVGrid(columns: [
+                                            GridItem(.flexible(), spacing: 12),
+                                            GridItem(.flexible(), spacing: 12)
+                                        ], spacing: 16) {
+                                            ForEach(products) { result in
+                                                if case .product(let product) = result.type {
+                                                    NavigationLink(destination: ProductDetailView(product: product)) {
+                                                        ProductCardView(product: product)
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        .padding(.horizontal, horizontalPadding)
+                                    }
+                                }
+                            }
+                            .padding(.bottom, 80)
+                        }
+                    } else {
+                        // Обычный контент
+                        ScrollView(.vertical, showsIndicators: false) {
                         VStack(alignment: .leading, spacing: 24) {
                             // Секция "Shop My Interests"
                             VStack(alignment: .leading, spacing: 12) {
@@ -215,6 +354,7 @@ struct HomeView: View {
             let loadedProducts = try await ProductService.shared.fetchProducts()
             await MainActor.run {
                 self.recommendedProducts = loadedProducts
+                self.allProducts = loadedProducts
                 self.isLoading = false
             }
         } catch {
@@ -222,6 +362,80 @@ struct HomeView: View {
             await MainActor.run {
                 self.isLoading = false
             }
+        }
+    }
+    
+    private func performSearch(query: String) {
+        guard query.count >= 2 else {
+            searchResults = []
+            return
+        }
+        
+        let (foundProducts, foundSections) = SearchService.shared.search(query, in: allProducts)
+        
+        var results: [SearchResult] = []
+        
+        // Добавляем разделы
+        for section in foundSections {
+            results.append(SearchResult(type: .section(section)))
+        }
+        
+        // Добавляем товары
+        for product in foundProducts {
+            results.append(SearchResult(type: .product(product)))
+        }
+        
+        searchResults = results
+    }
+    
+    @ViewBuilder
+    private func destinationForSection(_ sectionName: String) -> some View {
+        switch sectionName {
+        case "Best Sellers":
+            ProductSectionView(
+                sectionTitle: "Best Sellers",
+                productFilter: { $0.status == .bestseller },
+                categoryFilter: nil
+            )
+        case "Featured in Nike Air":
+            ProductSectionView(
+                sectionTitle: "Featured in Nike Air",
+                productFilter: { product in
+                    product.brand.lowercased().contains("nike") &&
+                    (product.name.lowercased().contains("air") || product.description.lowercased().contains("air"))
+                },
+                categoryFilter: nil
+            )
+        case "New & Featured":
+            ProductSectionView(
+                sectionTitle: "New & Featured",
+                productFilter: nil,
+                categoryFilter: nil
+            )
+        case "All Products":
+            ProductSectionView(
+                sectionTitle: "All Products",
+                productFilter: nil,
+                categoryFilter: nil
+            )
+        case "Shop My Interests":
+            ShopMyInterestsView()
+        case "Jordan Flight Essentials":
+            JordanFlightEssentialsView()
+        case "Running", "Lifestyle", "Basketball", "Training":
+            ProductSectionView(
+                sectionTitle: sectionName,
+                productFilter: { product in
+                    filterProductByInterest(product: product, interest: sectionName)
+                },
+                categoryFilter: nil
+            )
+        default:
+            ProductSectionView(
+                sectionTitle: sectionName,
+                productFilter: nil,
+                categoryFilter: nil
+            )
         }
     }
 }

@@ -209,3 +209,23 @@ extension Interest {
         Interest(name: "Training", imageName: "5")
     ]
 }
+
+// Модель результата поиска
+enum SearchResultType {
+    case product(Product)
+    case section(String)
+}
+
+struct SearchResult: Identifiable {
+    let id = UUID()
+    let type: SearchResultType
+    
+    var displayName: String {
+        switch type {
+        case .product(let product):
+            return product.name
+        case .section(let sectionName):
+            return sectionName
+        }
+    }
+}
