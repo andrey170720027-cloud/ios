@@ -49,19 +49,19 @@ struct ShopView: View {
                             // Действие поиска
                         }) {
                             Image(systemName: "magnifyingglass")
-                                .font(.system(size: searchIconSize))
+                                .font(.system(size: searchIconSize, weight: .regular))
                                 .foregroundColor(.black)
                         }
                     }
                     .padding(.horizontal, horizontalPadding)
                     .padding(.top, topPadding)
-                    .padding(.bottom, isSmallScreen ? 8 : 12)
+                    .padding(.bottom, isSmallScreen ? 12 : 16)
                     
-                    ScrollView {
-                        VStack(alignment: .leading, spacing: isSmallScreen ? 16 : 20) {
+                    ScrollView(.vertical, showsIndicators: false) {
+                        VStack(alignment: .leading, spacing: isSmallScreen ? 18 : 22) {
                             // Навигация по категориям
                             ScrollView(.horizontal, showsIndicators: false) {
-                                HStack(spacing: isSmallScreen ? 20 : (isLargeScreen ? 32 : 28)) {
+                                HStack(spacing: isSmallScreen ? 24 : (isLargeScreen ? 36 : 30)) {
                                     ForEach(categories) { category in
                                         Button(action: {
                                             selectedCategory = category.name
@@ -70,15 +70,15 @@ struct ShopView: View {
                                                 Category(name: cat.name, isActive: cat.name == category.name)
                                             }
                                         }) {
-                                            VStack(spacing: isSmallScreen ? 6 : 8) {
+                                            VStack(spacing: isSmallScreen ? 4 : 6) {
                                                 Text(category.name)
                                                     .font(.system(size: categoryFontSize, weight: category.isActive ? .bold : .regular))
-                                                    .foregroundColor(category.isActive ? .black : .gray)
+                                                    .foregroundColor(category.isActive ? .black : Color(red: 0.6, green: 0.6, blue: 0.6))
 
                                                 if category.isActive {
                                                     Rectangle()
                                                         .fill(Color.black)
-                                                        .frame(width: isSmallScreen ? 24 : (isLargeScreen ? 32 : 28), height: 2)
+                                                        .frame(width: isSmallScreen ? 30 : (isLargeScreen ? 40 : 35), height: 2)
                                                 }
                                             }
                                         }
@@ -86,7 +86,7 @@ struct ShopView: View {
                                 }
                                 .padding(.horizontal, horizontalPadding)
                             }
-                            .padding(.bottom, isSmallScreen ? 8 : 12)
+                            .padding(.bottom, isSmallScreen ? 4 : 6)
                             
                             // Заголовок секции
                             Text("Must-Haves, Best Sellers & More")
@@ -101,20 +101,21 @@ struct ShopView: View {
                                     sectionTitle: "Best Sellers",
                                     productFilter: { $0.status == .bestseller }
                                 )) {
-                                    VStack(alignment: .leading, spacing: isSmallScreen ? 8 : 10) {
+                                    VStack(alignment: .leading, spacing: isSmallScreen ? 10 : 12) {
                                         shopImage(name: "Shop1", ext: "png")
                                             .resizable()
                                             .aspectRatio(contentMode: .fill)
                                             .frame(height: cardImageHeight)
                                             .clipped()
-                                            .cornerRadius(8)
+                                            .cornerRadius(0)
 
                                         Text("Best Sellers")
-                                            .font(.system(size: cardTitleFontSize, weight: .bold))
+                                            .font(.system(size: cardTitleFontSize, weight: .semibold))
                                             .foregroundColor(.black)
                                     }
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                 }
+                                .buttonStyle(PlainButtonStyle())
                                 
                                 // Правая карточка - Featured in Nike Air
                                 NavigationLink(destination: ProductSectionView(
@@ -124,22 +125,24 @@ struct ShopView: View {
                                         (product.name.lowercased().contains("air") || product.description.lowercased().contains("air"))
                                     }
                                 )) {
-                                    VStack(alignment: .leading, spacing: isSmallScreen ? 8 : 10) {
+                                    VStack(alignment: .leading, spacing: isSmallScreen ? 10 : 12) {
                                         shopImage(name: "Shop2", ext: "png")
                                             .resizable()
                                             .aspectRatio(contentMode: .fill)
                                             .frame(height: cardImageHeight)
                                             .clipped()
-                                            .cornerRadius(8)
+                                            .cornerRadius(0)
 
                                         Text("Featured in Nike Air")
-                                            .font(.system(size: cardTitleFontSize, weight: .bold))
+                                            .font(.system(size: cardTitleFontSize, weight: .semibold))
                                             .foregroundColor(.black)
                                     }
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                 }
+                                .buttonStyle(PlainButtonStyle())
                             }
                             .padding(.horizontal, horizontalPadding)
+                            .padding(.top, isSmallScreen ? 4 : 6)
                             
                             // Широкий баннер - New & Featured
                             NavigationLink(destination: ProductSectionView(
@@ -152,16 +155,18 @@ struct ShopView: View {
                                         .aspectRatio(contentMode: .fill)
                                         .frame(height: bannerHeight)
                                         .clipped()
-                                        .cornerRadius(8)
+                                        .cornerRadius(0)
 
                                     Text("New & Featured")
                                         .font(.system(size: bannerTitleFontSize, weight: .bold))
                                         .foregroundColor(.white)
-                                        .padding(.leading, isSmallScreen ? 12 : (isLargeScreen ? 20 : 16))
-                                        .padding(.bottom, isSmallScreen ? 12 : (isLargeScreen ? 20 : 16))
+                                        .padding(.leading, isSmallScreen ? 16 : (isLargeScreen ? 24 : 20))
+                                        .padding(.bottom, isSmallScreen ? 16 : (isLargeScreen ? 24 : 20))
                                 }
                             }
                             .padding(.horizontal, horizontalPadding)
+                            .padding(.top, isSmallScreen ? 6 : 8)
+                            .buttonStyle(PlainButtonStyle())
                             
                             // Дополнительный баннер (частично видимый)
                             NavigationLink(destination: ProductSectionView(
@@ -173,16 +178,17 @@ struct ShopView: View {
                                     .aspectRatio(contentMode: .fill)
                                     .frame(height: bottomBannerHeight)
                                     .clipped()
-                                    .cornerRadius(8)
+                                    .cornerRadius(0)
                             }
                             .padding(.horizontal, horizontalPadding)
+                            .padding(.top, isSmallScreen ? 6 : 8)
                             .padding(.bottom, isSmallScreen ? 70 : (isLargeScreen ? 90 : 80)) // Отступ для TabBar
+                            .buttonStyle(PlainButtonStyle())
                         }
-                        .padding(.top, isSmallScreen ? 6 : 8)
+                        .padding(.top, isSmallScreen ? 8 : 10)
                     }
-                    
-                    Spacer()
                 }
+                .background(Color.white)
                 
                 // TabBar внизу
                 VStack {
