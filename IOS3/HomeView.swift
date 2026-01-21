@@ -9,7 +9,7 @@ import SwiftUI
 import UIKit
 
 struct HomeView: View {
-    @Binding var selectedTab: TabItem
+    @ObservedObject private var tabManager = TabManager.shared
     @State private var interests = Interest.sampleInterests
     @State private var recommendedProducts: [Product] = []
     @State private var isLoading = true
@@ -535,6 +535,6 @@ private func homeImage(name: String, ext: String) -> Image {
 
 #Preview {
     NavigationView {
-        HomeView(selectedTab: .constant(.home))
+        HomeView()
     }
 }

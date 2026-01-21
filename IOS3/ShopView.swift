@@ -10,12 +10,16 @@ import UIKit
 
 struct ShopView: View {
     @State private var selectedCategory: String = "Men"
-    @State private var selectedTab: TabItem = .shop
+    @ObservedObject private var tabManager = TabManager.shared
     @State private var categories = Category.shopCategories
     @State private var isSearchActive = false
     @State private var searchText = ""
     @State private var searchResults: [SearchResult] = []
     @State private var allProducts: [Product] = []
+    
+    private var selectedTab: TabItem {
+        tabManager.selectedTab
+    }
     
     var body: some View {
         GeometryReader { geometry in
@@ -52,13 +56,13 @@ struct ShopView: View {
             ZStack {
                 // Условное отображение между Home, Shop, Favorites и Profile
                 if selectedTab == .home {
-                    HomeView(selectedTab: $selectedTab)
+                    HomeView()
                         .zIndex(0)
                 } else if selectedTab == .favorites {
-                    FavoritesView(selectedTab: $selectedTab)
+                    FavoritesView()
                         .zIndex(0)
                 } else if selectedTab == .profile {
-                    ProfileView(selectedTab: $selectedTab)
+                    ProfileView()
                         .zIndex(0)
                 } else {
                     VStack(spacing: 0) {
@@ -378,7 +382,7 @@ struct ShopView: View {
                 // TabBar внизу (отображается для всех вкладок)
                 VStack {
                     Spacer()
-                    TabBarView(selectedTab: $selectedTab)
+                    TabBarView(selectedTab: $tabManager.selectedTab)
                         .zIndex(1)
                 }
             }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FavoritesView: View {
-    @Binding var selectedTab: TabItem
+    @ObservedObject private var tabManager = TabManager.shared
     @ObservedObject private var favoritesService = FavoritesService.shared
     @State private var products: [Product] = []
     @State private var filteredProducts: [Product] = []
@@ -127,6 +127,6 @@ struct FavoritesView: View {
 
 #Preview {
     NavigationView {
-        FavoritesView(selectedTab: .constant(.favorites))
+        FavoritesView()
     }
 }

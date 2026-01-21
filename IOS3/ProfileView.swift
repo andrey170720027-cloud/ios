@@ -9,7 +9,7 @@ import SwiftUI
 import UIKit
 
 struct ProfileView: View {
-    @Binding var selectedTab: TabItem
+    @ObservedObject private var tabManager = TabManager.shared
     
     var body: some View {
         GeometryReader { geometry in
@@ -31,7 +31,7 @@ struct ProfileView: View {
                         Button(action: {
                             // Переключаем на Home при нажатии назад
                             withAnimation {
-                                selectedTab = .home
+                                tabManager.selectedTab = .home
                             }
                         }) {
                             Image(systemName: "chevron.left")
@@ -94,6 +94,6 @@ private func profileImage(name: String, ext: String) -> Image {
 
 #Preview {
     NavigationView {
-        ProfileView(selectedTab: .constant(.profile))
+        ProfileView()
     }
 }

@@ -32,12 +32,24 @@ enum TabItem: String, CaseIterable {
 
 struct TabBarView: View {
     @Binding var selectedTab: TabItem
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         HStack(spacing: 0) {
             ForEach(TabItem.allCases, id: \.self) { tab in
                 Button(action: {
-                    selectedTab = tab
+                    // Если переключаем на другую вкладку
+                    if selectedTab != tab {
+                        // Пытаемся вернуться на главный экран при переключении вкладок
+                        // (работает только если мы в дочернем view, на корневом экране ничего не произойдет)
+                        withAnimation {
+                            dismiss()
+                        }
+                    }
+                    // Переключаем вкладку в глобальном менеджере
+                    withAnimation {
+                        selectedTab = tab
+                    }
                 }) {
                     ZStack {
                         VStack(spacing: 4) {

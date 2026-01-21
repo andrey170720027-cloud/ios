@@ -11,7 +11,7 @@ struct ProductDetailView: View {
     let product: Product
     @Environment(\.dismiss) private var dismiss
     @State private var selectedImageIndex = 0
-    @State private var selectedTab: TabItem = .shop
+    @ObservedObject private var tabManager = TabManager.shared
     @ObservedObject private var favoritesService = FavoritesService.shared
     
     private var isFavorite: Bool {
@@ -203,7 +203,7 @@ struct ProductDetailView: View {
             // TabBar внизу
             VStack {
                 Spacer()
-                TabBarView(selectedTab: $selectedTab)
+                TabBarView(selectedTab: $tabManager.selectedTab)
             }
         }
         .navigationBarHidden(true)

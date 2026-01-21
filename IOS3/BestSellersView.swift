@@ -10,7 +10,7 @@ import SwiftUI
 struct BestSellersView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var categories = Category.bestSellersCategories
-    @State private var selectedTab: TabItem = .shop
+    @ObservedObject private var tabManager = TabManager.shared
     @State private var products: [Product] = []
     @State private var filteredProducts: [Product] = []
     @State private var isLoading = true
@@ -195,7 +195,7 @@ struct BestSellersView: View {
             // TabBar внизу
             VStack {
                 Spacer()
-                TabBarView(selectedTab: $selectedTab)
+                TabBarView(selectedTab: $tabManager.selectedTab)
             }
         }
         .navigationBarHidden(true)
