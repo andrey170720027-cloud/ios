@@ -52,7 +52,7 @@ struct WelcomeView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal, 0)
-                .offset(x: -100)
+                .offset(x: -50)
                 
                 // Надпись Nike App и описание
                 VStack(alignment: .leading, spacing: 70) {
