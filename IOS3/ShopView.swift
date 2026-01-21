@@ -191,7 +191,7 @@ struct ShopView: View {
                             NavigationLink(destination: ProductSectionView(
                                 sectionTitle: "All Products",
                                 productFilter: nil,
-                                categoryFilter: selectedCategory
+                                categoryFilter: nil
                             )) {
                                 ZStack(alignment: .topLeading) {
                                     shopImage(name: "e88b428413ae0b9db685ec0152d088f2c5df61e1", ext: "png")

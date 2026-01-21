@@ -73,35 +73,37 @@ struct ProductSectionView: View {
                 .padding(.top, 10)
                 .padding(.bottom, 16)
                 
-                // Навигация по категориям
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 24) {
-                        ForEach(categories) { category in
-                            Button(action: {
-                                // Обновляем активную категорию
-                                categories = categories.map { cat in
-                                    Category(name: cat.name, isActive: cat.name == category.name)
-                                }
-                                // Фильтруем товары по выбранной категории
-                                filterProductsByCategory(category.name)
-                            }) {
-                                VStack(spacing: 4) {
-                                    Text(category.name)
-                                        .font(.system(size: 14, weight: category.isActive ? .bold : .regular))
-                                        .foregroundColor(category.isActive ? .black : .gray)
-                                    
-                                    if category.isActive {
-                                        Rectangle()
-                                            .fill(Color.black)
-                                            .frame(width: 20, height: 2)
+                // Навигация по категориям (скрываем для "All Products")
+                if categoryFilter != nil {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 24) {
+                            ForEach(categories) { category in
+                                Button(action: {
+                                    // Обновляем активную категорию
+                                    categories = categories.map { cat in
+                                        Category(name: cat.name, isActive: cat.name == category.name)
+                                    }
+                                    // Фильтруем товары по выбранной категории
+                                    filterProductsByCategory(category.name)
+                                }) {
+                                    VStack(spacing: 4) {
+                                        Text(category.name)
+                                            .font(.system(size: 14, weight: category.isActive ? .bold : .regular))
+                                            .foregroundColor(category.isActive ? .black : .gray)
+                                        
+                                        if category.isActive {
+                                            Rectangle()
+                                                .fill(Color.black)
+                                                .frame(width: 20, height: 2)
+                                        }
                                     }
                                 }
                             }
                         }
+                        .padding(.horizontal, 20)
                     }
-                    .padding(.horizontal, 20)
+                    .padding(.bottom, 16)
                 }
-                .padding(.bottom, 16)
                 
                 // Сетка товаров
                 ScrollView {
@@ -150,7 +152,8 @@ struct ProductSectionView: View {
                 filtered = filtered.filter(filter)
             }
             
-            // Применяем фильтр по категории, если указан
+            // Применяем фильтр по категории (Men/Women/Kids), если указан
+            // Если categoryFilter = nil, показываем все товары из всех категорий
             if let category = categoryFilter {
                 filtered = filtered.filter { product in
                     product.category?.lowercased() == category.lowercased()
@@ -160,16 +163,23 @@ struct ProductSectionView: View {
             await MainActor.run {
                 self.products = filtered
                 // Применяем фильтр для активной категории при первой загрузке
-                if let activeCategory = categories.first(where: { $0.isActive }) {
-                    if activeCategory.name == "All" {
-                        self.filteredProducts = filtered
-                    } else {
-                        self.filteredProducts = filtered.filter { product in
-                            product.productType?.lowercased() == activeCategory.name.lowercased()
-                        }
-                    }
-                } else {
+                // Если categoryFilter = nil (All Products), показываем все товары без фильтрации по productType
+                if categoryFilter == nil {
+                    // Для "All Products" показываем все товары
                     self.filteredProducts = filtered
+                } else {
+                    // Для других секций применяем фильтр по productType
+                    if let activeCategory = categories.first(where: { $0.isActive }) {
+                        if activeCategory.name == "All" {
+                            self.filteredProducts = filtered
+                        } else {
+                            self.filteredProducts = filtered.filter { product in
+                                product.productType?.lowercased() == activeCategory.name.lowercased()
+                            }
+                        }
+                    } else {
+                        self.filteredProducts = filtered
+                    }
                 }
                 self.isLoading = false
             }
@@ -182,11 +192,17 @@ struct ProductSectionView: View {
     }
     
     private func filterProductsByCategory(_ categoryName: String) {
-        if categoryName == "All" {
+        // Если categoryFilter = nil (All Products), не применяем фильтр по productType
+        if categoryFilter == nil {
             filteredProducts = products
         } else {
-            filteredProducts = products.filter { product in
-                product.productType?.lowercased() == categoryName.lowercased()
+            // Для других секций применяем фильтр по productType
+            if categoryName == "All" {
+                filteredProducts = products
+            } else {
+                filteredProducts = products.filter { product in
+                    product.productType?.lowercased() == categoryName.lowercased()
+                }
             }
         }
     }

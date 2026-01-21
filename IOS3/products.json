@@ -100,6 +100,17 @@
   },
   {
     "brand": "Nike",
+    "product_name": "Men Training T-Shirt 4 Colours",
+    "price": 35,
+    "items_left": 5,
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2027.png?raw=true",
+    "is_liked": false,
+    "is_bestseller": false,
+    "category": "Men",
+    "product_type": "Tops & T-Shirts"
+  },
+  {
+    "brand": "Nike",
     "product_name": "Women Running Socks 3 Colours",
     "price": 20,
     "items_left": 5,
@@ -154,6 +165,17 @@
     "product_type": "Bags"
   },
   {
+    "brand": "Nike",
+    "product_name": "Women Fleece Pullover 5 Colours",
+    "price": 65,
+    "items_left": 5,
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/16186c290d9a7489a4e1e6ada3bb80151537a549/resources/jordan-essentials-mens-fleece-pullover-hoodie-jG54lf-removebg-preview%201.png?raw=true",
+    "is_liked": false,
+    "is_bestseller": false,
+    "category": "Women",
+    "product_type": "Hoodies & Pullovers"
+  },
+  {
     "brand": "Nike Heritage",
     "product_name": "Kids Basketball Backpack 4 Colours",
     "price": 40.97,
@@ -196,5 +218,16 @@
     "is_bestseller": true,
     "category": "Kids",
     "product_type": "Hoodies & Pullovers"
+  },
+  {
+    "brand": "Nike",
+    "product_name": "Kids Training T-Shirt 3 Colours",
+    "price": 30,
+    "items_left": 5,
+    "image_url": "https://github.com/pbukhon/VSU_lectures/blob/f457ddf9be1ffa0408c0592692d6f208e803295e/resources/image%2027.png?raw=true",
+    "is_liked": false,
+    "is_bestseller": false,
+    "category": "Kids",
+    "product_type": "Tops & T-Shirts"
   }
 ]
