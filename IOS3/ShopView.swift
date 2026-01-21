@@ -81,7 +81,7 @@ struct ShopView: View {
                                 productFilter: { $0.status == .bestseller }
                             )) {
                                 VStack(alignment: .leading, spacing: 10) {
-                                    Image("Shop1")
+                                    shopImage(name: "Shop1", ext: "png")
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)
                                         .frame(height: 170)
@@ -104,7 +104,7 @@ struct ShopView: View {
                                 }
                             )) {
                                 VStack(alignment: .leading, spacing: 10) {
-                                    Image("Shop2")
+                                    shopImage(name: "Shop2", ext: "png")
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)
                                         .frame(height: 170)
@@ -126,7 +126,7 @@ struct ShopView: View {
                             productFilter: nil
                         )) {
                             ZStack(alignment: .bottomLeading) {
-                                Image("Shop3")
+                                shopImage(name: "Shop3", ext: "png")
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)
                                     .frame(height: 190)
