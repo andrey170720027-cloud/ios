@@ -75,9 +75,12 @@ struct ShopView: View {
                         // Две карточки товаров
                         HStack(spacing: 12) {
                             // Левая карточка - Best Sellers
-                            NavigationLink(destination: BestSellersView()) {
+                            NavigationLink(destination: ProductSectionView(
+                                sectionTitle: "Best Sellers",
+                                productFilter: { $0.status == .bestseller }
+                            )) {
                                 ZStack(alignment: .bottomLeading) {
-                                    Image("2")
+                                    Image("3")
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)
                                         .frame(height: 200)
@@ -100,9 +103,15 @@ struct ShopView: View {
                             }
                             
                             // Правая карточка - Featured in Nike Air
-                            NavigationLink(destination: BestSellersView()) {
+                            NavigationLink(destination: ProductSectionView(
+                                sectionTitle: "Featured in Nike Air",
+                                productFilter: { product in
+                                    product.brand.lowercased().contains("nike") && 
+                                    (product.name.lowercased().contains("air") || product.description.lowercased().contains("air"))
+                                }
+                            )) {
                                 ZStack(alignment: .bottomTrailing) {
-                                    Image("2")
+                                    Image("4")
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)
                                         .frame(height: 200)
@@ -127,9 +136,12 @@ struct ShopView: View {
                         .padding(.horizontal, 20)
                         
                         // Широкий баннер - New & Featured
-                        NavigationLink(destination: BestSellersView()) {
+                        NavigationLink(destination: ProductSectionView(
+                            sectionTitle: "New & Featured",
+                            productFilter: nil
+                        )) {
                             ZStack(alignment: .bottomLeading) {
-                                Image("2")
+                                Image("7")
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)
                                     .frame(height: 250)
@@ -153,8 +165,11 @@ struct ShopView: View {
                         .padding(.horizontal, 20)
                         
                         // Дополнительный баннер (частично видимый)
-                        NavigationLink(destination: BestSellersView()) {
-                            Image("2")
+                        NavigationLink(destination: ProductSectionView(
+                            sectionTitle: "All Products",
+                            productFilter: nil
+                        )) {
+                            Image("8")
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
                                 .frame(height: 200)

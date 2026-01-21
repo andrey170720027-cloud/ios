@@ -140,10 +140,11 @@ struct ProductSectionView: View {
         do {
             let loadedProducts = try await ProductService.shared.fetchProducts()
             // Применяем фильтр, если он указан
-            let filteredProducts = if let filter = productFilter {
-                loadedProducts.filter(filter)
+            let filteredProducts: [Product]
+            if let filter = productFilter {
+                filteredProducts = loadedProducts.filter(filter)
             } else {
-                loadedProducts
+                filteredProducts = loadedProducts
             }
             
             await MainActor.run {
