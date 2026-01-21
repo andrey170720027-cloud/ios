@@ -104,7 +104,7 @@ struct ShopView: View {
                                 }
                             )) {
                                 VStack(alignment: .leading, spacing: 10) {
-                                    shopImage(name: "4", ext: "jpg")
+                                    shopImage(name: "Shop2", ext: "png")
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)
                                         .frame(height: 170)
