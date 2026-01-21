@@ -185,12 +185,20 @@ struct ShopView: View {
                                 sectionTitle: "All Products",
                                 productFilter: nil
                             )) {
-                                shopImage(name: "e88b428413ae0b9db685ec0152d088f2c5df61e1", ext: "png")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: bannerWidth, height: bottomBannerHeight)
-                                    .clipped()
-                                    .cornerRadius(0)
+                                ZStack(alignment: .topLeading) {
+                                    shopImage(name: "e88b428413ae0b9db685ec0152d088f2c5df61e1", ext: "png")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: bannerWidth, height: bottomBannerHeight)
+                                        .clipped()
+                                        .cornerRadius(0)
+                                    
+                                    Text("All products")
+                                        .font(.system(size: bannerTitleFontSize, weight: .bold))
+                                        .foregroundColor(.white)
+                                        .padding(.leading, 20)
+                                        .padding(.top, 20)
+                                }
                             }
                             .padding(.horizontal, horizontalPadding)
                             .padding(.top, 8)
