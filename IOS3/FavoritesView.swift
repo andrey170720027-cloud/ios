@@ -88,12 +88,6 @@ struct FavoritesView: View {
                     Spacer()
                 }
                 .background(Color.white)
-                
-                // TabBar внизу
-                VStack {
-                    Spacer()
-                    TabBarView(selectedTab: $selectedTab)
-                }
             }
         }
         .navigationBarHidden(true)

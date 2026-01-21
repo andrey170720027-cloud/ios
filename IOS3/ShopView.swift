@@ -46,9 +46,13 @@ struct ShopView: View {
             let bottomBannerHeight: CGFloat = bannerWidth / 2.0
             
             ZStack {
-                // Условное отображение между Shop и Favorites
-                if selectedTab == .favorites {
+                // Условное отображение между Home, Shop и Favorites
+                if selectedTab == .home {
+                    HomeView(selectedTab: $selectedTab)
+                        .zIndex(0)
+                } else if selectedTab == .favorites {
                     FavoritesView(selectedTab: $selectedTab)
+                        .zIndex(0)
                 } else {
                     VStack(spacing: 0) {
                         // Заголовок с поиском
@@ -225,12 +229,14 @@ struct ShopView: View {
                     }
                 }
                 .background(Color.white)
+                .zIndex(0)
                 }
                 
-                // TabBar внизу
+                // TabBar внизу (отображается для всех вкладок)
                 VStack {
                     Spacer()
                     TabBarView(selectedTab: $selectedTab)
+                        .zIndex(1)
                 }
             }
         }
