@@ -215,161 +215,161 @@ struct ShopView: View {
                         } else {
                             // Обычный контент
                             ScrollView(.vertical, showsIndicators: false) {
-                        VStack(alignment: .leading, spacing: 20) {
-                            // Навигация по категориям
-                            ScrollView(.horizontal, showsIndicators: false) {
-                                HStack(spacing: 30) {
-                                    ForEach(categories) { category in
-                                        Button(action: {
-                                            withAnimation(.easeInOut(duration: 0.2)) {
-                                                selectedCategory = category.name
-                                                // Обновляем активную категорию
-                                                categories = categories.map { cat in
-                                                    Category(name: cat.name, isActive: cat.name == category.name)
-                                                }
-                                            }
-                                        }) {
-                                            VStack(spacing: 6) {
-                                                Text(category.name)
-                                                    .font(.system(size: categoryFontSize, weight: category.isActive ? .bold : .regular))
-                                                    .foregroundColor(category.isActive ? .black : Color(red: 0.6, green: 0.6, blue: 0.6))
+                                VStack(alignment: .leading, spacing: 20) {
+                                    // Навигация по категориям
+                                    ScrollView(.horizontal, showsIndicators: false) {
+                                        HStack(spacing: 30) {
+                                            ForEach(categories) { category in
+                                                Button(action: {
+                                                    withAnimation(.easeInOut(duration: 0.2)) {
+                                                        selectedCategory = category.name
+                                                        // Обновляем активную категорию
+                                                        categories = categories.map { cat in
+                                                            Category(name: cat.name, isActive: cat.name == category.name)
+                                                        }
+                                                    }
+                                                }) {
+                                                    VStack(spacing: 6) {
+                                                        Text(category.name)
+                                                            .font(.system(size: categoryFontSize, weight: category.isActive ? .bold : .regular))
+                                                            .foregroundColor(category.isActive ? .black : Color(red: 0.6, green: 0.6, blue: 0.6))
 
-                                                if category.isActive {
-                                                    Rectangle()
-                                                        .fill(Color.black)
-                                                        .frame(width: 35, height: 2)
+                                                        if category.isActive {
+                                                            Rectangle()
+                                                                .fill(Color.black)
+                                                                .frame(width: 35, height: 2)
+                                                        }
+                                                    }
                                                 }
                                             }
                                         }
+                                        .padding(.horizontal, horizontalPadding)
                                     }
-                                }
-                                .padding(.horizontal, horizontalPadding)
-                            }
-                            .padding(.bottom, 6)
-                            
-                            // Заголовок секции
-                            Text("Must-Haves, Best Sellers & More")
-                                .font(.system(size: sectionTitleFontSize, weight: .bold))
-                                .foregroundColor(.black)
-                                .padding(.horizontal, horizontalPadding)
-                            
-                            // Две карточки товаров
-                            HStack(spacing: cardSpacing) {
-                                // Левая карточка - Best Sellers
-                                NavigationLink(destination: ProductSectionView(
-                                    sectionTitle: "Best Sellers",
-                                    productFilter: { $0.status == .bestseller },
-                                    categoryFilter: selectedCategory
-                                )) {
-                                    VStack(alignment: .leading, spacing: 12) {
-                                        shopImage(name: "Shop1", ext: "png")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .frame(width: availableCardWidth, height: cardImageHeight)
-                                            .clipped()
-                                            .cornerRadius(0)
-
-                                        Text("Best Sellers")
-                                            .font(.system(size: cardTitleFontSize, weight: .semibold))
-                                            .foregroundColor(.black)
-                                            .padding(.top, 2)
-                                    }
-                                    .frame(width: availableCardWidth, alignment: .leading)
-                                }
-                                .buttonStyle(PlainButtonStyle())
-                                
-                                // Правая карточка - Featured in Nike Air
-                                NavigationLink(destination: ProductSectionView(
-                                    sectionTitle: "Featured in Nike Air",
-                                    productFilter: { product in
-                                        product.brand.lowercased().contains("nike") && 
-                                        (product.name.lowercased().contains("air") || product.description.lowercased().contains("air"))
-                                    },
-                                    categoryFilter: selectedCategory
-                                )) {
-                                    VStack(alignment: .leading, spacing: 12) {
-                                        shopImage(name: "Shop2", ext: "png")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .frame(width: availableCardWidth, height: cardImageHeight)
-                                            .clipped()
-                                            .cornerRadius(0)
-
-                                        Text("Featured in Nike Air")
-                                            .font(.system(size: cardTitleFontSize, weight: .semibold))
-                                            .foregroundColor(.black)
-                                            .padding(.top, 2)
-                                    }
-                                    .frame(width: availableCardWidth, alignment: .leading)
-                                }
-                                .buttonStyle(PlainButtonStyle())
-                            }
-                            .padding(.horizontal, horizontalPadding)
-                            .padding(.top, 6)
-                            .id("cards-\(selectedCategory)")
-                            
-                            // Широкий баннер - New & Featured (альбомная ориентация)
-                            NavigationLink(destination: ProductSectionView(
-                                sectionTitle: "New & Featured",
-                                productFilter: nil,
-                                categoryFilter: selectedCategory
-                            )) {
-                                ZStack(alignment: .bottomLeading) {
-                                    shopImage(name: "Shop3", ext: "png")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                        .frame(width: bannerWidth, height: bannerHeight)
-                                        .clipped()
-                                        .cornerRadius(0)
-
-                                    Text("New & Featured")
-                                        .font(.system(size: bannerTitleFontSize, weight: .bold))
-                                        .foregroundColor(.white)
-                                        .padding(.leading, 20)
-                                        .padding(.bottom, 20)
-                                }
-                            }
-                            .padding(.horizontal, horizontalPadding)
-                            .padding(.top, 8)
-                            .buttonStyle(PlainButtonStyle())
-                            .id("banner-new-\(selectedCategory)")
-                            
-                            // Дополнительный баннер (частично видимый) - альбомная ориентация
-                            NavigationLink(destination: ProductSectionView(
-                                sectionTitle: "All Products",
-                                productFilter: nil,
-                                categoryFilter: selectedCategory
-                            )) {
-                                ZStack(alignment: .topLeading) {
-                                    shopImage(name: "e88b428413ae0b9db685ec0152d088f2c5df61e1", ext: "png")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                        .frame(width: bannerWidth, height: bottomBannerHeight)
-                                        .clipped()
-                                        .cornerRadius(0)
+                                    .padding(.bottom, 6)
                                     
-                                    Text("All products")
-                                        .font(.system(size: bannerTitleFontSize, weight: .bold))
+                                    // Заголовок секции
+                                    Text("Must-Haves, Best Sellers & More")
+                                        .font(.system(size: sectionTitleFontSize, weight: .bold))
                                         .foregroundColor(.black)
-                                        .shadow(color: .white, radius: 4, x: 0, y: 0)
-                                        .shadow(color: .white, radius: 4, x: 1, y: 1)
-                                        .shadow(color: .white, radius: 4, x: -1, y: -1)
-                                        .padding(.leading, 20)
-                                        .padding(.top, 20)
+                                        .padding(.horizontal, horizontalPadding)
+                                    
+                                    // Две карточки товаров
+                                    HStack(spacing: cardSpacing) {
+                                        // Левая карточка - Best Sellers
+                                        NavigationLink(destination: ProductSectionView(
+                                            sectionTitle: "Best Sellers",
+                                            productFilter: { $0.status == .bestseller },
+                                            categoryFilter: selectedCategory
+                                        )) {
+                                            VStack(alignment: .leading, spacing: 12) {
+                                                shopImage(name: "Shop1", ext: "png")
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fill)
+                                                    .frame(width: availableCardWidth, height: cardImageHeight)
+                                                    .clipped()
+                                                    .cornerRadius(0)
+
+                                                Text("Best Sellers")
+                                                    .font(.system(size: cardTitleFontSize, weight: .semibold))
+                                                    .foregroundColor(.black)
+                                                    .padding(.top, 2)
+                                            }
+                                            .frame(width: availableCardWidth, alignment: .leading)
+                                        }
+                                        .buttonStyle(PlainButtonStyle())
+                                        
+                                        // Правая карточка - Featured in Nike Air
+                                        NavigationLink(destination: ProductSectionView(
+                                            sectionTitle: "Featured in Nike Air",
+                                            productFilter: { product in
+                                                product.brand.lowercased().contains("nike") && 
+                                                (product.name.lowercased().contains("air") || product.description.lowercased().contains("air"))
+                                            },
+                                            categoryFilter: selectedCategory
+                                        )) {
+                                            VStack(alignment: .leading, spacing: 12) {
+                                                shopImage(name: "Shop2", ext: "png")
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fill)
+                                                    .frame(width: availableCardWidth, height: cardImageHeight)
+                                                    .clipped()
+                                                    .cornerRadius(0)
+
+                                                Text("Featured in Nike Air")
+                                                    .font(.system(size: cardTitleFontSize, weight: .semibold))
+                                                    .foregroundColor(.black)
+                                                    .padding(.top, 2)
+                                            }
+                                            .frame(width: availableCardWidth, alignment: .leading)
+                                        }
+                                        .buttonStyle(PlainButtonStyle())
+                                    }
+                                    .padding(.horizontal, horizontalPadding)
+                                    .padding(.top, 6)
+                                    .id("cards-\(selectedCategory)")
+                                    
+                                    // Широкий баннер - New & Featured (альбомная ориентация)
+                                    NavigationLink(destination: ProductSectionView(
+                                        sectionTitle: "New & Featured",
+                                        productFilter: nil,
+                                        categoryFilter: selectedCategory
+                                    )) {
+                                        ZStack(alignment: .bottomLeading) {
+                                            shopImage(name: "Shop3", ext: "png")
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fill)
+                                                .frame(width: bannerWidth, height: bannerHeight)
+                                                .clipped()
+                                                .cornerRadius(0)
+
+                                            Text("New & Featured")
+                                                .font(.system(size: bannerTitleFontSize, weight: .bold))
+                                                .foregroundColor(.white)
+                                                .padding(.leading, 20)
+                                                .padding(.bottom, 20)
+                                        }
+                                    }
+                                    .padding(.horizontal, horizontalPadding)
+                                    .padding(.top, 8)
+                                    .buttonStyle(PlainButtonStyle())
+                                    .id("banner-new-\(selectedCategory)")
+                                    
+                                    // Дополнительный баннер (частично видимый) - альбомная ориентация
+                                    NavigationLink(destination: ProductSectionView(
+                                        sectionTitle: "All Products",
+                                        productFilter: nil,
+                                        categoryFilter: selectedCategory
+                                    )) {
+                                        ZStack(alignment: .topLeading) {
+                                            shopImage(name: "e88b428413ae0b9db685ec0152d088f2c5df61e1", ext: "png")
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fill)
+                                                .frame(width: bannerWidth, height: bottomBannerHeight)
+                                                .clipped()
+                                                .cornerRadius(0)
+                                            
+                                            Text("All products")
+                                                .font(.system(size: bannerTitleFontSize, weight: .bold))
+                                                .foregroundColor(.black)
+                                                .shadow(color: .white, radius: 4, x: 0, y: 0)
+                                                .shadow(color: .white, radius: 4, x: 1, y: 1)
+                                                .shadow(color: .white, radius: 4, x: -1, y: -1)
+                                                .padding(.leading, 20)
+                                                .padding(.top, 20)
+                                        }
+                                    }
+                                    .padding(.horizontal, horizontalPadding)
+                                    .padding(.top, 8)
+                                    .padding(.bottom, 80) // Отступ для TabBar
+                                    .buttonStyle(PlainButtonStyle())
+                                    .id("banner-all-\(selectedCategory)")
                                 }
+                                .padding(.top, 10)
                             }
-                            .padding(.horizontal, horizontalPadding)
-                            .padding(.top, 8)
-                            .padding(.bottom, 80) // Отступ для TabBar
-                            .buttonStyle(PlainButtonStyle())
-                            .id("banner-all-\(selectedCategory)")
                         }
-                        .padding(.top, 10)
                     }
-                }
-                .background(Color.white)
-                .zIndex(0)
-                }
+                    .background(Color.white)
+                    .zIndex(0)
                 
                 // TabBar внизу (отображается для всех вкладок)
                 VStack {
