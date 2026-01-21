@@ -194,7 +194,7 @@ struct HomeView: View {
                     } else {
                         // Обычный контент
                         ScrollView(.vertical, showsIndicators: false) {
-                        VStack(alignment: .leading, spacing: 24) {
+                            VStack(alignment: .leading, spacing: 24) {
                             // Секция "Shop My Interests"
                             VStack(alignment: .leading, spacing: 12) {
                                 HStack {
