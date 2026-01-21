@@ -100,7 +100,7 @@ struct FavoritesView: View {
         .task {
             await loadProducts()
         }
-        .onChange(of: favoritesService.favoriteIds) { _ in
+        .onChange(of: favoritesService.favoriteIdsArray) { _ in
             // Обновляем список при изменении избранного
             filterFavorites()
         }

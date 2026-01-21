@@ -12,8 +12,13 @@ import SwiftUI
 class FavoritesService: ObservableObject {
     static let shared = FavoritesService()
     
-    @Published var favoriteIds: Set<String> = []
+    @Published var favoriteIdsArray: [String] = []
     private let userDefaultsKey = "favoriteProductIds"
+    
+    private var favoriteIds: Set<String> {
+        get { Set(favoriteIdsArray) }
+        set { favoriteIdsArray = Array(newValue) }
+    }
     
     private init() {
         loadFavorites()
@@ -21,13 +26,17 @@ class FavoritesService: ObservableObject {
     
     // Добавить товар в избранное
     func addToFavorites(productId: String) {
-        favoriteIds.insert(productId)
+        var ids = favoriteIds
+        ids.insert(productId)
+        favoriteIds = ids
         saveFavorites()
     }
     
     // Удалить товар из избранного
     func removeFromFavorites(productId: String) {
-        favoriteIds.remove(productId)
+        var ids = favoriteIds
+        ids.remove(productId)
+        favoriteIds = ids
         saveFavorites()
     }
     
@@ -54,14 +63,13 @@ class FavoritesService: ObservableObject {
     private func loadFavorites() {
         if let data = UserDefaults.standard.data(forKey: userDefaultsKey),
            let idsArray = try? JSONDecoder().decode([String].self, from: data) {
-            favoriteIds = Set(idsArray)
+            favoriteIdsArray = idsArray
         }
     }
     
     // Сохранить избранное в UserDefaults
     private func saveFavorites() {
-        let idsArray = Array(favoriteIds)
-        if let data = try? JSONEncoder().encode(idsArray) {
+        if let data = try? JSONEncoder().encode(favoriteIdsArray) {
             UserDefaults.standard.set(data, forKey: userDefaultsKey)
         }
     }
