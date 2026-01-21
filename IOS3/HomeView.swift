@@ -36,7 +36,7 @@ struct HomeView: View {
                     HStack {
                         Spacer()
                         
-                        Text("Shop")
+                        Text("Home")
                             .font(.system(size: titleFontSize, weight: .bold))
                             .foregroundColor(.black)
                         
@@ -79,10 +79,13 @@ struct HomeView: View {
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     HStack(spacing: 12) {
                                         ForEach(interests) { interest in
-                                            Button(action: {
-                                                // Переход к товарам по интересу
-                                                selectedTab = .shop
-                                            }) {
+                                            NavigationLink(destination: ProductSectionView(
+                                                sectionTitle: interest.name,
+                                                productFilter: { product in
+                                                    filterProductByInterest(product: product, interest: interest.name)
+                                                },
+                                                categoryFilter: nil
+                                            )) {
                                                 ZStack {
                                                     homeImage(name: interest.imageName, ext: "")
                                                         .resizable()
@@ -220,6 +223,59 @@ struct HomeView: View {
                 self.isLoading = false
             }
         }
+    }
+}
+
+// Функция фильтрации товаров по интересам
+private func filterProductByInterest(product: Product, interest: String) -> Bool {
+    let productName = (product.name + " " + product.description).lowercased()
+    let productType = (product.productType ?? "").lowercased()
+    let brand = product.brand.lowercased()
+    let interestLower = interest.lowercased()
+    
+    switch interestLower {
+    case "running":
+        // Фильтруем товары, связанные с бегом
+        return productName.contains("running") || 
+               productName.contains("miler") || 
+               productName.contains("dri-fit") ||
+               productName.contains("run ") ||
+               (productName.contains("run") && !productName.contains("basketball"))
+    
+    case "basketball":
+        // Фильтруем товары, связанные с баскетболом
+        return productName.contains("basketball") ||
+               brand.contains("jordan") ||
+               productName.contains("jordan")
+    
+    case "training":
+        // Фильтруем товары для тренировок
+        return productName.contains("training") ||
+               productName.contains("pullover") ||
+               productName.contains("hoodie") ||
+               productName.contains("fleece") ||
+               productName.contains("sportswear") ||
+               productName.contains("sportswear club")
+    
+    case "lifestyle":
+        // Фильтруем товары для повседневной жизни (все остальное, что не относится к конкретным видам спорта)
+        let isRunning = productName.contains("running") || 
+                       productName.contains("miler") || 
+                       productName.contains("dri-fit") ||
+                       (productName.contains("run ") && !productName.contains("basketball"))
+        let isBasketball = productName.contains("basketball") || 
+                          brand.contains("jordan") ||
+                          productName.contains("jordan")
+        let isTraining = productName.contains("training") ||
+                        productName.contains("pullover") ||
+                        productName.contains("hoodie") ||
+                        productName.contains("fleece") ||
+                        productName.contains("sportswear")
+        
+        return !isRunning && !isBasketball && !isTraining
+    
+    default:
+        return false
     }
 }
 
