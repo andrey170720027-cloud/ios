@@ -81,7 +81,7 @@ struct ShopView: View {
                                 productFilter: { $0.status == .bestseller }
                             )) {
                                 VStack(alignment: .leading, spacing: 10) {
-                                    shopImage(name: "3", ext: "png")
+                                    shopImage(name: "Shop1", ext: "png")
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)
                                         .frame(height: 170)
