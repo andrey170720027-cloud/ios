@@ -28,12 +28,22 @@ struct ShopView: View {
             let cardTitleFontSize: CGFloat = isSmallScreen ? 14 : (isLargeScreen ? 18 : 16)
             let bannerTitleFontSize: CGFloat = isSmallScreen ? 20 : (isLargeScreen ? 24 : 22)
             
-            let horizontalPadding: CGFloat = isSmallScreen ? 16 : (isLargeScreen ? 24 : 20)
-            let topPadding: CGFloat = isSmallScreen ? 16 : (isLargeScreen ? 32 : 24)
-            let cardSpacing: CGFloat = isSmallScreen ? 8 : (isLargeScreen ? 16 : 12)
-            let cardImageHeight: CGFloat = isSmallScreen ? 150 : (isLargeScreen ? 200 : 170)
-            let bannerHeight: CGFloat = isSmallScreen ? 170 : (isLargeScreen ? 220 : 190)
-            let bottomBannerHeight: CGFloat = isSmallScreen ? 140 : (isLargeScreen ? 180 : 160)
+            // Точные отступы как на шаблоне
+            let horizontalPadding: CGFloat = 20
+            let topPadding: CGFloat = 16
+            let cardSpacing: CGFloat = 12
+            
+            // Расчет размеров карточек: каждая карточка = (ширина экрана - 2*отступы - промежуток) / 2
+            // Соотношение сторон карточек примерно 1:1 (квадратное) или слегка вытянутое 4:5
+            let availableCardWidth = (screenWidth - 2 * horizontalPadding - cardSpacing) / 2
+            let cardImageHeight: CGFloat = availableCardWidth * 1.0 // Квадратное соотношение 1:1
+            
+            // Баннер "New & Featured" - альбомная ориентация (ширина:высота = 2:1)
+            let bannerWidth = screenWidth - 2 * horizontalPadding
+            let bannerHeight: CGFloat = bannerWidth / 2.0 // Соотношение 2:1 (альбомная ориентация)
+            
+            // Нижний баннер - также альбомная ориентация
+            let bottomBannerHeight: CGFloat = bannerWidth / 2.0
             
             ZStack {
                 VStack(spacing: 0) {
@@ -55,13 +65,13 @@ struct ShopView: View {
                     }
                     .padding(.horizontal, horizontalPadding)
                     .padding(.top, topPadding)
-                    .padding(.bottom, isSmallScreen ? 12 : 16)
+                    .padding(.bottom, 16)
                     
                     ScrollView(.vertical, showsIndicators: false) {
-                        VStack(alignment: .leading, spacing: isSmallScreen ? 18 : 22) {
+                        VStack(alignment: .leading, spacing: 20) {
                             // Навигация по категориям
                             ScrollView(.horizontal, showsIndicators: false) {
-                                HStack(spacing: isSmallScreen ? 24 : (isLargeScreen ? 36 : 30)) {
+                                HStack(spacing: 30) {
                                     ForEach(categories) { category in
                                         Button(action: {
                                             selectedCategory = category.name
@@ -70,7 +80,7 @@ struct ShopView: View {
                                                 Category(name: cat.name, isActive: cat.name == category.name)
                                             }
                                         }) {
-                                            VStack(spacing: isSmallScreen ? 4 : 6) {
+                                            VStack(spacing: 6) {
                                                 Text(category.name)
                                                     .font(.system(size: categoryFontSize, weight: category.isActive ? .bold : .regular))
                                                     .foregroundColor(category.isActive ? .black : Color(red: 0.6, green: 0.6, blue: 0.6))
@@ -78,7 +88,7 @@ struct ShopView: View {
                                                 if category.isActive {
                                                     Rectangle()
                                                         .fill(Color.black)
-                                                        .frame(width: isSmallScreen ? 30 : (isLargeScreen ? 40 : 35), height: 2)
+                                                        .frame(width: 35, height: 2)
                                                 }
                                             }
                                         }
@@ -86,7 +96,7 @@ struct ShopView: View {
                                 }
                                 .padding(.horizontal, horizontalPadding)
                             }
-                            .padding(.bottom, isSmallScreen ? 4 : 6)
+                            .padding(.bottom, 6)
                             
                             // Заголовок секции
                             Text("Must-Haves, Best Sellers & More")
@@ -101,19 +111,20 @@ struct ShopView: View {
                                     sectionTitle: "Best Sellers",
                                     productFilter: { $0.status == .bestseller }
                                 )) {
-                                    VStack(alignment: .leading, spacing: isSmallScreen ? 10 : 12) {
+                                    VStack(alignment: .leading, spacing: 12) {
                                         shopImage(name: "Shop1", ext: "png")
                                             .resizable()
                                             .aspectRatio(contentMode: .fill)
-                                            .frame(height: cardImageHeight)
+                                            .frame(width: availableCardWidth, height: cardImageHeight)
                                             .clipped()
                                             .cornerRadius(0)
 
                                         Text("Best Sellers")
                                             .font(.system(size: cardTitleFontSize, weight: .semibold))
                                             .foregroundColor(.black)
+                                            .padding(.top, 2)
                                     }
-                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .frame(width: availableCardWidth, alignment: .leading)
                                 }
                                 .buttonStyle(PlainButtonStyle())
                                 
@@ -125,26 +136,27 @@ struct ShopView: View {
                                         (product.name.lowercased().contains("air") || product.description.lowercased().contains("air"))
                                     }
                                 )) {
-                                    VStack(alignment: .leading, spacing: isSmallScreen ? 10 : 12) {
+                                    VStack(alignment: .leading, spacing: 12) {
                                         shopImage(name: "Shop2", ext: "png")
                                             .resizable()
                                             .aspectRatio(contentMode: .fill)
-                                            .frame(height: cardImageHeight)
+                                            .frame(width: availableCardWidth, height: cardImageHeight)
                                             .clipped()
                                             .cornerRadius(0)
 
                                         Text("Featured in Nike Air")
                                             .font(.system(size: cardTitleFontSize, weight: .semibold))
                                             .foregroundColor(.black)
+                                            .padding(.top, 2)
                                     }
-                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .frame(width: availableCardWidth, alignment: .leading)
                                 }
                                 .buttonStyle(PlainButtonStyle())
                             }
                             .padding(.horizontal, horizontalPadding)
-                            .padding(.top, isSmallScreen ? 4 : 6)
+                            .padding(.top, 6)
                             
-                            // Широкий баннер - New & Featured
+                            // Широкий баннер - New & Featured (альбомная ориентация)
                             NavigationLink(destination: ProductSectionView(
                                 sectionTitle: "New & Featured",
                                 productFilter: nil
@@ -153,22 +165,22 @@ struct ShopView: View {
                                     shopImage(name: "Shop3", ext: "png")
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)
-                                        .frame(height: bannerHeight)
+                                        .frame(width: bannerWidth, height: bannerHeight)
                                         .clipped()
                                         .cornerRadius(0)
 
                                     Text("New & Featured")
                                         .font(.system(size: bannerTitleFontSize, weight: .bold))
                                         .foregroundColor(.white)
-                                        .padding(.leading, isSmallScreen ? 16 : (isLargeScreen ? 24 : 20))
-                                        .padding(.bottom, isSmallScreen ? 16 : (isLargeScreen ? 24 : 20))
+                                        .padding(.leading, 20)
+                                        .padding(.bottom, 20)
                                 }
                             }
                             .padding(.horizontal, horizontalPadding)
-                            .padding(.top, isSmallScreen ? 6 : 8)
+                            .padding(.top, 8)
                             .buttonStyle(PlainButtonStyle())
                             
-                            // Дополнительный баннер (частично видимый)
+                            // Дополнительный баннер (частично видимый) - альбомная ориентация
                             NavigationLink(destination: ProductSectionView(
                                 sectionTitle: "All Products",
                                 productFilter: nil
@@ -176,16 +188,16 @@ struct ShopView: View {
                                 shopImage(name: "8", ext: "jpg")
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)
-                                    .frame(height: bottomBannerHeight)
+                                    .frame(width: bannerWidth, height: bottomBannerHeight)
                                     .clipped()
                                     .cornerRadius(0)
                             }
                             .padding(.horizontal, horizontalPadding)
-                            .padding(.top, isSmallScreen ? 6 : 8)
-                            .padding(.bottom, isSmallScreen ? 70 : (isLargeScreen ? 90 : 80)) // Отступ для TabBar
+                            .padding(.top, 8)
+                            .padding(.bottom, 80) // Отступ для TabBar
                             .buttonStyle(PlainButtonStyle())
                         }
-                        .padding(.top, isSmallScreen ? 8 : 10)
+                        .padding(.top, 10)
                     }
                 }
                 .background(Color.white)
