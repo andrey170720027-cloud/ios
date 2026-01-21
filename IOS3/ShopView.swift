@@ -126,18 +126,12 @@ struct ShopView: View {
                             productFilter: nil
                         )) {
                             ZStack(alignment: .bottomLeading) {
-                                shopImage(name: "7", ext: "jpg")
+                                shopImage(name: "Shop3", ext: "png")
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)
                                     .frame(height: 190)
                                     .clipped()
                                     .cornerRadius(8)
-
-                                Text("New & Featured")
-                                    .font(.system(size: 22, weight: .bold))
-                                    .foregroundColor(.white)
-                                    .padding(.leading, 16)
-                                    .padding(.bottom, 16)
                             }
                         }
                         .padding(.horizontal, 20)
