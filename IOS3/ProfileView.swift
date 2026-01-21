@@ -15,93 +15,14 @@ struct ProfileView: View {
         GeometryReader { geometry in
             let screenWidth = geometry.size.width
             let screenHeight = geometry.size.height
-            let isSmallScreen = screenWidth < 375
-            let isLargeScreen = screenWidth > 414
-            
-            // Адаптивные размеры
-            let titleFontSize: CGFloat = isSmallScreen ? 28 : (isLargeScreen ? 36 : 32)
-            
-            // Точные отступы
-            let horizontalPadding: CGFloat = 20
-            let topPadding: CGFloat = 16
-            
-            // Размер ячейки сетки изображений (половина ширины экрана)
-            let imageCellSize = screenWidth / 2
             
             ZStack {
-                VStack(spacing: 0) {
-                    // Навигационная панель
-                    HStack {
-                        Button(action: {
-                            // Переключаем на Home при нажатии назад
-                            withAnimation {
-                                selectedTab = .home
-                            }
-                        }) {
-                            Image(systemName: "chevron.left")
-                                .font(.system(size: 18, weight: .semibold))
-                                .foregroundColor(.black)
-                        }
-                        
-                        Spacer()
-                    }
-                    .padding(.horizontal, horizontalPadding)
-                    .padding(.top, topPadding)
-                    .padding(.bottom, 16)
-                    
-                    ScrollView(.vertical, showsIndicators: false) {
-                        VStack(spacing: 0) {
-                            // Сетка изображений 2x2 без промежутков
-                            LazyVGrid(columns: [
-                                GridItem(.fixed(imageCellSize), spacing: 0),
-                                GridItem(.fixed(imageCellSize), spacing: 0)
-                            ], spacing: 0) {
-                                // Верхнее левое изображение
-                                profileImage(name: "10", ext: "jpg")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: imageCellSize, height: imageCellSize)
-                                    .clipped()
-                                
-                                // Верхнее правое изображение
-                                profileImage(name: "11", ext: "jpg")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: imageCellSize, height: imageCellSize)
-                                    .clipped()
-                                
-                                // Нижнее левое изображение
-                                profileImage(name: "12", ext: "png")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: imageCellSize, height: imageCellSize)
-                                    .clipped()
-                                
-                                // Нижнее правое изображение
-                                profileImage(name: "13", ext: "jpg")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: imageCellSize, height: imageCellSize)
-                                    .clipped()
-                            }
-                            
-                            // Заголовок под сеткой
-                            HStack {
-                                Text("Welcome to the Nike App")
-                                    .font(.system(size: titleFontSize, weight: .bold))
-                                    .foregroundColor(.black)
-                                
-                                Spacer()
-                            }
-                            .padding(.horizontal, horizontalPadding)
-                            .padding(.top, 24)
-                            .padding(.bottom, 80) // Отступ для TabBar
-                        }
-                    }
-                    
-                    Spacer()
-                }
-                .background(Color.white)
+                // Одно изображение, адаптированное под размер экрана
+                profileImage(name: "10", ext: "jpg")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: screenWidth, height: screenHeight)
+                    .clipped()
             }
         }
         .navigationBarHidden(true)
