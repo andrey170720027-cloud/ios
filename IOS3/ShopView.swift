@@ -174,13 +174,36 @@ struct ShopView: View {
 }
 
 private func shopImage(name: String, ext: String) -> Image {
-    if let url = Bundle.main.url(forResource: name, withExtension: ext, subdirectory: "images"),
-       let uiImage = UIImage(contentsOfFile: url.path) {
-        return Image(uiImage: uiImage)
+    let extsToTry: [String] = {
+        let normalized = ext.lowercased()
+        if normalized.isEmpty { return ["png", "jpg", "jpeg"] }
+        if normalized == "jpeg" { return ["jpeg", "jpg"] }
+        if normalized == "jpg" { return ["jpg", "jpeg"] }
+        return [normalized]
+    }()
+
+    let subdirsToTry: [String?] = ["images", nil]
+
+    for subdir in subdirsToTry {
+        for candidateExt in extsToTry {
+            if let url = Bundle.main.url(forResource: name, withExtension: candidateExt, subdirectory: subdir),
+               let uiImage = UIImage(contentsOfFile: url.path) {
+                return Image(uiImage: uiImage)
+            }
+        }
     }
+
+    // Иногда файлы попадают в bundle как "<name>.<ext>"
+    for candidateExt in extsToTry {
+        if let uiImage = UIImage(named: "\(name).\(candidateExt)") {
+            return Image(uiImage: uiImage)
+        }
+    }
+
     if let uiImage = UIImage(named: name) {
         return Image(uiImage: uiImage)
     }
+
     return Image(systemName: "photo")
 }
 
