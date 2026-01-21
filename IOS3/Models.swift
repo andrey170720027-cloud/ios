@@ -203,7 +203,7 @@ extension Category {
 
 extension Interest {
     static let sampleInterests: [Interest] = [
-        Interest(name: "Running", imageName: "6"),
+        Interest(name: "Running", imageName: "image-removebg-preview 1"),
         Interest(name: "Lifestyle", imageName: "4"),
         Interest(name: "Basketball", imageName: "2"),
         Interest(name: "Training", imageName: "5")
