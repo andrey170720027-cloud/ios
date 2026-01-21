@@ -195,8 +195,8 @@ struct HomeView: View {
                         // Обычный контент
                         ScrollView(.vertical, showsIndicators: false) {
                             VStack(alignment: .leading, spacing: 24) {
-                            // Секция "Shop My Interests"
-                            VStack(alignment: .leading, spacing: 12) {
+                                // Секция "Shop My Interests"
+                                VStack(alignment: .leading, spacing: 12) {
                                 HStack {
                                     Text("Shop My Interests")
                                         .font(.system(size: sectionTitleFontSize, weight: .bold))
@@ -333,6 +333,7 @@ struct HomeView: View {
                                 }
                             }
                             .padding(.bottom, 80) // Отступ для TabBar
+                            }
                         }
                         .padding(.top, 8)
                     }
