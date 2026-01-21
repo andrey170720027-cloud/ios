@@ -139,7 +139,11 @@ struct BestSellersView: View {
                 // Применяем фильтр для активной категории при первой загрузке
                 if let activeCategory = categories.first(where: { $0.isActive }) {
                     self.filteredProducts = bestsellerProducts.filter { product in
-                        product.productType?.lowercased() == activeCategory.name.lowercased()
+                        guard let productType = product.productType else { return false }
+                        // Нормализуем строки: убираем пробелы и приводим к нижнему регистру
+                        let normalizedProductType = productType.lowercased().trimmingCharacters(in: .whitespaces)
+                        let normalizedCategoryName = activeCategory.name.lowercased().trimmingCharacters(in: .whitespaces)
+                        return normalizedProductType == normalizedCategoryName
                     }
                 } else {
                     self.filteredProducts = bestsellerProducts
@@ -156,7 +160,11 @@ struct BestSellersView: View {
     
     private func filterProductsByCategory(_ categoryName: String) {
         filteredProducts = products.filter { product in
-            product.productType?.lowercased() == categoryName.lowercased()
+            guard let productType = product.productType else { return false }
+            // Нормализуем строки: убираем пробелы и приводим к нижнему регистру
+            let normalizedProductType = productType.lowercased().trimmingCharacters(in: .whitespaces)
+            let normalizedCategoryName = categoryName.lowercased().trimmingCharacters(in: .whitespaces)
+            return normalizedProductType == normalizedCategoryName
         }
     }
 }

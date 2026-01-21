@@ -174,7 +174,11 @@ struct ProductSectionView: View {
                             self.filteredProducts = filtered
                         } else {
                             self.filteredProducts = filtered.filter { product in
-                                product.productType?.lowercased() == activeCategory.name.lowercased()
+                                guard let productType = product.productType else { return false }
+                                // Нормализуем строки: убираем пробелы и приводим к нижнему регистру
+                                let normalizedProductType = productType.lowercased().trimmingCharacters(in: .whitespaces)
+                                let normalizedCategoryName = activeCategory.name.lowercased().trimmingCharacters(in: .whitespaces)
+                                return normalizedProductType == normalizedCategoryName
                             }
                         }
                     } else {
@@ -201,7 +205,11 @@ struct ProductSectionView: View {
                 filteredProducts = products
             } else {
                 filteredProducts = products.filter { product in
-                    product.productType?.lowercased() == categoryName.lowercased()
+                    guard let productType = product.productType else { return false }
+                    // Нормализуем строки: убираем пробелы и приводим к нижнему регистру
+                    let normalizedProductType = productType.lowercased().trimmingCharacters(in: .whitespaces)
+                    let normalizedCategoryName = categoryName.lowercased().trimmingCharacters(in: .whitespaces)
+                    return normalizedProductType == normalizedCategoryName
                 }
             }
         }

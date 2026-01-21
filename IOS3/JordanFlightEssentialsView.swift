@@ -147,7 +147,11 @@ struct JordanFlightEssentialsView: View {
                         self.filteredProducts = jordanProducts
                     } else {
                         self.filteredProducts = jordanProducts.filter { product in
-                            product.productType?.lowercased() == activeCategory.name.lowercased()
+                            guard let productType = product.productType else { return false }
+                            // Нормализуем строки: убираем пробелы и приводим к нижнему регистру
+                            let normalizedProductType = productType.lowercased().trimmingCharacters(in: .whitespaces)
+                            let normalizedCategoryName = activeCategory.name.lowercased().trimmingCharacters(in: .whitespaces)
+                            return normalizedProductType == normalizedCategoryName
                         }
                     }
                 } else {
@@ -168,7 +172,11 @@ struct JordanFlightEssentialsView: View {
             filteredProducts = products
         } else {
             filteredProducts = products.filter { product in
-                product.productType?.lowercased() == categoryName.lowercased()
+                guard let productType = product.productType else { return false }
+                // Нормализуем строки: убираем пробелы и приводим к нижнему регистру
+                let normalizedProductType = productType.lowercased().trimmingCharacters(in: .whitespaces)
+                let normalizedCategoryName = categoryName.lowercased().trimmingCharacters(in: .whitespaces)
+                return normalizedProductType == normalizedCategoryName
             }
         }
     }
