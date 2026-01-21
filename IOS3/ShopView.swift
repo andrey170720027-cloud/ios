@@ -18,28 +18,28 @@ struct ShopView: View {
                 // Заголовок с поиском
                 HStack {
                     Text("Shop")
-                        .font(.system(size: 28, weight: .bold))
+                        .font(.system(size: 32, weight: .bold))
                         .foregroundColor(.black)
-                    
+
                     Spacer()
-                    
+
                     Button(action: {
                         // Действие поиска
                     }) {
                         Image(systemName: "magnifyingglass")
-                            .font(.system(size: 20))
+                            .font(.system(size: 22))
                             .foregroundColor(.black)
                     }
                 }
                 .padding(.horizontal, 20)
-                .padding(.top, 10)
-                .padding(.bottom, 16)
+                .padding(.top, 24)
+                .padding(.bottom, 12)
                 
                 ScrollView {
                     VStack(alignment: .leading, spacing: 20) {
                         // Навигация по категориям
                         ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 24) {
+                            HStack(spacing: 28) {
                                 ForEach(categories) { category in
                                     Button(action: {
                                         selectedCategory = category.name
@@ -48,15 +48,15 @@ struct ShopView: View {
                                             Category(name: cat.name, isActive: cat.name == category.name)
                                         }
                                     }) {
-                                        VStack(spacing: 4) {
+                                        VStack(spacing: 8) {
                                             Text(category.name)
-                                                .font(.system(size: 16, weight: category.isActive ? .bold : .regular))
+                                                .font(.system(size: 18, weight: category.isActive ? .bold : .regular))
                                                 .foregroundColor(category.isActive ? .black : .gray)
-                                            
+
                                             if category.isActive {
                                                 Rectangle()
                                                     .fill(Color.black)
-                                                    .frame(width: 20, height: 2)
+                                                    .frame(width: 28, height: 2)
                                             }
                                         }
                                     }
@@ -64,11 +64,11 @@ struct ShopView: View {
                             }
                             .padding(.horizontal, 20)
                         }
-                        .padding(.bottom, 8)
+                        .padding(.bottom, 12)
                         
                         // Заголовок секции
                         Text("Must-Haves, Best Sellers & More")
-                            .font(.system(size: 20, weight: .bold))
+                            .font(.system(size: 22, weight: .bold))
                             .foregroundColor(.black)
                             .padding(.horizontal, 20)
                         
@@ -79,27 +79,19 @@ struct ShopView: View {
                                 sectionTitle: "Best Sellers",
                                 productFilter: { $0.status == .bestseller }
                             )) {
-                                ZStack(alignment: .bottomLeading) {
+                                VStack(alignment: .leading, spacing: 10) {
                                     Image("3")
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)
-                                        .frame(height: 200)
+                                        .frame(height: 170)
                                         .clipped()
-                                        .cornerRadius(12)
-                                    
-                                    LinearGradient(
-                                        colors: [Color.clear, Color.black.opacity(0.6)],
-                                        startPoint: .top,
-                                        endPoint: .bottom
-                                    )
-                                    .cornerRadius(12)
-                                    
+                                        .cornerRadius(8)
+
                                     Text("Best Sellers")
-                                        .font(.system(size: 18, weight: .bold))
-                                        .foregroundColor(.white)
-                                        .padding(.leading, 16)
-                                        .padding(.bottom, 16)
+                                        .font(.system(size: 16, weight: .bold))
+                                        .foregroundColor(.black)
                                 }
+                                .frame(maxWidth: .infinity, alignment: .leading)
                             }
                             
                             // Правая карточка - Featured in Nike Air
@@ -110,27 +102,19 @@ struct ShopView: View {
                                     (product.name.lowercased().contains("air") || product.description.lowercased().contains("air"))
                                 }
                             )) {
-                                ZStack(alignment: .bottomTrailing) {
+                                VStack(alignment: .leading, spacing: 10) {
                                     Image("4")
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)
-                                        .frame(height: 200)
+                                        .frame(height: 170)
                                         .clipped()
-                                        .cornerRadius(12)
-                                    
-                                    LinearGradient(
-                                        colors: [Color.clear, Color.black.opacity(0.6)],
-                                        startPoint: .top,
-                                        endPoint: .bottom
-                                    )
-                                    .cornerRadius(12)
-                                    
+                                        .cornerRadius(8)
+
                                     Text("Featured in Nike Air")
-                                        .font(.system(size: 18, weight: .bold))
-                                        .foregroundColor(.white)
-                                        .padding(.trailing, 16)
-                                        .padding(.bottom, 16)
+                                        .font(.system(size: 16, weight: .bold))
+                                        .foregroundColor(.black)
                                 }
+                                .frame(maxWidth: .infinity, alignment: .leading)
                             }
                         }
                         .padding(.horizontal, 20)
@@ -144,22 +128,15 @@ struct ShopView: View {
                                 Image("7")
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)
-                                    .frame(height: 250)
+                                    .frame(height: 190)
                                     .clipped()
-                                    .cornerRadius(12)
-                                
-                                LinearGradient(
-                                    colors: [Color.clear, Color.black.opacity(0.6)],
-                                    startPoint: .top,
-                                    endPoint: .bottom
-                                )
-                                .cornerRadius(12)
-                                
+                                    .cornerRadius(8)
+
                                 Text("New & Featured")
-                                    .font(.system(size: 20, weight: .bold))
+                                    .font(.system(size: 22, weight: .bold))
                                     .foregroundColor(.white)
-                                    .padding(.leading, 20)
-                                    .padding(.bottom, 20)
+                                    .padding(.leading, 16)
+                                    .padding(.bottom, 16)
                             }
                         }
                         .padding(.horizontal, 20)
@@ -172,9 +149,9 @@ struct ShopView: View {
                             Image("8")
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
-                                .frame(height: 200)
+                                .frame(height: 160)
                                 .clipped()
-                                .cornerRadius(12)
+                                .cornerRadius(8)
                         }
                         .padding(.horizontal, 20)
                         .padding(.bottom, 80) // Отступ для TabBar
