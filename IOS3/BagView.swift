@@ -154,7 +154,12 @@ struct BagView: View {
     }
     
     private func findProduct(for cartItem: CartItem) -> Product? {
-        return products.first { $0.stableId == cartItem.id }
+        // Ищем товар по stableId
+        if let product = products.first(where: { $0.stableId == cartItem.id }) {
+            return product
+        }
+        // Если не нашли, пытаемся найти по имени (fallback)
+        return products.first(where: { $0.name == cartItem.name })
     }
     
     private func calculateTotal() -> String {
@@ -193,31 +198,80 @@ struct CartItemRowView: View {
         HStack(spacing: 12) {
             // Изображение товара
             Group {
-                if let imageURL = item.image, let url = URL(string: imageURL) {
-                    AsyncImage(url: url) { phase in
-                        switch phase {
-                        case .empty:
-                            ProgressView()
-                                .frame(width: 100, height: 100)
-                        case .success(let image):
-                            image
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                        case .failure:
+                // Сначала пытаемся использовать изображение из product (если доступно)
+                if let product = product {
+                    if let imageURL = product.imageURL, let url = URL(string: imageURL) {
+                        AsyncImage(url: url) { phase in
+                            switch phase {
+                            case .empty:
+                                ProgressView()
+                                    .frame(width: 100, height: 100)
+                            case .success(let image):
+                                image
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                            case .failure:
+                                Image(systemName: "photo")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .foregroundColor(.gray)
+                                    .frame(width: 100, height: 100)
+                            @unknown default:
+                                EmptyView()
+                            }
+                        }
+                    } else if let imageName = product.imageName {
+                        Image(imageName)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                    } else {
+                        Image(systemName: "photo")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .foregroundColor(.gray)
+                            .frame(width: 100, height: 100)
+                    }
+                } else if let imageString = item.image, !imageString.isEmpty {
+                    // Если product недоступен, используем изображение из item
+                    // Проверяем, является ли это URL или именем локального изображения
+                    if imageString.hasPrefix("http://") || imageString.hasPrefix("https://") {
+                        // Это URL
+                        if let url = URL(string: imageString) {
+                            AsyncImage(url: url) { phase in
+                                switch phase {
+                                case .empty:
+                                    ProgressView()
+                                        .frame(width: 100, height: 100)
+                                case .success(let image):
+                                    image
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                case .failure:
+                                    Image(systemName: "photo")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .foregroundColor(.gray)
+                                        .frame(width: 100, height: 100)
+                                @unknown default:
+                                    EmptyView()
+                                }
+                            }
+                        } else {
+                            // Невалидный URL
                             Image(systemName: "photo")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .foregroundColor(.gray)
                                 .frame(width: 100, height: 100)
-                        @unknown default:
-                            EmptyView()
                         }
+                    } else {
+                        // Это имя локального изображения
+                        Image(imageString)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
                     }
-                } else if let imageName = item.image {
-                    Image(imageName)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
                 } else {
+                    // Нет изображения
                     Image(systemName: "photo")
                         .resizable()
                         .aspectRatio(contentMode: .fit)

@@ -22,13 +22,33 @@ class CartService: ObservableObject {
     // Добавить товар в корзину или увеличить количество
     func addToCart(product: Product) {
         let productId = product.stableId
-        let image = product.imageURL ?? product.imageName
+        // Приоритет: сначала imageURL, затем imageName
+        let image: String? = {
+            if let imageURL = product.imageURL, !imageURL.isEmpty {
+                return imageURL
+            } else if let imageName = product.imageName, !imageName.isEmpty {
+                return imageName
+            }
+            return nil
+        }()
         
         if let existingIndex = cartItems.firstIndex(where: { $0.id == productId }) {
             // Товар уже есть в корзине - увеличиваем количество
             var existingItem = cartItems[existingIndex]
             existingItem.quantity += 1
-            cartItems[existingIndex] = existingItem
+            // Обновляем изображение, если оно было пустым
+            if existingItem.image == nil || existingItem.image?.isEmpty == true {
+                let updatedItem = CartItem(
+                    id: existingItem.id,
+                    name: existingItem.name,
+                    price: existingItem.price,
+                    image: image,
+                    quantity: existingItem.quantity
+                )
+                cartItems[existingIndex] = updatedItem
+            } else {
+                cartItems[existingIndex] = existingItem
+            }
         } else {
             // Новый товар - добавляем в корзину
             let newItem = CartItem(
