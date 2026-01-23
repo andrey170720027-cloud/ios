@@ -33,6 +33,7 @@ enum TabItem: String, CaseIterable {
 struct TabBarView: View {
     @Binding var selectedTab: TabItem
     @Environment(\.dismiss) private var dismiss
+    @ObservedObject private var cartService = CartService.shared
     
     var body: some View {
         HStack(spacing: 0) {
@@ -64,6 +65,23 @@ struct TabBarView: View {
                                         .fill(Color.red)
                                         .frame(width: 6, height: 6)
                                         .offset(x: 8, y: -8)
+                                }
+                                
+                                // Бейдж с количеством товаров на иконке Bag
+                                if tab == .bag {
+                                    let itemCount = cartService.getTotalItems()
+                                    if itemCount > 0 {
+                                        ZStack {
+                                            Circle()
+                                                .fill(Color.red)
+                                                .frame(width: 18, height: 18)
+                                            
+                                            Text("\(itemCount)")
+                                                .font(.system(size: 10, weight: .bold))
+                                                .foregroundColor(.white)
+                                        }
+                                        .offset(x: 8, y: -8)
+                                    }
                                 }
                             }
                             

@@ -64,6 +64,9 @@ struct ShopView: View {
                 } else if selectedTab == .profile {
                     ProfileView()
                         .zIndex(0)
+                } else if selectedTab == .bag {
+                    BagView()
+                        .zIndex(0)
                 } else {
                     VStack(spacing: 0) {
                         // Заголовок с поиском или строка поиска
