@@ -23,6 +23,8 @@ struct ProductSectionView: View {
     
     init(sectionTitle: String, productFilter: ((Product) -> Bool)? = nil, categoryFilter: String? = nil) {
         self.sectionTitle = sectionTitle
+        self.productFilter = productFilter
+        self.categoryFilter = categoryFilter
         self._viewModel = StateObject(wrappedValue: ProductListViewModel(productFilter: productFilter, categoryFilter: categoryFilter))
     }
     
