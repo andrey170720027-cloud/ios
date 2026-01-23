@@ -97,35 +97,13 @@ struct ProductDetailView: View {
                                 VStack(spacing: 20) {
                                     TabView(selection: $selectedImageIndex) {
                                         ForEach(0..<productImageURLs.count, id: \.self) { index in
-                                            if let imageURL = productImageURLs[index], let url = URL(string: imageURL) {
-                                                AsyncImage(url: url) { phase in
-                                                    switch phase {
-                                                    case .empty:
-                                                        ProgressView()
-                                                            .frame(height: 400)
-                                                    case .success(let image):
-                                                        image
-                                                            .resizable()
-                                                            .aspectRatio(contentMode: .fit)
-                                                    case .failure:
-                                                        Image(systemName: "photo")
-                                                            .resizable()
-                                                            .aspectRatio(contentMode: .fit)
-                                                            .foregroundColor(.gray)
-                                                            .frame(height: 400)
-                                                    @unknown default:
-                                                        EmptyView()
-                                                    }
-                                                }
-                                                .frame(height: 400)
-                                                .tag(index)
-                                            } else if let imageName = productImageURLs[index] {
-                                                Image(imageName)
-                                                    .resizable()
-                                                    .aspectRatio(contentMode: .fit)
-                                                    .frame(height: 400)
-                                                    .tag(index)
-                                            }
+                                            ProductImageView(
+                                                imageURL: productImageURLs[index],
+                                                imageName: productImageURLs[index],
+                                                height: 400,
+                                                contentMode: .fit
+                                            )
+                                            .tag(index)
                                         }
                                     }
                                     .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
@@ -149,41 +127,13 @@ struct ProductDetailView: View {
                                                 Button(action: {
                                                     selectedImageIndex = index
                                                 }) {
-                                                    Group {
-                                                        if let imageURL = productImageURLs[index], let url = URL(string: imageURL) {
-                                                            AsyncImage(url: url) { phase in
-                                                                switch phase {
-                                                                case .empty:
-                                                                    ProgressView()
-                                                                        .frame(width: 100, height: 100)
-                                                                case .success(let image):
-                                                                    image
-                                                                        .resizable()
-                                                                        .aspectRatio(contentMode: .fill)
-                                                                case .failure:
-                                                                    Image(systemName: "photo")
-                                                                        .resizable()
-                                                                        .aspectRatio(contentMode: .fit)
-                                                                        .foregroundColor(.gray)
-                                                                        .frame(width: 100, height: 100)
-                                                                @unknown default:
-                                                                    EmptyView()
-                                                                }
-                                                            }
-                                                        } else if let imageName = productImageURLs[index] {
-                                                            Image(imageName)
-                                                                .resizable()
-                                                                .aspectRatio(contentMode: .fill)
-                                                        } else {
-                                                            Image(systemName: "photo")
-                                                                .resizable()
-                                                                .aspectRatio(contentMode: .fit)
-                                                                .foregroundColor(.gray)
-                                                                .frame(width: 100, height: 100)
-                                                        }
-                                                    }
-                                                    .frame(width: 100, height: 100)
-                                                    .clipped()
+                                                    ProductImageView(
+                                                        imageURL: productImageURLs[index],
+                                                        imageName: productImageURLs[index],
+                                                        width: 100,
+                                                        height: 100,
+                                                        contentMode: .fill
+                                                    )
                                                     .cornerRadius(8)
                                                     .overlay(
                                                         RoundedRectangle(cornerRadius: 8)
@@ -197,11 +147,7 @@ struct ProductDetailView: View {
                                 }
                             } else {
                                 // Fallback если нет изображений
-                                Image(systemName: "photo")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .foregroundColor(.gray)
-                                    .frame(height: 400)
+                                ProductImageView(height: 400, contentMode: .fit)
                             }
                         }
                         
@@ -234,43 +180,27 @@ struct ProductDetailView: View {
                             // Если товар в корзине - показываем управление количеством и кнопку перехода
                             VStack(spacing: 12) {
                                 // Управление количеством
-                                HStack(spacing: 16) {
-                                    // Кнопка уменьшения
-                                    Button(action: {
+                                CartQuantityControl(
+                                    quantity: cartQuantity,
+                                    onDecrease: {
                                         if cartQuantity > 1 {
                                             cartService.updateQuantity(productId: product.stableId, quantity: cartQuantity - 1)
                                         } else {
                                             cartService.removeFromCart(productId: product.stableId)
                                         }
-                                    }) {
-                                        Image(systemName: "minus.circle.fill")
-                                            .font(.system(size: 28))
-                                            .foregroundColor(.gray)
-                                    }
-                                    
-                                    // Количество
-                                    Text("\(cartQuantity)")
-                                        .font(.system(size: 20, weight: .semibold))
-                                        .foregroundColor(.black)
-                                        .frame(minWidth: 40)
-                                    
-                                    // Кнопка увеличения
-                                    Button(action: {
+                                    },
+                                    onIncrease: {
                                         cartService.updateQuantity(productId: product.stableId, quantity: cartQuantity + 1)
-                                    }) {
-                                        Image(systemName: "plus.circle.fill")
-                                            .font(.system(size: 28))
-                                            .foregroundColor(.black)
-                                    }
-                                    
-                                    Spacer()
-                                }
+                                    },
+                                    onRemove: {
+                                        cartService.removeFromCart(productId: product.stableId)
+                                    },
+                                    showRemoveButton: false
+                                )
                                 .padding(.horizontal, 20)
                                 
                                 // Кнопка перехода в корзину
                                 Button(action: {
-                                    // Переключаемся на вкладку корзины
-                                    // TabBarView автоматически закроет навигацию при переключении
                                     withAnimation {
                                         tabManager.selectedTab = .bag
                                     }

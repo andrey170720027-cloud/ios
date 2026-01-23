@@ -47,22 +47,11 @@ struct BagView: View {
                     if cartService.cartItems.isEmpty {
                         // Пустое состояние
                         ScrollView {
-                            VStack(spacing: 20) {
-                                Image(systemName: "bag")
-                                    .font(.system(size: 60))
-                                    .foregroundColor(.gray.opacity(0.5))
-                                
-                                Text("Ваша корзина пуста")
-                                    .font(.system(size: 18, weight: .semibold))
-                                    .foregroundColor(.gray)
-                                
-                                Text("Добавьте товары в корзину, чтобы они появились здесь")
-                                    .font(.system(size: 14))
-                                    .foregroundColor(.gray.opacity(0.7))
-                                    .multilineTextAlignment(.center)
-                                    .padding(.horizontal, 40)
-                            }
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            EmptyStateView(
+                                icon: "bag",
+                                title: "Ваша корзина пуста",
+                                message: "Добавьте товары в корзину, чтобы они появились здесь"
+                            )
                             .padding(.top, 100)
                             .padding(.bottom, 80)
                         }
@@ -198,89 +187,39 @@ struct CartItemRowView: View {
         HStack(spacing: 12) {
             // Изображение товара
             Group {
-                // Сначала пытаемся использовать изображение из product (если доступно)
                 if let product = product {
-                    if let imageURL = product.imageURL, let url = URL(string: imageURL) {
-                        AsyncImage(url: url) { phase in
-                            switch phase {
-                            case .empty:
-                                ProgressView()
-                                    .frame(width: 100, height: 100)
-                            case .success(let image):
-                                image
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                            case .failure:
-                                Image(systemName: "photo")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .foregroundColor(.gray)
-                                    .frame(width: 100, height: 100)
-                            @unknown default:
-                                EmptyView()
-                            }
-                        }
-                    } else if let imageName = product.imageName {
-                        Image(imageName)
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                    } else {
-                        Image(systemName: "photo")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .foregroundColor(.gray)
-                            .frame(width: 100, height: 100)
-                    }
+                    ProductImageView(
+                        imageURL: product.imageURL,
+                        imageName: product.imageName,
+                        width: 100,
+                        height: 100,
+                        contentMode: .fill
+                    )
                 } else if let imageString = item.image, !imageString.isEmpty {
                     // Если product недоступен, используем изображение из item
-                    // Проверяем, является ли это URL или именем локального изображения
                     if imageString.hasPrefix("http://") || imageString.hasPrefix("https://") {
-                        // Это URL
-                        if let url = URL(string: imageString) {
-                            AsyncImage(url: url) { phase in
-                                switch phase {
-                                case .empty:
-                                    ProgressView()
-                                        .frame(width: 100, height: 100)
-                                case .success(let image):
-                                    image
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                case .failure:
-                                    Image(systemName: "photo")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .foregroundColor(.gray)
-                                        .frame(width: 100, height: 100)
-                                @unknown default:
-                                    EmptyView()
-                                }
-                            }
-                        } else {
-                            // Невалидный URL
-                            Image(systemName: "photo")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .foregroundColor(.gray)
-                                .frame(width: 100, height: 100)
-                        }
+                        ProductImageView(
+                            imageURL: imageString,
+                            width: 100,
+                            height: 100,
+                            contentMode: .fill
+                        )
                     } else {
-                        // Это имя локального изображения
-                        Image(imageString)
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
+                        ProductImageView(
+                            imageName: imageString,
+                            width: 100,
+                            height: 100,
+                            contentMode: .fill
+                        )
                     }
                 } else {
-                    // Нет изображения
-                    Image(systemName: "photo")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .foregroundColor(.gray)
-                        .frame(width: 100, height: 100)
+                    ProductImageView(
+                        width: 100,
+                        height: 100,
+                        contentMode: .fit
+                    )
                 }
             }
-            .frame(width: 100, height: 100)
-            .clipped()
             .cornerRadius(8)
             
             // Информация о товаре
@@ -310,46 +249,20 @@ struct CartItemRowView: View {
                     .foregroundColor(.black)
                 
                 // Управление количеством
-                HStack(spacing: 12) {
-                    // Кнопка уменьшения
-                    Button(action: {
+                CartQuantityControl(
+                    quantity: item.quantity,
+                    onDecrease: {
                         if item.quantity > 1 {
                             onQuantityChange(item.quantity - 1)
                         } else {
                             onRemove()
                         }
-                    }) {
-                        Image(systemName: "minus.circle.fill")
-                            .font(.system(size: 24))
-                            .foregroundColor(.gray)
-                    }
-                    
-                    // Количество
-                    Text("\(item.quantity)")
-                        .font(.system(size: 16, weight: .semibold))
-                        .foregroundColor(.black)
-                        .frame(minWidth: 30)
-                    
-                    // Кнопка увеличения
-                    Button(action: {
+                    },
+                    onIncrease: {
                         onQuantityChange(item.quantity + 1)
-                    }) {
-                        Image(systemName: "plus.circle.fill")
-                            .font(.system(size: 24))
-                            .foregroundColor(.black)
-                    }
-                    
-                    Spacer()
-                    
-                    // Кнопка удаления
-                    Button(action: {
-                        onRemove()
-                    }) {
-                        Image(systemName: "trash")
-                            .font(.system(size: 18))
-                            .foregroundColor(.red)
-                    }
-                }
+                    },
+                    onRemove: onRemove
+                )
             }
             
             Spacer()

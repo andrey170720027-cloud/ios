@@ -9,11 +9,9 @@ import SwiftUI
 
 struct BestSellersView: View {
     @Environment(\.dismiss) private var dismiss
+    @StateObject private var viewModel = ProductListViewModel(productFilter: { $0.status == .bestseller })
     @State private var categories = Category.bestSellersCategories
     @ObservedObject private var tabManager = TabManager.shared
-    @State private var products: [Product] = []
-    @State private var filteredProducts: [Product] = []
-    @State private var isLoading = true
     @State private var isSearchActive = false
     @State private var searchText = ""
     @State private var searchResults: [Product] = []
@@ -23,102 +21,28 @@ struct BestSellersView: View {
         ZStack {
             VStack(spacing: 0) {
                 // Заголовок с кнопками или поиск
-                if isSearchActive {
-                    // Строка поиска
-                    HStack(spacing: 12) {
-                        Button(action: {
-                            dismiss()
-                        }) {
-                            Image(systemName: "chevron.left")
-                                .font(.system(size: 18, weight: .semibold))
-                                .foregroundColor(.black)
+                NavigationHeaderView(
+                    title: "Best Sellers",
+                    isSearchActive: $isSearchActive,
+                    searchText: $searchText,
+                    onSearchTap: {
+                        withAnimation {
+                            isSearchActive = true
                         }
-                        
-                        HStack {
-                            Image(systemName: "magnifyingglass")
-                                .foregroundColor(.gray)
-                            
-                            TextField("Поиск товаров", text: $searchText)
-                                .font(.system(size: 16))
-                                .onChange(of: searchText) { _, newValue in
-                                    performSearch(query: newValue)
-                                }
-                            
-                            if !searchText.isEmpty {
-                                Button(action: {
-                                    searchText = ""
-                                    searchResults = []
-                                }) {
-                                    Image(systemName: "xmark.circle.fill")
-                                        .foregroundColor(.gray)
-                                }
-                            }
-                        }
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 8)
-                        .background(Color.gray.opacity(0.1))
-                        .cornerRadius(10)
-                        
-                        Button(action: {
-                            withAnimation {
-                                isSearchActive = false
-                                searchText = ""
-                                searchResults = []
-                            }
-                        }) {
-                            Text("Отмена")
-                                .font(.system(size: 16))
-                                .foregroundColor(.black)
-                        }
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 10)
-                    .padding(.bottom, 16)
-                } else {
-                    // Обычный заголовок
-                    HStack {
-                        // Кнопка назад
-                        Button(action: {
-                            dismiss()
-                        }) {
-                            Image(systemName: "chevron.left")
-                                .font(.system(size: 18, weight: .semibold))
-                                .foregroundColor(.black)
-                        }
-                        
-                        Spacer()
-                        
-                        Text("Best Sellers")
-                            .font(.system(size: 18, weight: .semibold))
-                            .foregroundColor(.black)
-                        
-                        Spacer()
-                        
-                        HStack(spacing: 16) {
-                            // Кнопка фильтра
-                            Button(action: {
+                    },
+                    onBack: { dismiss() },
+                    showBackButton: true,
+                    rightButtons: [
+                        NavigationHeaderView.HeaderButton(
+                            icon: "line.3.horizontal.decrease",
+                            action: {
                                 // Действие фильтра
-                            }) {
-                                Image(systemName: "line.3.horizontal.decrease")
-                                    .font(.system(size: 18))
-                                    .foregroundColor(.black)
                             }
-                            
-                            // Кнопка поиска
-                            Button(action: {
-                                withAnimation {
-                                    isSearchActive = true
-                                }
-                            }) {
-                                Image(systemName: "magnifyingglass")
-                                    .font(.system(size: 18))
-                                    .foregroundColor(.black)
-                            }
-                        }
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 10)
-                    .padding(.bottom, 16)
+                        )
+                    ]
+                )
+                .onChange(of: searchText) { _, newValue in
+                    handleSearchQuery(newValue)
                 }
                 
                 // Навигация по категориям (скрываем при поиске)
@@ -155,23 +79,18 @@ struct BestSellersView: View {
                 
                 // Сетка товаров или результаты поиска
                 ScrollView {
-                    if isLoading {
+                    if viewModel.isLoading {
                         ProgressView()
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .padding(.top, 100)
                     } else {
-                        let productsToShow = isSearchActive && !searchText.isEmpty ? searchResults : filteredProducts
+                        let productsToShow = isSearchActive && !searchText.isEmpty ? searchResults : viewModel.filteredProducts
                         
                         if isSearchActive && !searchText.isEmpty && searchResults.isEmpty {
-                            VStack(spacing: 8) {
-                                Image(systemName: "magnifyingglass")
-                                    .font(.system(size: 48))
-                                    .foregroundColor(.gray)
-                                Text("Ничего не найдено")
-                                    .font(.system(size: 16))
-                                    .foregroundColor(.gray)
-                            }
-                            .frame(maxWidth: .infinity)
+                            EmptyStateView(
+                                icon: "magnifyingglass",
+                                title: "Ничего не найдено"
+                            )
                             .padding(.top, 100)
                         } else {
                             LazyVGrid(columns: [
@@ -211,57 +130,25 @@ struct BestSellersView: View {
             previousTab = tabManager.selectedTab
         }
         .task {
-            await loadProducts()
-        }
-    }
-    
-    private func loadProducts() async {
-        isLoading = true
-        do {
-            let loadedProducts = try await ProductService.shared.fetchProducts()
-            // Фильтруем только bestseller товары
-            let bestsellerProducts = loadedProducts.filter { $0.status == .bestseller }
-            await MainActor.run {
-                self.products = bestsellerProducts
-                // Применяем фильтр для активной категории при первой загрузке
-                if let activeCategory = categories.first(where: { $0.isActive }) {
-                    self.filteredProducts = bestsellerProducts.filter { product in
-                        guard let productType = product.productType else { return false }
-                        // Нормализуем строки: убираем пробелы и приводим к нижнему регистру
-                        let normalizedProductType = productType.lowercased().trimmingCharacters(in: .whitespaces)
-                        let normalizedCategoryName = activeCategory.name.lowercased().trimmingCharacters(in: .whitespaces)
-                        return normalizedProductType == normalizedCategoryName
-                    }
-                } else {
-                    self.filteredProducts = bestsellerProducts
-                }
-                self.isLoading = false
-            }
-        } catch {
-            print("Ошибка загрузки товаров: \(error.localizedDescription)")
-            await MainActor.run {
-                self.isLoading = false
+            await viewModel.loadProducts()
+            // Применяем фильтр для активной категории при первой загрузке
+            if let activeCategory = categories.first(where: { $0.isActive }) {
+                filterProductsByCategory(activeCategory.name)
             }
         }
     }
     
     private func filterProductsByCategory(_ categoryName: String) {
-        filteredProducts = products.filter { product in
-            guard let productType = product.productType else { return false }
-            // Нормализуем строки: убираем пробелы и приводим к нижнему регистру
-            let normalizedProductType = productType.lowercased().trimmingCharacters(in: .whitespaces)
-            let normalizedCategoryName = categoryName.lowercased().trimmingCharacters(in: .whitespaces)
-            return normalizedProductType == normalizedCategoryName
-        }
+        viewModel.filterByCategory(categoryName, productTypeCategories: categories)
     }
     
-    private func performSearch(query: String) {
+    private func handleSearchQuery(_ query: String) {
         guard query.count >= 2 else {
             searchResults = []
             return
         }
         
-        searchResults = SearchService.shared.searchProducts(query, in: filteredProducts)
+        searchResults = SearchService.shared.searchProducts(query, in: viewModel.filteredProducts)
     }
 }
 

@@ -52,22 +52,11 @@ struct FavoritesView: View {
                                 .padding(.top, 100)
                         } else if filteredProducts.isEmpty {
                             // Пустое состояние
-                            VStack(spacing: 20) {
-                                Image(systemName: "heart")
-                                    .font(.system(size: 60))
-                                    .foregroundColor(.gray.opacity(0.5))
-                                
-                                Text("Нет избранных товаров")
-                                    .font(.system(size: 18, weight: .semibold))
-                                    .foregroundColor(.gray)
-                                
-                                Text("Добавьте товары в избранное, нажав на иконку сердца")
-                                    .font(.system(size: 14))
-                                    .foregroundColor(.gray.opacity(0.7))
-                                    .multilineTextAlignment(.center)
-                                    .padding(.horizontal, 40)
-                            }
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            EmptyStateView(
+                                icon: "heart",
+                                title: "Нет избранных товаров",
+                                message: "Добавьте товары в избранное, нажав на иконку сердца"
+                            )
                             .padding(.top, 100)
                         } else {
                             LazyVGrid(columns: [

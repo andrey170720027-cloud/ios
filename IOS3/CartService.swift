@@ -19,18 +19,11 @@ class CartService: ObservableObject {
         loadCart()
     }
     
-    // Добавить товар в корзину или увеличить количество
+    /// Добавляет товар в корзину или увеличивает количество, если товар уже есть
+    /// - Parameter product: Товар для добавления
     func addToCart(product: Product) {
         let productId = product.stableId
-        // Приоритет: сначала imageURL, затем imageName
-        let image: String? = {
-            if let imageURL = product.imageURL, !imageURL.isEmpty {
-                return imageURL
-            } else if let imageName = product.imageName, !imageName.isEmpty {
-                return imageName
-            }
-            return nil
-        }()
+        let image = product.imageURL ?? product.imageName
         
         if let existingIndex = cartItems.firstIndex(where: { $0.id == productId }) {
             // Товар уже есть в корзине - увеличиваем количество
@@ -38,17 +31,15 @@ class CartService: ObservableObject {
             existingItem.quantity += 1
             // Обновляем изображение, если оно было пустым
             if existingItem.image == nil || existingItem.image?.isEmpty == true {
-                let updatedItem = CartItem(
+                existingItem = CartItem(
                     id: existingItem.id,
                     name: existingItem.name,
                     price: existingItem.price,
                     image: image,
                     quantity: existingItem.quantity
                 )
-                cartItems[existingIndex] = updatedItem
-            } else {
-                cartItems[existingIndex] = existingItem
             }
+            cartItems[existingIndex] = existingItem
         } else {
             // Новый товар - добавляем в корзину
             let newItem = CartItem(
@@ -114,10 +105,13 @@ class CartService: ObservableObject {
         }
     }
     
-    // Сохранить корзину в UserDefaults
+    /// Сохраняет корзину в UserDefaults
     private func saveCart() {
-        if let data = try? JSONEncoder().encode(cartItems) {
+        do {
+            let data = try JSONEncoder().encode(cartItems)
             UserDefaults.standard.set(data, forKey: userDefaultsKey)
+        } catch {
+            print("Ошибка сохранения корзины: \(error.localizedDescription)")
         }
     }
 }

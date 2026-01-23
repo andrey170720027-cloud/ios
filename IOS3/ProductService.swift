@@ -10,10 +10,20 @@ import Foundation
 class ProductService {
     static let shared = ProductService()
     
+    private var cachedProducts: [Product]?
+    private let cacheQueue = DispatchQueue(label: "com.ios3.productservice.cache")
+    
     private init() {}
     
-    // Мокирование запроса к бэкенду
+    /// Загружает товары из JSON файла с кэшированием
+    /// - Returns: Массив товаров
+    /// - Throws: ProductServiceError при ошибках загрузки или декодирования
     func fetchProducts() async throws -> [Product] {
+        // Проверяем кэш
+        if let cached = await getCachedProducts() {
+            return cached
+        }
+        
         // Небольшая задержка для имитации сетевого запроса
         try await Task.sleep(nanoseconds: 500_000_000) // 0.5 секунды
         
@@ -30,9 +40,39 @@ class ProductService {
             // Конвертируем ProductResponse в Product
             let products = responses.map { Product(from: $0) }
             
+            // Сохраняем в кэш
+            await setCachedProducts(products)
+            
             return products
         } catch {
+            if let decodingError = error as? DecodingError {
+                throw ProductServiceError.decodingError(decodingError)
+            }
             throw ProductServiceError.decodingError(error)
+        }
+    }
+    
+    /// Очищает кэш товаров
+    func clearCache() {
+        cacheQueue.sync {
+            cachedProducts = nil
+        }
+    }
+    
+    private func getCachedProducts() async -> [Product]? {
+        return await withCheckedContinuation { continuation in
+            cacheQueue.async {
+                continuation.resume(returning: self.cachedProducts)
+            }
+        }
+    }
+    
+    private func setCachedProducts(_ products: [Product]) async {
+        await withCheckedContinuation { continuation in
+            cacheQueue.async {
+                self.cachedProducts = products
+                continuation.resume()
+            }
         }
     }
 }

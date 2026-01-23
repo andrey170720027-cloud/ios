@@ -18,7 +18,7 @@ struct ProfileView: View {
             
             ZStack {
                 // Одно изображение, адаптированное под размер экрана
-                profileImage(name: "10", ext: "jpg")
+                loadImageFromBundle(name: "10", ext: "jpg")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: screenWidth, height: screenHeight)
@@ -54,43 +54,6 @@ struct ProfileView: View {
     }
 }
 
-// Вспомогательная функция для загрузки изображений из bundle
-private func profileImage(name: String, ext: String) -> Image {
-    let extsToTry: [String] = {
-        let normalized = ext.lowercased()
-        if normalized.isEmpty { return ["png", "jpg", "jpeg"] }
-        if normalized == "jpeg" { return ["jpeg", "jpg"] }
-        if normalized == "jpg" { return ["jpg", "jpeg"] }
-        return [normalized]
-    }()
-    
-    let subdirsToTry: [String?] = ["images", nil]
-    
-    // Пробуем найти в поддиректориях
-    for subdir in subdirsToTry {
-        for candidateExt in extsToTry {
-            if let url = Bundle.main.url(forResource: name, withExtension: candidateExt, subdirectory: subdir),
-               let uiImage = UIImage(contentsOfFile: url.path) {
-                return Image(uiImage: uiImage)
-            }
-        }
-    }
-    
-    // Пробуем найти как "<name>.<ext>" в bundle
-    for candidateExt in extsToTry {
-        if let uiImage = UIImage(named: "\(name).\(candidateExt)") {
-            return Image(uiImage: uiImage)
-        }
-    }
-    
-    // Пробуем найти просто по имени
-    if let uiImage = UIImage(named: name) {
-        return Image(uiImage: uiImage)
-    }
-    
-    // Fallback
-    return Image(systemName: "photo")
-}
 
 #Preview {
     NavigationView {

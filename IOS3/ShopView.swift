@@ -70,158 +70,29 @@ struct ShopView: View {
                 } else {
                     VStack(spacing: 0) {
                         // Заголовок с поиском или строка поиска
-                        if isSearchActive {
-                            // Строка поиска
-                            HStack(spacing: 12) {
-                                HStack {
-                                    Image(systemName: "magnifyingglass")
-                                        .foregroundColor(.gray)
-                                    
-                                    TextField("Поиск товаров и разделов", text: $searchText)
-                                        .font(.system(size: 16))
-                                        .onChange(of: searchText) { _, newValue in
-                                            performSearch(query: newValue)
-                                        }
-                                    
-                                    if !searchText.isEmpty {
-                                        Button(action: {
-                                            searchText = ""
-                                            searchResults = []
-                                        }) {
-                                            Image(systemName: "xmark.circle.fill")
-                                                .foregroundColor(.gray)
-                                        }
-                                    }
-                                }
-                                .padding(.horizontal, 12)
-                                .padding(.vertical, 8)
-                                .background(Color.gray.opacity(0.1))
-                                .cornerRadius(10)
-                                
-                                Button(action: {
-                                    withAnimation {
-                                        isSearchActive = false
-                                        searchText = ""
-                                        searchResults = []
-                                    }
-                                }) {
-                                    Text("Отмена")
-                                        .font(.system(size: 16))
-                                        .foregroundColor(.black)
+                        NavigationHeaderView(
+                            title: "Shop",
+                            isSearchActive: $isSearchActive,
+                            searchText: $searchText,
+                            onSearchTap: {
+                                withAnimation {
+                                    isSearchActive = true
                                 }
                             }
-                            .padding(.horizontal, horizontalPadding)
-                            .padding(.top, topPadding)
-                            .padding(.bottom, 16)
-                        } else {
-                            // Обычный заголовок
-                            HStack {
-                                Text("Shop")
-                                    .font(.system(size: titleFontSize, weight: .bold))
-                                    .foregroundColor(.black)
-
-                                Spacer()
-
-                                Button(action: {
-                                    withAnimation {
-                                        isSearchActive = true
-                                    }
-                                }) {
-                                    Image(systemName: "magnifyingglass")
-                                        .font(.system(size: searchIconSize, weight: .regular))
-                                        .foregroundColor(.black)
-                                }
-                            }
-                            .padding(.horizontal, horizontalPadding)
-                            .padding(.top, topPadding)
-                            .padding(.bottom, 16)
+                        )
+                        .onChange(of: searchText) { _, newValue in
+                            handleSearchQuery(newValue)
                         }
                         
                         // Контент: результаты поиска или обычный контент
                         if isSearchActive && !searchText.isEmpty {
                             // Результаты поиска
-                            ScrollView(.vertical, showsIndicators: false) {
-                                VStack(alignment: .leading, spacing: 16) {
-                                    if searchResults.isEmpty {
-                                        VStack(spacing: 8) {
-                                            Image(systemName: "magnifyingglass")
-                                                .font(.system(size: 48))
-                                                .foregroundColor(.gray)
-                                            Text("Ничего не найдено")
-                                                .font(.system(size: 16))
-                                                .foregroundColor(.gray)
-                                        }
-                                        .frame(maxWidth: .infinity)
-                                        .padding(.top, 100)
-                                    } else {
-                                        // Разделы
-                                        let sections = searchResults.filter {
-                                            if case .section = $0.type { return true }
-                                            return false
-                                        }
-                                        
-                                        if !sections.isEmpty {
-                                            Text("Разделы")
-                                                .font(.system(size: sectionTitleFontSize, weight: .bold))
-                                                .foregroundColor(.black)
-                                                .padding(.horizontal, horizontalPadding)
-                                                .padding(.top, 8)
-                                            
-                                            ForEach(sections) { result in
-                                                if case .section(let sectionName) = result.type {
-                                                    NavigationLink(destination: destinationForSection(sectionName)) {
-                                                        HStack {
-                                                            Image(systemName: "folder.fill")
-                                                                .foregroundColor(.blue)
-                                                                .frame(width: 24)
-                                                            Text(sectionName)
-                                                                .font(.system(size: 16))
-                                                                .foregroundColor(.black)
-                                                            Spacer()
-                                                            Image(systemName: "chevron.right")
-                                                                .font(.system(size: 12))
-                                                                .foregroundColor(.gray)
-                                                        }
-                                                        .padding(.horizontal, horizontalPadding)
-                                                        .padding(.vertical, 12)
-                                                        .background(Color.white)
-                                                    }
-                                                    .buttonStyle(PlainButtonStyle())
-                                                }
-                                            }
-                                        }
-                                        
-                                        // Товары
-                                        let products = searchResults.filter {
-                                            if case .product = $0.type { return true }
-                                            return false
-                                        }
-                                        
-                                        if !products.isEmpty {
-                                            Text("Товары")
-                                                .font(.system(size: sectionTitleFontSize, weight: .bold))
-                                                .foregroundColor(.black)
-                                                .padding(.horizontal, horizontalPadding)
-                                                .padding(.top, sections.isEmpty ? 8 : 16)
-                                            
-                                            LazyVGrid(columns: [
-                                                GridItem(.flexible(), spacing: 12),
-                                                GridItem(.flexible(), spacing: 12)
-                                            ], spacing: 16) {
-                                                ForEach(products) { result in
-                                                    if case .product(let product) = result.type {
-                                                        NavigationLink(destination: ProductDetailView(product: product)) {
-                                                            ProductCardView(product: product)
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                            .padding(.horizontal, horizontalPadding)
-                                        }
-                                    }
+                            SearchResultsView(
+                                searchResults: searchResults,
+                                viewForSection: { sectionName in
+                                    AnyView(viewForSection(sectionName))
                                 }
-                                .padding(.bottom, 80)
-                            }
+                            )
                         } else {
                             // Обычный контент
                             ScrollView(.vertical, showsIndicators: false) {
@@ -272,7 +143,7 @@ struct ShopView: View {
                                             categoryFilter: selectedCategory
                                         )) {
                                             VStack(alignment: .leading, spacing: 12) {
-                                                shopImage(name: "Shop1", ext: "png")
+                                                loadImageFromBundle(name: "Shop1", ext: "png")
                                                     .resizable()
                                                     .aspectRatio(contentMode: .fill)
                                                     .frame(width: availableCardWidth, height: cardImageHeight)
@@ -298,7 +169,7 @@ struct ShopView: View {
                                             categoryFilter: selectedCategory
                                         )) {
                                             VStack(alignment: .leading, spacing: 12) {
-                                                shopImage(name: "Shop2", ext: "png")
+                                                loadImageFromBundle(name: "Shop2", ext: "png")
                                                     .resizable()
                                                     .aspectRatio(contentMode: .fill)
                                                     .frame(width: availableCardWidth, height: cardImageHeight)
@@ -325,7 +196,7 @@ struct ShopView: View {
                                         categoryFilter: selectedCategory
                                     )) {
                                         ZStack(alignment: .bottomLeading) {
-                                            shopImage(name: "Shop3", ext: "png")
+                                            loadImageFromBundle(name: "Shop3", ext: "png")
                                                 .resizable()
                                                 .aspectRatio(contentMode: .fill)
                                                 .frame(width: bannerWidth, height: bannerHeight)
@@ -351,7 +222,7 @@ struct ShopView: View {
                                         categoryFilter: selectedCategory
                                     )) {
                                         ZStack(alignment: .topLeading) {
-                                            shopImage(name: "e88b428413ae0b9db685ec0152d088f2c5df61e1", ext: "png")
+                                            loadImageFromBundle(name: "e88b428413ae0b9db685ec0152d088f2c5df61e1", ext: "png")
                                                 .resizable()
                                                 .aspectRatio(contentMode: .fill)
                                                 .frame(width: bannerWidth, height: bottomBannerHeight)
@@ -407,7 +278,7 @@ struct ShopView: View {
         }
     }
     
-    private func performSearch(query: String) {
+    private func handleSearchQuery(_ query: String) {
         guard query.count >= 2 else {
             searchResults = []
             return
@@ -431,7 +302,7 @@ struct ShopView: View {
     }
     
     @ViewBuilder
-    private func destinationForSection(_ sectionName: String) -> some View {
+    private func viewForSection(_ sectionName: String) -> some View {
         switch sectionName {
         case "Best Sellers":
             ProductSectionView(
@@ -468,7 +339,7 @@ struct ShopView: View {
             ProductSectionView(
                 sectionTitle: sectionName,
                 productFilter: { product in
-                    filterProductByInterest(product: product, interest: sectionName)
+                    matchesProductInterest(product: product, interest: sectionName)
                 },
                 categoryFilter: nil
             )
@@ -482,88 +353,6 @@ struct ShopView: View {
     }
 }
 
-private func shopImage(name: String, ext: String) -> Image {
-    let extsToTry: [String] = {
-        let normalized = ext.lowercased()
-        if normalized.isEmpty { return ["png", "jpg", "jpeg"] }
-        if normalized == "jpeg" { return ["jpeg", "jpg"] }
-        if normalized == "jpg" { return ["jpg", "jpeg"] }
-        return [normalized]
-    }()
-
-    let subdirsToTry: [String?] = ["images", nil]
-
-    for subdir in subdirsToTry {
-        for candidateExt in extsToTry {
-            if let url = Bundle.main.url(forResource: name, withExtension: candidateExt, subdirectory: subdir),
-               let uiImage = UIImage(contentsOfFile: url.path) {
-                return Image(uiImage: uiImage)
-            }
-        }
-    }
-
-    // Иногда файлы попадают в bundle как "<name>.<ext>"
-    for candidateExt in extsToTry {
-        if let uiImage = UIImage(named: "\(name).\(candidateExt)") {
-            return Image(uiImage: uiImage)
-        }
-    }
-
-    if let uiImage = UIImage(named: name) {
-        return Image(uiImage: uiImage)
-    }
-
-    return Image(systemName: "photo")
-}
-
-// Функция фильтрации товаров по интересам
-private func filterProductByInterest(product: Product, interest: String) -> Bool {
-    let productName = (product.name + " " + product.description).lowercased()
-    let productType = (product.productType ?? "").lowercased()
-    let brand = product.brand.lowercased()
-    let interestLower = interest.lowercased()
-    
-    switch interestLower {
-    case "running":
-        return productName.contains("running") ||
-               productName.contains("miler") ||
-               productName.contains("dri-fit") ||
-               productName.contains("run ") ||
-               (productName.contains("run") && !productName.contains("basketball"))
-    
-    case "basketball":
-        return productName.contains("basketball") ||
-               brand.contains("jordan") ||
-               productName.contains("jordan")
-    
-    case "training":
-        return productName.contains("training") ||
-               productName.contains("pullover") ||
-               productName.contains("hoodie") ||
-               productName.contains("fleece") ||
-               productName.contains("sportswear") ||
-               productName.contains("sportswear club")
-    
-    case "lifestyle":
-        let isRunning = productName.contains("running") ||
-                       productName.contains("miler") ||
-                       productName.contains("dri-fit") ||
-                       (productName.contains("run ") && !productName.contains("basketball"))
-        let isBasketball = productName.contains("basketball") ||
-                          brand.contains("jordan") ||
-                          productName.contains("jordan")
-        let isTraining = productName.contains("training") ||
-                        productName.contains("pullover") ||
-                        productName.contains("hoodie") ||
-                        productName.contains("fleece") ||
-                        productName.contains("sportswear")
-        
-        return !isRunning && !isBasketball && !isTraining
-    
-    default:
-        return false
-    }
-}
 
 #Preview {
     NavigationView {

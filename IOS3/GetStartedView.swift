@@ -43,14 +43,7 @@ struct GetStartedView: View {
     }
 
     private var backgroundImage: Image {
-        if let uiImage = UIImage(named: "5") {
-            return Image(uiImage: uiImage)
-        }
-        if let path = Bundle.main.path(forResource: "5", ofType: "png", inDirectory: "images"),
-           let uiImage = UIImage(contentsOfFile: path) {
-            return Image(uiImage: uiImage)
-        }
-        return Image(systemName: "photo")
+        loadImageFromBundle(name: "5", ext: "png")
     }
 }
 

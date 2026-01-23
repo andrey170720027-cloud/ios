@@ -30,42 +30,12 @@ struct ProductCardView: View {
         VStack(alignment: .leading, spacing: 8) {
             // Изображение товара
             ZStack(alignment: .topTrailing) {
-                // Используем AsyncImage для URL или обычный Image для локальных изображений
-                Group {
-                    if let imageURL = product.imageURL, let url = URL(string: imageURL) {
-                        AsyncImage(url: url) { phase in
-                            switch phase {
-                            case .empty:
-                                ProgressView()
-                                    .frame(height: 200)
-                            case .success(let image):
-                                image
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                            case .failure:
-                                Image(systemName: "photo")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .foregroundColor(.gray)
-                                    .frame(height: 200)
-                            @unknown default:
-                                EmptyView()
-                            }
-                        }
-                    } else if let imageName = product.imageName {
-                        Image(imageName)
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                    } else {
-                        Image(systemName: "photo")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .foregroundColor(.gray)
-                            .frame(height: 200)
-                    }
-                }
-                .frame(height: 200)
-                .clipped()
+                ProductImageView(
+                    imageURL: product.imageURL,
+                    imageName: product.imageName,
+                    height: 200,
+                    contentMode: .fill
+                )
                 .cornerRadius(8)
                 
                 // Иконка избранного
@@ -118,43 +88,27 @@ struct ProductCardView: View {
                 // Если товар в корзине - показываем управление количеством и кнопку перехода
                 VStack(spacing: 8) {
                     // Управление количеством
-                    HStack(spacing: 12) {
-                        // Кнопка уменьшения
-                        Button(action: {
+                    CartQuantityControl(
+                        quantity: cartQuantity,
+                        onDecrease: {
                             if cartQuantity > 1 {
                                 cartService.updateQuantity(productId: product.stableId, quantity: cartQuantity - 1)
                             } else {
                                 cartService.removeFromCart(productId: product.stableId)
                             }
-                        }) {
-                            Image(systemName: "minus.circle.fill")
-                                .font(.system(size: 24))
-                                .foregroundColor(.gray)
-                        }
-                        
-                        // Количество
-                        Text("\(cartQuantity)")
-                            .font(.system(size: 16, weight: .semibold))
-                            .foregroundColor(.black)
-                            .frame(minWidth: 30)
-                        
-                        // Кнопка увеличения
-                        Button(action: {
+                        },
+                        onIncrease: {
                             cartService.updateQuantity(productId: product.stableId, quantity: cartQuantity + 1)
-                        }) {
-                            Image(systemName: "plus.circle.fill")
-                                .font(.system(size: 24))
-                                .foregroundColor(.black)
-                        }
-                        
-                        Spacer()
-                    }
+                        },
+                        onRemove: {
+                            cartService.removeFromCart(productId: product.stableId)
+                        },
+                        showRemoveButton: false
+                    )
                     .padding(.top, 4)
                     
                     // Кнопка перехода в корзину
                     Button(action: {
-                        // Переключаемся на вкладку корзины
-                        // TabBarView автоматически закроет навигацию при переключении
                         withAnimation {
                             tabManager.selectedTab = .bag
                         }
