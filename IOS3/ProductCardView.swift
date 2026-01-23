@@ -12,6 +12,7 @@ struct ProductCardView: View {
     @ObservedObject private var favoritesService = FavoritesService.shared
     @ObservedObject private var cartService = CartService.shared
     @ObservedObject private var tabManager = TabManager.shared
+    @Environment(\.dismiss) private var dismiss
     
     private var isFavorite: Bool {
         favoritesService.isFavorite(productId: product.stableId)
@@ -152,7 +153,11 @@ struct ProductCardView: View {
                     
                     // Кнопка перехода в корзину
                     Button(action: {
-                        tabManager.selectedTab = .bag
+                        // Закрываем текущий view (если находимся в навигации) и переключаемся на вкладку корзины
+                        dismiss()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            tabManager.selectedTab = .bag
+                        }
                     }) {
                         HStack {
                             Spacer()

@@ -24,6 +24,10 @@ struct ProductDetailView: View {
         cartService.isInCart(productId: product.stableId)
     }
     
+    private var cartQuantity: Int {
+        cartService.getCartItem(productId: product.stableId)?.quantity ?? 0
+    }
+    
     // Массив URL изображений (используем тот же URL несколько раз для разных вариантов)
     private var productImageURLs: [String?] {
         if let imageURL = product.imageURL {
@@ -224,29 +228,91 @@ struct ProductDetailView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal, 20)
                         
-                        // Кнопка "Добавить в корзину"
-                        Button(action: {
-                            cartService.addToCart(product: product)
-                            isAddedToCart = true
-                            
-                            // Сбрасываем флаг через 2 секунды
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                isAddedToCart = false
+                        // Кнопка добавления в корзину или управление количеством
+                        if isInCart {
+                            // Если товар в корзине - показываем управление количеством и кнопку перехода
+                            VStack(spacing: 12) {
+                                // Управление количеством
+                                HStack(spacing: 16) {
+                                    // Кнопка уменьшения
+                                    Button(action: {
+                                        if cartQuantity > 1 {
+                                            cartService.updateQuantity(productId: product.stableId, quantity: cartQuantity - 1)
+                                        } else {
+                                            cartService.removeFromCart(productId: product.stableId)
+                                        }
+                                    }) {
+                                        Image(systemName: "minus.circle.fill")
+                                            .font(.system(size: 28))
+                                            .foregroundColor(.gray)
+                                    }
+                                    
+                                    // Количество
+                                    Text("\(cartQuantity)")
+                                        .font(.system(size: 20, weight: .semibold))
+                                        .foregroundColor(.black)
+                                        .frame(minWidth: 40)
+                                    
+                                    // Кнопка увеличения
+                                    Button(action: {
+                                        cartService.updateQuantity(productId: product.stableId, quantity: cartQuantity + 1)
+                                    }) {
+                                        Image(systemName: "plus.circle.fill")
+                                            .font(.system(size: 28))
+                                            .foregroundColor(.black)
+                                    }
+                                    
+                                    Spacer()
+                                }
+                                .padding(.horizontal, 20)
+                                
+                                // Кнопка перехода в корзину
+                                Button(action: {
+                                    // Закрываем текущий view и переключаемся на вкладку корзины
+                                    dismiss()
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                        tabManager.selectedTab = .bag
+                                    }
+                                }) {
+                                    HStack {
+                                        Spacer()
+                                        Text("Перейти в корзину")
+                                            .font(.system(size: 16, weight: .semibold))
+                                            .foregroundColor(.white)
+                                        Spacer()
+                                    }
+                                    .padding(.vertical, 16)
+                                    .background(Color.black)
+                                    .cornerRadius(8)
+                                }
+                                .padding(.horizontal, 20)
                             }
-                        }) {
-                            HStack {
-                                Spacer()
-                                Text(isInCart || isAddedToCart ? "Добавлено в корзину" : "Добавить в корзину")
-                                    .font(.system(size: 16, weight: .semibold))
-                                    .foregroundColor(.white)
-                                Spacer()
+                            .padding(.top, 8)
+                        } else {
+                            // Если товара нет в корзине - показываем кнопку добавления
+                            Button(action: {
+                                cartService.addToCart(product: product)
+                                isAddedToCart = true
+                                
+                                // Сбрасываем флаг через 2 секунды
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                    isAddedToCart = false
+                                }
+                            }) {
+                                HStack {
+                                    Spacer()
+                                    Text(isAddedToCart ? "Добавлено в корзину" : "Добавить в корзину")
+                                        .font(.system(size: 16, weight: .semibold))
+                                        .foregroundColor(.white)
+                                    Spacer()
+                                }
+                                .padding(.vertical, 16)
+                                .background(isAddedToCart ? Color.green : Color.black)
+                                .cornerRadius(8)
                             }
-                            .padding(.vertical, 16)
-                            .background(isInCart || isAddedToCart ? Color.green : Color.black)
-                            .cornerRadius(8)
+                            .padding(.horizontal, 20)
+                            .padding(.top, 8)
                         }
-                        .padding(.horizontal, 20)
-                        .padding(.top, 8)
                     }
                     .padding(.bottom, 100) // Отступ для TabBar и кнопки
                 }
