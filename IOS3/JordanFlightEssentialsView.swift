@@ -17,6 +17,7 @@ struct JordanFlightEssentialsView: View {
     @State private var isSearchActive = false
     @State private var searchText = ""
     @State private var searchResults: [Product] = []
+    @State private var previousTab: TabItem = .shop
     
     var body: some View {
         ZStack {
@@ -201,6 +202,16 @@ struct JordanFlightEssentialsView: View {
             }
         }
         .navigationBarHidden(true)
+        .onChange(of: tabManager.selectedTab) { oldValue, newValue in
+            // Если переключились на другую вкладку, закрываем навигацию
+            if newValue != previousTab {
+                dismiss()
+            }
+            previousTab = newValue
+        }
+        .onAppear {
+            previousTab = tabManager.selectedTab
+        }
         .task {
             await loadProducts()
         }

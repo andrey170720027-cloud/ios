@@ -17,6 +17,7 @@ struct ShopMyInterestsView: View {
     @State private var searchText = ""
     @State private var searchResults: [SearchResult] = []
     @State private var allProducts: [Product] = []
+    @State private var previousTab: TabItem = .shop
     
     var body: some View {
         ZStack {
@@ -339,6 +340,16 @@ struct ShopMyInterestsView: View {
             }
         }
         .navigationBarHidden(true)
+        .onChange(of: tabManager.selectedTab) { oldValue, newValue in
+            // Если переключились на другую вкладку, закрываем навигацию
+            if newValue != previousTab {
+                dismiss()
+            }
+            previousTab = newValue
+        }
+        .onAppear {
+            previousTab = tabManager.selectedTab
+        }
         .task {
             await loadProducts()
         }

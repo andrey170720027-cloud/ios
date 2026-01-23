@@ -15,6 +15,7 @@ struct ProductDetailView: View {
     @ObservedObject private var tabManager = TabManager.shared
     @ObservedObject private var favoritesService = FavoritesService.shared
     @ObservedObject private var cartService = CartService.shared
+    @State private var previousTab: TabItem?
     
     private var isFavorite: Bool {
         favoritesService.isFavorite(productId: product.stableId)
@@ -268,9 +269,9 @@ struct ProductDetailView: View {
                                 
                                 // Кнопка перехода в корзину
                                 Button(action: {
-                                    // Закрываем текущий view и переключаемся на вкладку корзины
-                                    dismiss()
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                    // Переключаемся на вкладку корзины
+                                    // TabBarView автоматически закроет навигацию при переключении
+                                    withAnimation {
                                         tabManager.selectedTab = .bag
                                     }
                                 }) {
@@ -327,6 +328,16 @@ struct ProductDetailView: View {
             }
         }
         .navigationBarHidden(true)
+        .onChange(of: tabManager.selectedTab) { oldValue, newValue in
+            // Если переключились на другую вкладку, закрываем текущий view
+            if let prevTab = previousTab, newValue != prevTab {
+                dismiss()
+            }
+            previousTab = newValue
+        }
+        .onAppear {
+            previousTab = tabManager.selectedTab
+        }
     }
 }
 

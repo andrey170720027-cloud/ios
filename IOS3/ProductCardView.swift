@@ -153,9 +153,9 @@ struct ProductCardView: View {
                     
                     // Кнопка перехода в корзину
                     Button(action: {
-                        // Закрываем текущий view (если находимся в навигации) и переключаемся на вкладку корзины
-                        dismiss()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        // Переключаемся на вкладку корзины
+                        // TabBarView автоматически закроет навигацию при переключении
+                        withAnimation {
                             tabManager.selectedTab = .bag
                         }
                     }) {
