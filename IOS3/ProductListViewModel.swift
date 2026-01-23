@@ -7,8 +7,8 @@
 
 import Foundation
 import Combine
+import SwiftUI
 
-@MainActor
 class ProductListViewModel: ObservableObject {
     @Published var products: [Product] = []
     @Published var filteredProducts: [Product] = []
@@ -24,6 +24,7 @@ class ProductListViewModel: ObservableObject {
         self.categoryFilter = categoryFilter
     }
     
+    @MainActor
     func loadProducts() async {
         isLoading = true
         errorMessage = nil
@@ -44,16 +45,21 @@ class ProductListViewModel: ObservableObject {
                 }
             }
             
-            self.products = filtered
-            self.filteredProducts = filtered
-            self.isLoading = false
+            await MainActor.run {
+                self.products = filtered
+                self.filteredProducts = filtered
+                self.isLoading = false
+            }
         } catch {
-            self.errorMessage = error.localizedDescription
-            self.isLoading = false
+            await MainActor.run {
+                self.errorMessage = error.localizedDescription
+                self.isLoading = false
+            }
             print("Ошибка загрузки товаров: \(error.localizedDescription)")
         }
     }
     
+    @MainActor
     func filterByCategory(_ categoryName: String, productTypeCategories: [Category]? = nil) {
         guard let productTypeCategories = productTypeCategories else {
             // Если нет категорий по типу товара, показываем все товары
@@ -73,6 +79,7 @@ class ProductListViewModel: ObservableObject {
         }
     }
     
+    @MainActor
     func applyProductFilter(_ filter: @escaping (Product) -> Bool) {
         filteredProducts = products.filter(filter)
     }

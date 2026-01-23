@@ -7,8 +7,8 @@
 
 import Foundation
 import Combine
+import SwiftUI
 
-@MainActor
 class SearchViewModel: ObservableObject {
     @Published var searchText = ""
     @Published var searchResults: [SearchResult] = []
@@ -17,10 +17,12 @@ class SearchViewModel: ObservableObject {
     private let searchService = SearchService.shared
     private var allProducts: [Product] = []
     
+    @MainActor
     func setProducts(_ products: [Product]) {
         self.allProducts = products
     }
     
+    @MainActor
     func handleSearchQuery(_ query: String) {
         guard query.count >= 2 else {
             searchResults = []
@@ -44,6 +46,7 @@ class SearchViewModel: ObservableObject {
         searchResults = results
     }
     
+    @MainActor
     func clearSearch() {
         searchText = ""
         searchResults = []
